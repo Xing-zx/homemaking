@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.SpecialtyMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Specialty">
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
+    <result column="specialty_name" jdbcType="VARCHAR" property="specialtyName" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Specialty">
+    insert into specialty (specialty_id, specialty_name)
+    values (#{specialtyId,jdbcType=INTEGER}, #{specialtyName,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select specialty_id, specialty_name
+    from specialty
+  </select>
+</mapper>

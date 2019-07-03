@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.NativePlacesMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.NativePlaces">
+    <result column="native_id" jdbcType="INTEGER" property="nativeId" />
+    <result column="native_province" jdbcType="VARCHAR" property="nativeProvince" />
+    <result column="native_city" jdbcType="VARCHAR" property="nativeCity" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.NativePlaces">
+    insert into native_places (native_id, native_province, native_city
+      )
+    values (#{nativeId,jdbcType=INTEGER}, #{nativeProvince,jdbcType=VARCHAR}, #{nativeCity,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select native_id, native_province, native_city
+    from native_places
+  </select>
+</mapper>

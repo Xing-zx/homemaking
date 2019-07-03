@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.LectureOrdersMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.LectureOrders">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="lectureid" jdbcType="INTEGER" property="lectureid" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="commissionid" jdbcType="INTEGER" property="commissionid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.LectureOrders">
+    insert into lecture_orders (id, lectureid, user_id, 
+      commissionid)
+    values (#{id,jdbcType=INTEGER}, #{lectureid,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{commissionid,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, lectureid, user_id, commissionid
+    from lecture_orders
+  </select>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Category">
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Category">
+    insert into category (category_id, category_name)
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select category_id, category_name
+    from category
+  </select>
+</mapper>

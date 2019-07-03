@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.CommissionMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Commission">
+    <result column="commission_id" jdbcType="INTEGER" property="commissionId" />
+    <result column="membership_grade" jdbcType="VARCHAR" property="membershipGrade" />
+    <result column="commission_ratio" jdbcType="DOUBLE" property="commissionRatio" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Commission">
+    insert into commission (commission_id, membership_grade, commission_ratio
+      )
+    values (#{commissionId,jdbcType=INTEGER}, #{membershipGrade,jdbcType=VARCHAR}, #{commissionRatio,jdbcType=DOUBLE}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select commission_id, membership_grade, commission_ratio
+    from commission
+  </select>
+</mapper>

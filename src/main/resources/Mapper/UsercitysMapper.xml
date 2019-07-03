@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.UsercitysMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Usercitys">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="the_city" jdbcType="VARCHAR" property="theCity" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Usercitys">
+    insert into usercitys (id, province, the_city, 
+      county, street, address, 
+      user_id)
+    values (#{id,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{theCity,jdbcType=VARCHAR}, 
+      #{county,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, province, the_city, county, street, address, user_id
+    from usercitys
+  </select>
+</mapper>

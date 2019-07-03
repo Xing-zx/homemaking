@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.ServiceClassificationMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.ServiceClassification">
+    <result column="icon_id" jdbcType="INTEGER" property="iconId" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+    <result column="service_introduced" jdbcType="VARCHAR" property="serviceIntroduced" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.ServiceClassification">
+    insert into service_classification (icon_id, icon, service_name, 
+      service_introduced)
+    values (#{iconId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, 
+      #{serviceIntroduced,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select icon_id, icon, service_name, service_introduced
+    from service_classification
+  </select>
+</mapper>

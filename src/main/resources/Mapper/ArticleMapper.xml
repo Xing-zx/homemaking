@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Article">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="text" jdbcType="LONGVARCHAR" property="text" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Article">
+    insert into article (id, title, author, 
+      time, text)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{text,jdbcType=LONGVARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, title, author, time, text
+    from article
+  </select>
+</mapper>

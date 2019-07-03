@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.User">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_gender" jdbcType="INTEGER" property="userGender" />
+    <result column="user_age" jdbcType="INTEGER" property="userAge" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="user_portrait" jdbcType="VARCHAR" property="userPortrait" />
+    <result column="user_permissions" jdbcType="INTEGER" property="userPermissions" />
+    <result column="user_duedate" jdbcType="TIMESTAMP" property="userDuedate" />
+    <result column="children_birthday" jdbcType="TIMESTAMP" property="childrenBirthday" />
+    <result column="mother_name" jdbcType="VARCHAR" property="motherName" />
+    <result column="mother_age" jdbcType="INTEGER" property="motherAge" />
+    <result column="program_code" jdbcType="VARCHAR" property="programCode" />
+    <result column="user_grade" jdbcType="CHAR" property="userGrade" />
+    <result column="user_upline" jdbcType="INTEGER" property="userUpline" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.User">
+    insert into user (user_id, user_name, user_nickname, 
+      user_password, user_gender, user_age, 
+      user_phone, user_address, user_portrait, 
+      user_permissions, user_duedate, children_birthday, 
+      mother_name, mother_age, program_code, 
+      user_grade, user_upline)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userGender,jdbcType=INTEGER}, #{userAge,jdbcType=INTEGER}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, #{userPortrait,jdbcType=VARCHAR}, 
+      #{userPermissions,jdbcType=INTEGER}, #{userDuedate,jdbcType=TIMESTAMP}, #{childrenBirthday,jdbcType=TIMESTAMP}, 
+      #{motherName,jdbcType=VARCHAR}, #{motherAge,jdbcType=INTEGER}, #{programCode,jdbcType=VARCHAR}, 
+      #{userGrade,jdbcType=CHAR}, #{userUpline,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, user_name, user_nickname, user_password, user_gender, user_age, user_phone, 
+    user_address, user_portrait, user_permissions, user_duedate, children_birthday, mother_name, 
+    mother_age, program_code, user_grade, user_upline
+    from user
+  </select>
+</mapper>

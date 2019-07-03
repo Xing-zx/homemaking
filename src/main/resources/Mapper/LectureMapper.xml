@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.LectureMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Lecture">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="lecture_name" jdbcType="VARCHAR" property="lectureName" />
+    <result column="thumbnails" jdbcType="VARCHAR" property="thumbnails" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="deailed" jdbcType="VARCHAR" property="deailed" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="coursetime" jdbcType="TIMESTAMP" property="coursetime" />
+    <result column="stoptime" jdbcType="TIMESTAMP" property="stoptime" />
+    <result column="coursesite" jdbcType="VARCHAR" property="coursesite" />
+    <result column="state_lecture" jdbcType="INTEGER" property="stateLecture" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Lecture">
+    insert into lecture (id, lecture_name, thumbnails, 
+      introduce, deailed, amount, 
+      coursetime, stoptime, coursesite, 
+      state_lecture)
+    values (#{id,jdbcType=INTEGER}, #{lectureName,jdbcType=VARCHAR}, #{thumbnails,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{deailed,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
+      #{coursetime,jdbcType=TIMESTAMP}, #{stoptime,jdbcType=TIMESTAMP}, #{coursesite,jdbcType=VARCHAR}, 
+      #{stateLecture,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, lecture_name, thumbnails, introduce, deailed, amount, coursetime, stoptime, 
+    coursesite, state_lecture
+    from lecture
+  </select>
+</mapper>

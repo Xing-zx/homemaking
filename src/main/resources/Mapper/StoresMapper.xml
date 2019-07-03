@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.DAO.StoresMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Stores">
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="stores_password" jdbcType="VARCHAR" property="storesPassword" />
+    <result column="stores_name" jdbcType="VARCHAR" property="storesName" />
+    <result column="stores_address" jdbcType="VARCHAR" property="storesAddress" />
+    <result column="stores_introduced" jdbcType="VARCHAR" property="storesIntroduced" />
+    <result column="sions_id" jdbcType="INTEGER" property="sionsId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Stores">
+    insert into stores (stores_id, stores_password, stores_name, 
+      stores_address, stores_introduced, sions_id
+      )
+    values (#{storesId,jdbcType=INTEGER}, #{storesPassword,jdbcType=VARCHAR}, #{storesName,jdbcType=VARCHAR}, 
+      #{storesAddress,jdbcType=VARCHAR}, #{storesIntroduced,jdbcType=VARCHAR}, #{sionsId,jdbcType=INTEGER}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select stores_id, stores_password, stores_name, stores_address, stores_introduced, 
+    sions_id
+    from stores
+  </select>
+</mapper>

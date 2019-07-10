@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.UserMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.User">
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+<mapper namespace="com.zeropoint.homemaking.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
@@ -20,7 +20,11 @@
     <result column="user_grade" jdbcType="CHAR" property="userGrade" />
     <result column="user_upline" jdbcType="INTEGER" property="userUpline" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.User">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.User">
     insert into user (user_id, user_name, user_nickname, 
       user_password, user_gender, user_age, 
       user_phone, user_address, user_portrait, 
@@ -34,6 +38,33 @@
       #{motherName,jdbcType=VARCHAR}, #{motherAge,jdbcType=INTEGER}, #{programCode,jdbcType=VARCHAR}, 
       #{userGrade,jdbcType=CHAR}, #{userUpline,jdbcType=INTEGER})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=INTEGER},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_portrait = #{userPortrait,jdbcType=VARCHAR},
+      user_permissions = #{userPermissions,jdbcType=INTEGER},
+      user_duedate = #{userDuedate,jdbcType=TIMESTAMP},
+      children_birthday = #{childrenBirthday,jdbcType=TIMESTAMP},
+      mother_name = #{motherName,jdbcType=VARCHAR},
+      mother_age = #{motherAge,jdbcType=INTEGER},
+      program_code = #{programCode,jdbcType=VARCHAR},
+      user_grade = #{userGrade,jdbcType=CHAR},
+      user_upline = #{userUpline,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_id, user_name, user_nickname, user_password, user_gender, user_age, user_phone, 
+    user_address, user_portrait, user_permissions, user_duedate, children_birthday, mother_name, 
+    mother_age, program_code, user_grade, user_upline
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select user_id, user_name, user_nickname, user_password, user_gender, user_age, user_phone, 
     user_address, user_portrait, user_permissions, user_duedate, children_birthday, mother_name, 

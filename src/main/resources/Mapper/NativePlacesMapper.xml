@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.NativePlacesMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.NativePlaces">
-    <result column="native_id" jdbcType="INTEGER" property="nativeId" />
+<mapper namespace="com.zeropoint.homemaking.dao.NativePlacesMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.NativePlaces">
+    <id column="native_id" jdbcType="INTEGER" property="nativeId" />
     <result column="native_province" jdbcType="VARCHAR" property="nativeProvince" />
     <result column="native_city" jdbcType="VARCHAR" property="nativeCity" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.NativePlaces">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from native_places
+    where native_id = #{nativeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.NativePlaces">
     insert into native_places (native_id, native_province, native_city
       )
     values (#{nativeId,jdbcType=INTEGER}, #{nativeProvince,jdbcType=VARCHAR}, #{nativeCity,jdbcType=VARCHAR}
       )
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.NativePlaces">
+    update native_places
+    set native_province = #{nativeProvince,jdbcType=VARCHAR},
+      native_city = #{nativeCity,jdbcType=VARCHAR}
+    where native_id = #{nativeId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select native_id, native_province, native_city
+    from native_places
+    where native_id = #{nativeId,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select native_id, native_province, native_city
     from native_places

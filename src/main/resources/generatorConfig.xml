@@ -9,7 +9,7 @@
         targetRuntime：MyBatis3Simple 只生成提供简单增删改查的代码
     -->
     <!-- 数据库connector的jar包所在位置，一般应该在你的repo文件夹下-->
-    <classPathEntry  location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar"/>
+    <classPathEntry  location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar"/>
     <context id="testTables" targetRuntime="MyBatis3Simple">
 
         <commentGenerator>
@@ -18,7 +18,7 @@
         </commentGenerator>
 
         <!-- 数据库连接的信息：驱动类、连接地址、用户名、密码 -->
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://47.102.145.174:3306/homemaking"
                         userId="homemaking"
                         password="homemaking">
@@ -34,7 +34,7 @@
             targetPackage：指定 POJO 类生成后所在的包的位置
             targetProject:指定生成 POJO 类的位置
         -->
-        <javaModelGenerator targetPackage="com.zeropoint.homemaking.Entitys"
+        <javaModelGenerator targetPackage="com.zeropoint.homemaking.domain"
                             targetProject=".\src\main\java">
             <!-- enableSubPackages:是否让 schema 作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
@@ -55,7 +55,7 @@
             targetPackage：指定 mapper 接口生成包的位置
         -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.zeropoint.homemaking.DAO"
+                             targetPackage="com.zeropoint.homemaking.dao"
                              targetProject=".\src\main\java">
             <!-- enableSubPackages:是否让 schema 作为包的后缀 -->
             <property name="enableSubPackages" value="false" />
@@ -66,19 +66,9 @@
             tableName：指定表名
             domainObjectName：指定生成的 POJO 的类名
          -->
-        <!--<table tableName="class_info" domainObjectName="ClassInfo"/>
-        <table tableName="class_task" domainObjectName="ClassTask"/>
-        <table tableName="classroom_location" domainObjectName="ClassroomLocation"/>
-        <table tableName="course_info" domainObjectName="CourseInfo"/>
-        <table tableName="location_info" domainObjectName="LocationInfo"/>
-        <table tableName="teach_plan" domainObjectName="TeachPlan"/>
-        <table tableName="teacher_course" domainObjectName="TeacherCourse"/>
-        <table tableName="teacher_info" domainObjectName="TeacherInfo"/>
-        <table tableName="user_info" domainObjectName="UserInfo"/>-->
-        <!--<table tableName="college_info" domainObjectName="CollegeInfo"/>-->
-        <!--<table tableName="course_plan" domainObjectName="CoursePlan"/>-->
-<!--        <table tableName="admin" domainObjectName="Admin"/>-->
-        <table tableName="article" domainObjectName=""/>
+
+        <table tableName="article" domainObjectName="Article" enableSelectByExample="true" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" />
+        <table tableName="admin" domainObjectName=""/>
         <table tableName="banners" domainObjectName=""/>
         <table tableName="category" domainObjectName=""/>
         <table tableName="commission" domainObjectName=""/>
@@ -94,6 +84,8 @@
         <table tableName="stores" domainObjectName=""/>
         <table tableName="user" domainObjectName=""/>
         <table tableName="usercitys" domainObjectName=""/>
+
+
 
 
 

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>会员资料编辑-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+		<style>
+			<style type="text/css">
+				/* 新增删除图标的样式 */
+			
+				.layui-form-label {
+					width: 100%;
+					text-align: left;
+				}
+			
+				.layui-form-label,
+				.layui-form-item .layui-input-inline {
+					margin-top: 10px;
+				}
+			
+				.yf-input-del .layui-input-inline .layui-input {
+					padding-right: 20px;
+				}
+			
+				.yf-input-del .layui-input-inline i.layui-icon {
+					position: absolute;
+					right: 2px;
+					top: 10px;
+					color: #999999;
+				}
+			</style>
+		</style>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+	</head>
+
+	<body>
+		<div class="weadmin-body">
+			<form class="layui-form">
+				<div class="layui-form-item">
+					<label for="L_username" class="layui-form-label">
+						头像：
+					</label>
+					<div class="layui-input-inline">
+						<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							姓名：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_name" name="name" lay-verify="name" autocomplete="off" class="layui-input" value="王阿姨"
+							 disabled="">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							身份证号：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_userid" name="userid" lay-verify="userid" autocomplete="off" class="layui-input" value="431002199710082990"
+							 disabled="">
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							年龄：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_agee="age" lay-verify="age" style="width:50%" autocomplete="off" class="layui-input" value="50岁" 
+							 disabled="">
+						</div>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							性别：
+						</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="sex" value="男" title="男" checked disabled="">
+							<input type="radio" name="sex" value="女" title="女" disabled="">
+						</div>
+					</div>
+				</div>
+				
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							意向工作：
+						</label>
+						<div class="layui-input-inline">
+							<select name="province" disabled="">
+								<option value="">请选择意向工作</option>
+								<option value="浙江">月嫂</option>
+								<option value="江西">育儿嫂</option>
+								<option value="福建">保姆</option>
+							</select>
+						</div>
+						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+					</div>
+
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							工作类型：
+						</label>
+						<div class="layui-input-inline">
+							<select name="province" disabled="">
+								<option value="">请选择工作类型</option>
+								<option value="浙江">住家</option>
+								<option value="江西">钟点工</option>
+								<option value="福建">白班</option>
+							</select>
+						</div>
+						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+					</div>
+
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							工作年限：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input" value="2年"
+							 disabled="">
+						</div>
+						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							工作内容：
+						</label>
+						<div class="layui-input-block" style="width: 1500px; position: relative;top: 20px;">
+							<span class="layui-btn layui-btn-normal layui-btn-xs">洗衣服</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">打扫卫生</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾3岁以上小孩</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾自理老人</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾宠物</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾病人</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">做饭</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">负责接送小孩</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">给客户家开车</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">手洗衣物</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
+						</div>
+						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							期望薪资：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="431002199710082990"
+							 disabled="">
+						</div>
+						<div class="layui-form-mid layui-word-aux" style="position: relative;top: 10px;">元/月</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label for="L_username" class="layui-form-label">
+						工作地点：
+					</label>
+					<div class="layui-input-inline">
+						<select name="province" disabled="">
+							<option value="">请选择省</option>
+							<option value="浙江">浙江省</option>
+							<option value="江西">江西省</option>
+							<option value="福建">福建省</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="city" disabled="">
+							<option value="">请选择市</option>
+							<option value="杭州">杭州</option>
+							<option value="宁波">宁波</option>
+							<option value="温州">温州</option>
+							<option value="温州">台州</option>
+							<option value="温州">绍兴</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="area" disabled="">
+							<option value="">请选择县/区</option>
+							<option value="西湖区">西湖区</option>
+							<option value="余杭区">余杭区</option>
+							<option value="拱墅区">临安市</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							自我介绍：
+						</label>
+						<div class="layui-input-block">
+							<textarea class="layui-textarea" style="width: 600px;" name="content" lay-verify="content" id="LAY_demo_editor"
+							 disabled="">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试
+							</textarea>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							视频介绍：
+						</label>
+						<div class="layui-input-inline">
+							<video src="/i/movie.ogg" controls="controls" style="width: 500px; height: 350px;"></video>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							学历证：
+						</label>
+						<div class="layui-input-inline">
+							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							培训证：
+						</label>
+						<div class="layui-input-inline">
+							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							健康证：
+						</label>
+						<div class="layui-input-inline">
+							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							奖励证：
+						</label>
+						<div class="layui-input-inline">
+							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+
+					<fieldset class="layui-elem-field"  style="margin: 50px auto;padding: 50px 0px;">
+						<legend>门店分配与工资设置</legend>
+						<div class="layui-field-box">
+							<div class="layui-inline">
+								<label for="L_username" class="layui-form-label">
+									意向工作：
+								</label>
+								<div class="layui-input-inline">
+									<select name="province">
+										<option value="">请选择所属门店</option>
+										<option value="浙江">月嫂</option>
+										<option value="江西">育儿嫂</option>
+										<option value="福建">保姆</option>
+									</select>
+								</div>
+								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+							</div>
+							
+							<div class="layui-inline">
+								<label for="L_username" class="layui-form-label">
+									时薪：
+								</label>
+								<div class="layui-input-inline">
+									<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input">
+								</div>
+								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+							</div>
+							
+							<div class="layui-inline">
+								<label for="L_username" class="layui-form-label">
+									月薪：
+								</label>
+								<div class="layui-input-inline">
+									<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					
+				</div>
+
+
+				<div class="layui-form-item">
+					<label for="L_repass" class="layui-form-label">
+					</label>
+					<button class="layui-btn" lay-filter="add" lay-submit="">通过</button>
+
+					<button class="layui-btn" lay-filter="noadd" lay-submit="">不通过</button>
+					<input type="hidden" name="dataId" id="dataId" value="" />
+				</div>
+			</form>
+		</div>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.extend({
+				admin: '{/}../../static/js/admin'
+			});
+			layui.use(['form', 'jquery', 'admin', 'layer'], function() {
+				var form = layui.form,
+					$ = layui.jquery,
+					admin = layui.admin,
+					layer = layui.layer;
+
+				//自定义验证规则
+				form.verify({
+					nikename: function(value) {
+						if (value.length < 5) {
+							return '昵称至少得5个字符啊';
+						}
+					}
+				});
+				//页面初始化加载
+				$(function() {
+					setTimeout(function() {
+						frameVal();
+					}, 100);
+				});
+
+				function frameVal() {
+					var dataId = $('input[name="dataId"]').val();
+					var index = parent.layer.getFrameIndex(window.name);
+					parent.layui.jquery("#memberList tr").each(function() {
+						if ($(this).attr('data-id') == dataId) {
+							console.log($(this));
+							var tdArr = $(this).children('td');
+							var username = tdArr.eq(2).text(); //姓名
+							var sex = tdArr.eq(3).text(); //性别
+							var phone = tdArr.eq(4).text(); //电话
+							var email = tdArr.eq(5).text(); //邮箱
+							var address = tdArr.eq(6).text(); //地址
+
+							$('input[name="username"]').val(username);
+							console.log("sex:" + sex);
+							$('input[name="sex"][value="' + sex + '"]').attr("checked", true);
+							$('input[name="phone"]').val(phone);
+							$('input[name="email"]').val(email);
+							$('input[name="address"]').val(address);
+							form.render();
+						}
+					});
+				}
+				//监听提交
+				/* 审核通过 */
+				form.on('submit(add)', function(data) {
+					console.log(data);
+					//发异步，把数据提交给php
+					layer.msg("审核通过", {
+						icon: 6,
+						time: 1000
+					}, function() {
+						// 获得frame索引
+						var index = parent.layer.getFrameIndex(window.name);
+						//关闭当前frame
+						parent.layer.close(index);
+					});
+					return false;
+				});
+
+				/* 审核不通过 */
+				form.on('submit(noadd)', function(data) {
+					console.log(data);
+					//发异步，把数据提交给php
+					layer.msg("审核不通过", {
+
+						icon: 5,
+						time: 1000
+					}, function() {
+						// 获得frame索引
+						var index = parent.layer.getFrameIndex(window.name);
+						//关闭当前frame
+						parent.layer.close(index);
+					});
+					return false;
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

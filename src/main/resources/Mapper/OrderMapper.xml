@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.OrderMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Order">
-    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+<mapper namespace="com.zeropoint.homemaking.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="userid" jdbcType="INTEGER" property="userid" />
     <result column="serviceid" jdbcType="INTEGER" property="serviceid" />
     <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
@@ -15,7 +15,11 @@
     <result column="storesid" jdbcType="INTEGER" property="storesid" />
     <result column="commissionid" jdbcType="INTEGER" property="commissionid" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Order">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Order">
     insert into order (order_id, userid, serviceid, 
       order_time, order_address, order_content, 
       order_payment, order_status, order_evaluation, 
@@ -27,6 +31,27 @@
       #{orderContract,jdbcType=VARCHAR}, #{storesid,jdbcType=INTEGER}, #{commissionid,jdbcType=INTEGER}
       )
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Order">
+    update order
+    set userid = #{userid,jdbcType=INTEGER},
+      serviceid = #{serviceid,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      order_address = #{orderAddress,jdbcType=VARCHAR},
+      order_content = #{orderContent,jdbcType=VARCHAR},
+      order_payment = #{orderPayment,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_evaluation = #{orderEvaluation,jdbcType=VARCHAR},
+      order_contract = #{orderContract,jdbcType=VARCHAR},
+      storesid = #{storesid,jdbcType=INTEGER},
+      commissionid = #{commissionid,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select order_id, userid, serviceid, order_time, order_address, order_content, order_payment, 
+    order_status, order_evaluation, order_contract, storesid, commissionid
+    from order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select order_id, userid, serviceid, order_time, order_address, order_content, order_payment, 
     order_status, order_evaluation, order_contract, storesid, commissionid

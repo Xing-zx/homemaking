@@ -1,0 +1,182 @@
+{
+	"status": 0,
+	"msg": "ok",
+	"data": [{
+			"id": 1,
+			"name": "客户管理",
+			"icon": "&#xe6b8;",
+			"url": "",
+			"children": [{
+				"id": 2,
+				"name": "客户信息列表",
+				"icon": "",
+				"url": "./pages/member/memberlist.html"
+			}, {
+				"id": 4,
+				"name": "投诉处理",
+				"icon": "",
+				"url": "./pages/member/complaintslist.html"
+			},{
+				"id": 5,
+				"name": "客户评价处理",
+				"icon": "",
+				"url": "./pages/member/evaluationlist.html"
+			}]
+		},
+		{
+			"id": 6,
+			"name": "员工管理",
+			"icon": "&#xe735;",
+			"url": "",
+			"children": [{
+				"id": 7,
+				"name": "员工列表",
+				"icon": "",
+				"url": "./pages/Service_personnel/personnellist.html"
+			}, {
+				"id": 8,
+				"name": "员工认证审核",
+				"icon": "",
+				"url": "./pages/Service_personnel/certificationlist.html"
+			}]
+		},
+		{
+			"id": 9,
+			"name": "文章管理",
+			"icon": "&#xe705;",
+			"url": "",
+			"children": [{
+				"id": 10,
+				"name": "文章列表",
+				"icon": "",
+				"url": "./pages/article/articlelist.html"
+			},
+			{
+				"id": 51,
+				"name": "讲座列表",
+				"icon": "",
+				"url": "./pages/article/lecturelist.html"
+			}]
+		},
+		{
+			"id": 11,
+			"name": "订单管理",
+			"icon": "&#xe723;",
+			"url": "",
+			"children": [{
+				"id": 12,
+				"name": "预约订单管理",
+				"icon": "",
+				"url": "./pages/order/makelist.html"
+			},{
+				"id": 13,
+				"name": "服务订单列表",
+				"icon": "",
+				"url": "./pages/order/orderlist.html"
+			},{
+				"id": 14,
+				"name": "讲座订单列表",
+				"icon": "",
+				"url": "./pages/order/lecturelist.html"
+			}]
+		},
+		{
+			"id": 15,
+			"name": "管理员权限",
+			"icon": "&#xe726;",
+			"url": "",
+			"children": [{
+				"id": 16,
+				"name": "管理员列表",
+				"icon": "",
+				"url": "./pages/admin/adminlist.html"
+			},
+			{
+				"id": 17,
+				"name": "角色管理",
+				"icon": "",
+				"url": "./pages/admin/rolelist.html"
+			}]
+		},
+		{
+			"id": 20,
+			"name": "财务管理",
+			"icon": "&#xe68e;",
+			"url": "",
+			"children": [{
+				"id": 21,
+				"name": "资金明细",
+				"icon": "",
+				"url": "./pages/financial/detaillist.html"
+			},{
+				"id": 22,
+				"name": "提现申请",
+				"icon": "",
+				"url": "./pages/financial/withdrawallist.html"
+			}]
+		},
+		{
+			"id": 24,
+			"name": "其他管理",
+			"icon": "&#58928;",
+			"url": "",
+			"children": [{
+				"id": 25,
+				"name": "帮助中心",
+				"icon": "",
+				"url": "",
+				"children": [{
+					"id": 26,
+					"name": "关于平台",
+					"icon": "",
+					"url": "./pages/other/helplist1.html"
+				},{
+					"id": 27,
+					"name": "常见问题",
+					"icon": "",
+					"url": "./pages/other/helplist2.html"
+				},{
+					"id": 28,
+					"name": "平台客服电话",
+					"icon": "",
+					"url": "./pages/other/helplist3.html"
+				},
+				{
+					"id": 29,
+					"name": "安全隐私说明",
+					"icon": "",
+					"url": "./pages/other/helplist4.html"
+				}]
+			},
+			{
+				"id": 55,
+				"name": "分销管理",
+				"icon": "",
+				"url": "./pages/other/storelist.html"
+			},
+			{
+				"id": 30,
+				"name": "筛选列表",
+				"icon": "",
+				"url": "./pages/other/screen.html"
+			},{
+				"id": 31,
+				"name": "轮播图列表",
+				"icon": "",
+				"url": "./pages/other/bannerlist.html"
+			},
+			{
+				"id": 32,
+				"name": "服务分类",
+				"icon": "",
+				"url": "./pages/other/servicelist.html"
+			}]
+		},
+		{
+			"id": 33,
+			"name": "系统设置",
+			"icon": "&#xe620;",
+			"url": ""
+		}
+	]
+}

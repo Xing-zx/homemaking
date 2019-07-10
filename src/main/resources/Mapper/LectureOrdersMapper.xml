@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.LectureOrdersMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.LectureOrders">
-    <result column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.zeropoint.homemaking.dao.LectureOrdersMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.LectureOrders">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="lectureid" jdbcType="INTEGER" property="lectureid" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="commissionid" jdbcType="INTEGER" property="commissionid" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.LectureOrders">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from lecture_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.LectureOrders">
     insert into lecture_orders (id, lectureid, user_id, 
       commissionid)
     values (#{id,jdbcType=INTEGER}, #{lectureid,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{commissionid,jdbcType=INTEGER})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.LectureOrders">
+    update lecture_orders
+    set lectureid = #{lectureid,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      commissionid = #{commissionid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, lectureid, user_id, commissionid
+    from lecture_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, lectureid, user_id, commissionid
     from lecture_orders

@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.AdminMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.Admin">
-    <result column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.zeropoint.homemaking.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Admin">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="sionsid" jdbcType="INTEGER" property="sionsid" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.Admin">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Admin">
     insert into admin (id, name, password, 
       sionsid)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{sionsid,jdbcType=INTEGER})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Admin">
+    update admin
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sionsid = #{sionsid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, password, sionsid
+    from admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, name, password, sionsid
     from admin
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="Map">
+    selet * from admin
+    <where>
+      <if test="name != null">
+        name = #{name,jdbcType=String}
+      and
+      </if>
+      <if test="role != null">
+        sionsid =#{role,jdbcType=INTEGER}
+      </if>
+    </where>
   </select>
 </mapper>

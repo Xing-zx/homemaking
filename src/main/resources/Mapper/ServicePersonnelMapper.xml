@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zeropoint.homemaking.DAO.ServicePersonnelMapper">
-  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.Entitys.ServicePersonnel">
-    <result column="service_id" jdbcType="INTEGER" property="serviceId" />
+<mapper namespace="com.zeropoint.homemaking.dao.ServicePersonnelMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.ServicePersonnel">
+    <id column="service_id" jdbcType="INTEGER" property="serviceId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="age" jdbcType="INTEGER" property="age" />
@@ -31,7 +31,11 @@
     <result column="service_upline" jdbcType="VARCHAR" property="serviceUpline" />
     <result column="ssionsid" jdbcType="INTEGER" property="ssionsid" />
   </resultMap>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.Entitys.ServicePersonnel">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from service_personnel
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
     insert into service_personnel (service_id, name, password, 
       age, gender, phone, 
       specialtyid, native_place, work_experience, 
@@ -53,6 +57,45 @@
       #{programCode,jdbcType=VARCHAR}, #{serviceGrade,jdbcType=VARCHAR}, #{serviceUpline,jdbcType=VARCHAR}, 
       #{ssionsid,jdbcType=INTEGER})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
+    update service_personnel
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      specialtyid = #{specialtyid,jdbcType=INTEGER},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      work_experience = #{workExperience,jdbcType=INTEGER},
+      categoryid = #{categoryid,jdbcType=INTEGER},
+      level = #{level,jdbcType=CHAR},
+      chargestandard = #{chargestandard,jdbcType=INTEGER},
+      work_city = #{workCity,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=DOUBLE},
+      photo = #{photo,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      myself = #{myself,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      training = #{training,jdbcType=VARCHAR},
+      health = #{health,jdbcType=VARCHAR},
+      reward = #{reward,jdbcType=VARCHAR},
+      commission = #{commission,jdbcType=DOUBLE},
+      stores_id = #{storesId,jdbcType=INTEGER},
+      service_stauts = #{serviceStauts,jdbcType=VARCHAR},
+      program_code = #{programCode,jdbcType=VARCHAR},
+      service_grade = #{serviceGrade,jdbcType=VARCHAR},
+      service_upline = #{serviceUpline,jdbcType=VARCHAR},
+      ssionsid = #{ssionsid,jdbcType=INTEGER}
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select service_id, name, password, age, gender, phone, specialtyid, native_place, 
+    work_experience, categoryid, level, chargestandard, work_city, rate, photo, video, 
+    myself, education, training, health, reward, commission, stores_id, service_stauts, 
+    program_code, service_grade, service_upline, ssionsid
+    from service_personnel
+    where service_id = #{serviceId,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select service_id, name, password, age, gender, phone, specialtyid, native_place, 
     work_experience, categoryid, level, chargestandard, work_city, rate, photo, video, 

@@ -6,12 +6,12 @@ import com.zeropoint.homemaking.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 /**
@@ -55,14 +55,21 @@ public class AdminServiceImpl implements AdminService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
             Map<String,String> condition=new HashMap<>(16);
             condition.put("name",s);
-            condition.put("role",null);
-          List<Admin> admins=adminMapper.selectByCondition(condition);
-            if(admins.get(0) == null)
-            {
-                throw new UsernameNotFoundException(String.format("Admin with name =%s is not found",s));
-            }
-            System.out.println("authentication is doing");
-            return admins.get(0);
+
+          Admin admin=adminMapper.selectByName(s);
+          if(admin == null)
+          {
+              throw new UsernameNotFoundException(String.format("Admin with name =%s is not found",s));
+
+          }
+//            if(admins.get(0) == null)
+//            {
+//                throw new UsernameNotFoundException(String.format("Admin with name =%s is not found",s));
+//            }
+            System.out.println("authentication is going to be done");
+//            Admin admin= admins.get(0);
+            System.out.println(admin.getPassword());
+            return admin;
         }
     }
 

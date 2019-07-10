@@ -34,15 +34,19 @@
     from admin
   </select>
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="Map">
-    selet * from admin
+    select * from admin
     <where>
       <if test="name != null">
-        name = #{name,jdbcType=String}
+        name = #{name,jdbcType=VARCHAR}
       and
       </if>
-      <if test="role != null">
-        sionsid =#{role,jdbcType=INTEGER}
+      <if test="role != null and role != '' ">
+      sionsid = #{role}
       </if>
     </where>
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from admin
+    where name = #{name,jdbcType=VARCHAR}
   </select>
 </mapper>

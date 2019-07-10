@@ -1,6 +1,7 @@
 package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.Admin;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
 import java.util.List;
@@ -9,25 +10,26 @@ import java.util.Map;
 /** 管理员
  * @author zx
  */
+@Mapper
 public interface AdminMapper {
     /**
      *  删除
-     * @param id
+     * @param id id
      * @return the status
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
      * 插入
-     * @param record
-     * @return
+     * @param record admin
+     * @return  status
      */
     int insert(Admin record);
 
     /**
      * 查询
-     * @param id
-     * @return
+     * @param id id
+     * @return admin
      */
     Admin selectByPrimaryKey(Integer id);
 
@@ -39,7 +41,7 @@ public interface AdminMapper {
 
     /**
      *  更新
-     * @param record
+     * @param record admin
      * @return the status
      */
     int updateByPrimaryKey(Admin record);
@@ -56,5 +58,13 @@ public interface AdminMapper {
      * @param ids id数组
      * @return status
      */
-    int deleteByIds(Integer[] ids);
+   int deleteByIds(Integer[] ids);
+
+    /**
+     *  匹配账号
+     * @param name 账号
+     * @return admin
+     */
+      Admin selectByName(String name);
+
 }

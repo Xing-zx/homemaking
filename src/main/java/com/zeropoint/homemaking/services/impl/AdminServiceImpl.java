@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
+
 
 
 //    public List<Admin> getAll() {
@@ -47,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
 //    }
 
     /** 加载用户密码
-     * @param s
+     * @param s username
      * @return admin
      * @throws UsernameNotFoundException
      */
@@ -62,14 +65,20 @@ public class AdminServiceImpl implements AdminService {
               throw new UsernameNotFoundException(String.format("Admin with name =%s is not found",s));
 
           }
-//            if(admins.get(0) == null)
-//            {
-//                throw new UsernameNotFoundException(String.format("Admin with name =%s is not found",s));
-//            }
             System.out.println("authentication is going to be done");
-//            Admin admin= admins.get(0);
             System.out.println(admin.getPassword());
             return admin;
         }
+
+    @Override
+    public List<Admin> selectAll(Map<String, String> condition) {
+        if (condition == null)
+        {
+            return adminMapper.selectAll();
+        }
+        return adminMapper.selectByCondition(condition);
     }
+
+
+}
 

@@ -48,7 +48,7 @@ public interface AdminMapper {
 
     /**
      *  条件查询
-     * @param condition  注册时间，姓名
+     * @param condition  注册时间,姓名,角色
      * @return the admin list
      */
     List<Admin> selectByCondition(Map<String, String> condition);

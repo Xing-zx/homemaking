@@ -68,38 +68,12 @@
 						<th>ID</th>
 						<th>管理员姓名</th>
 						<th>手机</th>
-						<th>密码</th>
 						<th>角色</th>
 						<th>加入时间</th>
 						<th>状态</th>
 						<th width="15%">操作</th>
 				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-						</td>
-						<td>1</td>
-						<td>admin</td>
-						<td>18925139194</td>
-						<td>18925139194</td>
-						<td>超级管理员</td>
-						<td>2017-01-01 11:11:42</td>
-						<td class="td-status">
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span></td>
-						<td class="td-manage">
-							<a class="layui-btn layui-btn-warm layui-btn-xs stops" onclick="member_stop(this,'10001')" href="javascript:;"
-							 title="启用">
-								停用
-							</a>
-							<a class="layui-btn layui-btn-xs" style="background-color: darkblue;" onclick="WeAdminShow('编辑管理员信息','./adminadd.html',470,500)" href="javascript:;">
-								编辑
-							</a>
-							<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-								删除
-							</a>
-						</td>
-					</tr>
+				<tbody id="list">
 				</tbody>
 			</table>
 			<div class="page">
@@ -126,13 +100,13 @@
 				
 			});
 			
-			$(function() { // 初始化内容
-				console.log($('input[name="username"]').val());
-				console.log($('input[name="phone"]').val());
-				console.log($('input[name="sex"]').val());
-				console.log($('input[name="email"]').val());
-				console.log($('input[name="pass"]').val());
-			});
+			// $(function() { // 初始化内容
+			// 	console.log($('input[name="username"]').val());
+			// 	console.log($('input[name="phone"]').val());
+			// 	console.log($('input[name="sex"]').val());
+			// 	console.log($('input[name="email"]').val());
+			// 	console.log($('input[name="pass"]').val());
+			// });
 
 
 			/*bannder-停用*/
@@ -190,6 +164,43 @@
 					});
 					$(".layui-form-checked").not('.header').parents('tr').remove();
 				});
+			}
+			$(function () {
+				loadlist();
+			})
+
+			function loadlist() {
+				$.ajax({
+					type:"get",
+					url:"/admin/list",
+					dataType:"json",
+					success:function (data) {
+						$(data).each(
+								function (i, values) {
+									$("#list").html(
+											"<tr><td><div class='layui-unselect layui-form-checkbox'"+"data-id="+ values.id+" lay-skin='primary' ><i class='layui-icon'>&#xe605;</i></div>"
+											+"</td>"
+											+"<td>"+values.id+"</td>"
+											+"<td>" +values.name+"</td>"
+											+"<td>"+values.phone+"</td>"
+											+"<td>"+values.role+"</td>"
+											+"<td>"+values.registerTime+"</td>"
+											+"<td class="+'td-status'+">"
+											+"<span class='layui-btn layui-btn-normal layui-btn-xs'>已启用</span></td>"
+											+"<td class='td-manage'>"
+											+"<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' onclick='member_stop(this, &apos;10001&apos;)' title='启用'>停用</a>"
+											+"<a class='layui-btn layui-btn-xs' style='background-color: darkblue;' onclick='WeAdminShow(&apos;编辑管理员信息&apos;,&apos;./adminadd.html&apos;,470,500)' href='javascript:;'>编辑 </a>"
+											+"<a class='layui-btn layui-btn-danger layui-btn-xs' title='删除' onclick='member_del(this,&apos;要删除的id&apos;)' href='javascript:;'>删除 </a>"
+											+"</td></tr>"
+									);
+
+								}
+						);
+					},
+					error:function () {
+						alert("error");
+					}
+				})
 			}
 		</script>
 	</body>

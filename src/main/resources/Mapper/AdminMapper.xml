@@ -5,43 +5,55 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="sionsid" jdbcType="INTEGER" property="sionsid" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Admin">
-    insert into admin (id, name, password, 
-      sionsid)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{sionsid,jdbcType=INTEGER})
+    insert into admin (id, name, password,
+      role, phone, register_time,
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{role,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Admin">
     update admin
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      sionsid = #{sionsid,jdbcType=INTEGER}
+      role = #{role,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, password, sionsid
+    select id, name, password, role, phone, register_time, status
     from admin
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, password, sionsid
+    select id, name, password, role, phone, register_time, status
     from admin
   </select>
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="Map">
+  <select id="selectByCondition" parameterType="Map" resultMap="BaseResultMap">
     select * from admin
     <where>
-      <if test="name != null">
+      <if test="name != null and name != ''">
         name = #{name,jdbcType=VARCHAR}
       and
       </if>
       <if test="role != null and role != '' ">
-      sionsid = #{role}
+      role = #{role}
+      and
+      </if>
+      <if test="startTime != null and endTime != null">
+        register_time between #{startTime} and #{endTime}
       </if>
     </where>
   </select>

@@ -30,6 +30,20 @@ public class AdminController {
       return principal.getName();
     }
 
+    /** 管理员列表
+     * @return   the list
+     */
+    @RequestMapping("/list")
+    public List<Admin> listAdmin(){
+        Map<String,String> condition=new HashMap<>(16);
+        condition.put("name","");
+        condition.put("role","");
+        condition.put("startTime","2019-6-11");
+        condition.put("endTime","2019-8-11");
+        return adminService.selectAll(condition);
+    }
+
+
 
 
 

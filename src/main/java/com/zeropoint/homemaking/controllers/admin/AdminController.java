@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  admin Controller
@@ -53,6 +50,7 @@ public class AdminController {
      */
     @RequestMapping("/add")
     public String add(@RequestBody  Admin admin){
+        admin.setRegisterTime(new Date());
         return adminService.add(admin);
     }
 

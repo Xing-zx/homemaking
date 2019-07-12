@@ -25,6 +25,10 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    /** 个人信息
+     * @param principal
+     * @return 账号信息
+     */
     @RequestMapping("/adminInfo")
     public String  getAdminInfo(Principal principal){
       return principal.getName();
@@ -34,16 +38,23 @@ public class AdminController {
      * @return   the list
      */
     @RequestMapping("/list")
-    public List<Admin> listAdmin(){
+    public List<Admin> listAdmin(@RequestParam("name") String name, @RequestParam("role") String role, @RequestParam("startTime") String startTime, @RequestParam("endTime") String endTime){
         Map<String,String> condition=new HashMap<>(16);
-        condition.put("name","");
-        condition.put("role","");
-        condition.put("startTime","2019-6-11");
-        condition.put("endTime","2019-8-11");
+        condition.put("name",name);
+        condition.put("role",role);
+        condition.put("startTime",startTime);
+        condition.put("endTime",endTime);
         return adminService.selectAll(condition);
     }
 
-
+    /** 添加管理员
+     * @param admin admin
+     * @return status
+     */
+    @RequestMapping("/add")
+    public String add(@RequestBody  Admin admin){
+        return adminService.add(admin);
+    }
 
 
 

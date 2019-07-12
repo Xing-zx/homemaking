@@ -20,6 +20,12 @@ public interface AdminService extends UserDetailsService {
      */
      List<Admin> selectAll(Map<String,String> condition);
 
+    /** 添加
+     * @param record  admin
+     * @return 执行结果
+     */
+     String add(Admin record);
+
 
 
 

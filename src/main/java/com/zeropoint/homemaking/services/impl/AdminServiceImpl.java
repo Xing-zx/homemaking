@@ -79,6 +79,19 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.selectByCondition(condition);
     }
 
+    @Override
+    public String add(Admin record) {
+        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+        String ecodedpwd=passwordEncoder.encode(record.getPassword());
+        record.setPassword(ecodedpwd);
+        if(adminMapper.insert(record)>0)
+        {
+            return "success";
+
+        }
+        return "fail";
+    }
+
 
 }
 

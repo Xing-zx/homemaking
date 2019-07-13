@@ -23,26 +23,26 @@
 
 	<body>
 		<div class="weadmin-body">
-			<form class="layui-form">
+			<form class="layui-form" action="/admin/add">
 
 				<div class="layui-form-item">
 					<label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>管理员姓名</label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_nikename" name="nikename" required="" lay-verify="nikename" autocomplete="off" class="layui-input">
+						<input type="text" id="L_nikename" name="name" required="" lay-verify="nikename" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
 					<label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>手机号</label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_nikename" name="nikename" required="" lay-verify="nikename" autocomplete="off" class="layui-input">
+						<input type="text" id="L_nikename" name="phone" required="" lay-verify="nikename" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>密码</label>
 					<div class="layui-input-inline">
-						<input type="password" id="L_pwd" name="pwd" required="" lay-verify="pwd" autocomplete="off" class="layui-input">
+						<input type="password" id="L_pwd" name="password" required="" lay-verify="pwd" autocomplete="off" class="layui-input">
 					</div>
 					
 				</div>
@@ -50,18 +50,18 @@
 				<div class="layui-form-item">
 					<label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>确认密码</label>
 					<div class="layui-input-inline">
-						<input type="password" id="L_repwd" name="repwd" required="" lay-verify="repwd" autocomplete="off" class="layui-input">
+						<input type="password" id="L_repwd" name="password" required="" lay-verify="repwd" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
 					<label for="categoryWeight" class="layui-form-label"><span class="we-red">*</span>管理员角色</label>
 					<div class="layui-input-inline">
-						<select name="cateid">
+						<select name="role">
 							<option>请选择角色</option>
-							<option>文章</option>
-							<option>会员</option>
-							<option>权限</option>
+							<option>超级管理员</option>
+							<option>门店</option>
+							<option>经纪人</option>
 						</select>
 					</div>
 				</div>
@@ -69,8 +69,8 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">状态</label>
 					<div class="layui-input-block">
-						<input type="radio" name="sex" value="启用" title="启用" checked="">
-						<input type="radio" name="sex" value="禁用" title="禁用">
+						<input type="radio" name="status" value="1" title="启用" checked="">
+						<input type="radio" name="status" value="0" title="禁用">
 					</div>
 				</div>
 
@@ -86,24 +86,24 @@
 		<script>
 			layui.use(['form', 'layer'], function() {
 				var form = layui.form,
-					layer = layui.layer;
+						layer = layui.layer;
 
 				form.verify({
-					nikename: function(value){
-						if(value.length<2){
+					nikename: function (value) {
+						if (value.length < 2) {
 							return '昵称必须大于两个字符'
 						}
 					},
 				});
-
+			});
 				//监听提交
 				form.on('submit(add)', function(data) {
-					console.log(data);
+					// console.log(data);
 					//发异步，把数据提交给php
                     $.ajax({
                         type:"post",
                         url:"/admin/add",
-                        data:"{name:"test",password:"test",role:"test"}",
+                        data:{name:"test",password:"test",role:"test"},
                         success:function () {
                             layer.alert("增加成功", {
                                 icon: 6
@@ -113,15 +113,10 @@
                                 //关闭当前frame
                                 parent.layer.close(index);
                             });
-                            return false;
                         }
                     });
 
-
-
-
 			});
-
 
 			layui.use('layedit', function() {
 				var layedit = layui.layedit,

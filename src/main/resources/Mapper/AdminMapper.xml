@@ -14,6 +14,13 @@
     delete from admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByIds" parameterType="java.util.Arrays">
+    delete from admin
+    where id in
+    <foreach collection="array" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Admin">
     insert into admin (id, name, password,
       role, phone, register_time,
@@ -46,13 +53,15 @@
     <where>
       <if test="name != null and name != ''">
         name = #{name,jdbcType=VARCHAR}
-      and
+
       </if>
       <if test="role != null and role != '' ">
-      role = #{role}
-      and
+        and
+        role = #{role}
+
       </if>
       <if test="startTime != null and endTime != null">
+        and
         register_time between #{startTime} and #{endTime}
       </if>
     </where>

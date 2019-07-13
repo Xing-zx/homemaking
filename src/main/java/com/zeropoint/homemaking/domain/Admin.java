@@ -1,5 +1,6 @@
 package com.zeropoint.homemaking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ public class Admin implements UserDetails {
     private Integer id;
 
     private String name;
-
+    @JsonIgnore
     private String password;
 
     private String role;
@@ -39,6 +40,7 @@ public class Admin implements UserDetails {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_"+getRole()));
 
     }
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;
@@ -48,22 +50,22 @@ public class Admin implements UserDetails {
     public String getUsername() {
         return name;
     }
-
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

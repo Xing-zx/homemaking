@@ -170,16 +170,24 @@
 			})
 
 			function loadlist() {
+				var obj = JSON.stringify({"name":"","role":"","startTime":"2019-6-11","endTime":"2019-8-11"});
 				$.ajax({
-					type:"get",
+					type:"post",
 					url:"/admin/list",
 					dataType:"json",
-					data:{"name":"admin","role":"","startTime":"2019-6-11","endTime":"2019-8-11"},
-					asycn:false,
+					contentType: 'application/json;charset=utf-8',
+					data:obj,
 					success:function (data) {
 						$("#list").empty();
 						$(data).each(
 								function (i, values) {
+									if (values.status == "0")
+									{
+										values.status="已禁用";
+									}
+									else{
+										values.status="已启用";
+									}
 									$("#list").append(
 											"<tr><td><div class='layui-unselect layui-form-checkbox' data-id='"+values.id+"' lay-skin='primary' ><i class= 'layui-icon'>&#xe605;</i></div>"
 											+"</td>"
@@ -189,10 +197,10 @@
 											+"<td>"+values.role+"</td>"
 											+"<td>"+values.registerTime+"</td>"
 											+"<td class="+'td-status'+">"
-											+"<span class='layui-btn layui-btn-normal layui-btn-xs'>已启用</span></td>"
+											+"<span class='layui-btn layui-btn-normal layui-btn-xs'>"+values.status+"</span></td>"
 											+"<td class='td-manage'>"
 											+"<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' onclick='member_stop(this, &apos;10001&apos;)' title='启用'>停用</a>"
-											+"<a class='layui-btn layui-btn-xs' style='background-color: darkblue;' onclick='WeAdminShow(&apos;编辑管理员信息&apos;,&apos;.	/adminadd.html&apos;,470,500)' href='javascript:;'>编辑 </a>"
+											+"<a class='layui-btn layui-btn-xs' style='background-color: darkblue;' onclick='WeAdminShow(&apos;编辑管理员信息&apos;,&apos;.	/adminedit.html&apos;,470,500)' href='javascript:;'>编辑 </a>"
 											+"<a class='layui-btn layui-btn-danger layui-btn-xs' title='删除' onclick='member_del(this,&apos;要删除的id&apos;)' href='javascript:;'>删除 </a>"
 											+"</td></tr>"
 									);

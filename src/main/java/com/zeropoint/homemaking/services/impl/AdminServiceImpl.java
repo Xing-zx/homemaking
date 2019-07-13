@@ -25,30 +25,6 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
-
-
-//    public List<Admin> getAll() {
-//
-//      int[] ids=new int[2];
-//            ids[0]=1;
-//            ids[1]=2;
-//        return adminMapper.selectByQuery(ids);
-//
-//    }
-
-
-//    public int deleteByQuery(List<Integer> ids) {
-//        return adminMapper.deleteByQuery(ids);
-//    }
-
-
-//    public int Add(Admin record) {
-//        BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
-//        String ecodedpwd=passwordEncoder.encode(record.getPassword());
-//        record.setPassword(ecodedpwd);
-//        return adminMapper.insert(record);
-//    }
-
     /** 加载用户密码
      * @param s username
      * @return admin
@@ -56,9 +32,6 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-            Map<String,String> condition=new HashMap<>(16);
-            condition.put("name",s);
-
           Admin admin=adminMapper.selectByName(s);
           if(admin == null)
           {
@@ -72,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> selectAll(Map<String, String> condition) {
+        //区分条件
         if (condition == null)
         {
             return adminMapper.selectAll();
@@ -81,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String add(Admin record) {
+        //密码编码
         BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         String ecodedpwd=passwordEncoder.encode(record.getPassword());
         record.setPassword(ecodedpwd);
@@ -88,6 +63,15 @@ public class AdminServiceImpl implements AdminService {
         {
             return "success";
 
+        }
+        return "fail";
+    }
+
+    @Override
+    public String delete(Integer[] ids) {
+        if (adminMapper.deleteByIds(ids)>0)
+        {
+            return "success";
         }
         return "fail";
     }

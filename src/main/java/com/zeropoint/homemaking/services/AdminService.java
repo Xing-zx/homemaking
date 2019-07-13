@@ -26,6 +26,13 @@ public interface AdminService extends UserDetailsService {
      */
      String add(Admin record);
 
+    /** 删除
+     * @param ids id数组
+     * @return
+     */
+     String delete(Integer[] ids);
+
+
 
 
 

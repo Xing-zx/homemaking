@@ -4,17 +4,13 @@ import com.zeropoint.homemaking.domain.ServiceClassification;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
-/**
- * @author Administrator
- */
 @Mapper
 public interface ServiceClassificationMapper {
-    int deleteByPrimaryKey(Integer iconId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ServiceClassification record);
 
-    ServiceClassification selectByPrimaryKey(Integer iconId);
+    ServiceClassification selectByPrimaryKey(Integer id);
 
     List<ServiceClassification> selectAll();
 

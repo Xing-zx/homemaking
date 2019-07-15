@@ -2,35 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeropoint.homemaking.dao.BannersMapper">
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Banners">
-    <id column="banner_id" jdbcType="INTEGER" property="bannerId" />
-    <result column="banner" jdbcType="VARCHAR" property="banner" />
-    <result column="banner_address" jdbcType="VARCHAR" property="bannerAddress" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from banners
-    where banner_id = #{bannerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Banners">
-    insert into banners (banner_id, banner, banner_address, 
-      status)
-    values (#{bannerId,jdbcType=INTEGER}, #{banner,jdbcType=VARCHAR}, #{bannerAddress,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER})
+    insert into banners (id, name, url, 
+      article_id, picture_url)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{articleId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Banners">
     update banners
-    set banner = #{banner,jdbcType=VARCHAR},
-      banner_address = #{bannerAddress,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
-    where banner_id = #{bannerId,jdbcType=INTEGER}
+    set name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=INTEGER},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select banner_id, banner, banner_address, status
+    select id, name, url, article_id, picture_url
     from banners
-    where banner_id = #{bannerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select banner_id, banner, banner_address, status
+    select id, name, url, article_id, picture_url
     from banners
   </select>
 </mapper>

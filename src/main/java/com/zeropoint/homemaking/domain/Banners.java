@@ -1,43 +1,53 @@
 package com.zeropoint.homemaking.domain;
 
 public class Banners {
-    private Integer bannerId;
+    private Integer id;
 
-    private String banner;
+    private String name;
 
-    private String bannerAddress;
+    private String url;
 
-    private Integer status;
+    private Integer articleId;
 
-    public Integer getBannerId() {
-        return bannerId;
+    private String pictureUrl;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setBannerId(Integer bannerId) {
-        this.bannerId = bannerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getBanner() {
-        return banner;
+    public String getName() {
+        return name;
     }
 
-    public void setBanner(String banner) {
-        this.banner = banner;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBannerAddress() {
-        return bannerAddress;
+    public String getUrl() {
+        return url;
     }
 
-    public void setBannerAddress(String bannerAddress) {
-        this.bannerAddress = bannerAddress;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getArticleId() {
+        return articleId;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 }

@@ -5,6 +5,8 @@ public class Category {
 
     private String categoryName;
 
+    private Integer parent;
+
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -19,5 +21,13 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Integer getParent() {
+        return parent;
+    }
+
+    public void setParent(Integer parent) {
+        this.parent = parent;
     }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zeropoint.homemaking.services.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,10 @@ public class ClientController {
     @Autowired
      private  HomeService homeService;
 
+
+    /** 主页信息填充和链接
+     * @return
+     */
     @RequestMapping("/home")
     public JSONObject getHome(){
          System.out.println("receive request");
@@ -32,6 +37,14 @@ public class ClientController {
         wrapper.put("swiper",homeService.getSwiper());
         res.put("data", wrapper);
         return  res;
+    }
+    @RequestMapping("/list")
+    public JSONObject getList(@RequestBody JSONObject location){
+        JSONObject res=new JSONObject();
+        res.put("code",1);
+        res.put("msg","success");
+
+        return res;
     }
 
 

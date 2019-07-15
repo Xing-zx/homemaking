@@ -2,60 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeropoint.homemaking.dao.ServicePersonnelMapper">
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.ServicePersonnel">
-    <id column="service_id" jdbcType="INTEGER" property="serviceId" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="specialtyid" jdbcType="INTEGER" property="specialtyid" />
+    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="work_experience" jdbcType="INTEGER" property="workExperience" />
-    <result column="categoryid" jdbcType="INTEGER" property="categoryid" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="level" jdbcType="CHAR" property="level" />
-    <result column="chargestandard" jdbcType="INTEGER" property="chargestandard" />
+    <result column="charge_standard" jdbcType="INTEGER" property="chargeStandard" />
     <result column="work_city" jdbcType="VARCHAR" property="workCity" />
-    <result column="rate" jdbcType="DOUBLE" property="rate" />
-    <result column="photo" jdbcType="VARCHAR" property="photo" />
-    <result column="video" jdbcType="VARCHAR" property="video" />
-    <result column="myself" jdbcType="VARCHAR" property="myself" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="training" jdbcType="VARCHAR" property="training" />
-    <result column="health" jdbcType="VARCHAR" property="health" />
-    <result column="reward" jdbcType="VARCHAR" property="reward" />
-    <result column="commission" jdbcType="DOUBLE" property="commission" />
+    <result column="applause_rate" jdbcType="DOUBLE" property="applauseRate" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
+    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
     <result column="stores_id" jdbcType="INTEGER" property="storesId" />
-    <result column="service_stauts" jdbcType="VARCHAR" property="serviceStauts" />
+    <result column="stauts" jdbcType="VARCHAR" property="stauts" />
     <result column="program_code" jdbcType="VARCHAR" property="programCode" />
-    <result column="service_grade" jdbcType="VARCHAR" property="serviceGrade" />
-    <result column="service_upline" jdbcType="VARCHAR" property="serviceUpline" />
-    <result column="ssionsid" jdbcType="INTEGER" property="ssionsid" />
+    <result column="upline" jdbcType="INTEGER" property="upline" />
+    <result column="upupline" jdbcType="INTEGER" property="upupline" />
+    <result column="certificate_id" jdbcType="INTEGER" property="certificateId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_personnel
-    where service_id = #{serviceId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
-    insert into service_personnel (service_id, name, password, 
+    insert into service_personnel (id, name, password, 
       age, gender, phone, 
-      specialtyid, native_place, work_experience, 
-      categoryid, level, chargestandard, 
-      work_city, rate, photo, 
-      video, myself, education, 
-      training, health, reward, 
-      commission, stores_id, service_stauts, 
-      program_code, service_grade, service_upline, 
-      ssionsid)
-    values (#{serviceId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      specialty_id, native_place, work_experience, 
+      category_id, level, charge_standard, 
+      work_city, applause_rate, photo_url, 
+      video_url, profile, brokerage, 
+      stores_id, stauts, program_code, 
+      upline, upupline, certificate_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{specialtyid,jdbcType=INTEGER}, #{nativePlace,jdbcType=VARCHAR}, #{workExperience,jdbcType=INTEGER}, 
-      #{categoryid,jdbcType=INTEGER}, #{level,jdbcType=CHAR}, #{chargestandard,jdbcType=INTEGER}, 
-      #{workCity,jdbcType=VARCHAR}, #{rate,jdbcType=DOUBLE}, #{photo,jdbcType=VARCHAR}, 
-      #{video,jdbcType=VARCHAR}, #{myself,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
-      #{training,jdbcType=VARCHAR}, #{health,jdbcType=VARCHAR}, #{reward,jdbcType=VARCHAR}, 
-      #{commission,jdbcType=DOUBLE}, #{storesId,jdbcType=INTEGER}, #{serviceStauts,jdbcType=VARCHAR}, 
-      #{programCode,jdbcType=VARCHAR}, #{serviceGrade,jdbcType=VARCHAR}, #{serviceUpline,jdbcType=VARCHAR}, 
-      #{ssionsid,jdbcType=INTEGER})
+      #{specialtyId,jdbcType=INTEGER}, #{nativePlace,jdbcType=VARCHAR}, #{workExperience,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=INTEGER}, #{level,jdbcType=CHAR}, #{chargeStandard,jdbcType=INTEGER}, 
+      #{workCity,jdbcType=VARCHAR}, #{applauseRate,jdbcType=DOUBLE}, #{photoUrl,jdbcType=VARCHAR}, 
+      #{videoUrl,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{brokerage,jdbcType=INTEGER}, 
+      #{storesId,jdbcType=INTEGER}, #{stauts,jdbcType=VARCHAR}, #{programCode,jdbcType=VARCHAR}, 
+      #{upline,jdbcType=INTEGER}, #{upupline,jdbcType=INTEGER}, #{certificateId,jdbcType=INTEGER}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
     update service_personnel
@@ -64,43 +58,37 @@
       age = #{age,jdbcType=INTEGER},
       gender = #{gender,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      specialtyid = #{specialtyid,jdbcType=INTEGER},
+      specialty_id = #{specialtyId,jdbcType=INTEGER},
       native_place = #{nativePlace,jdbcType=VARCHAR},
       work_experience = #{workExperience,jdbcType=INTEGER},
-      categoryid = #{categoryid,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
       level = #{level,jdbcType=CHAR},
-      chargestandard = #{chargestandard,jdbcType=INTEGER},
+      charge_standard = #{chargeStandard,jdbcType=INTEGER},
       work_city = #{workCity,jdbcType=VARCHAR},
-      rate = #{rate,jdbcType=DOUBLE},
-      photo = #{photo,jdbcType=VARCHAR},
-      video = #{video,jdbcType=VARCHAR},
-      myself = #{myself,jdbcType=VARCHAR},
-      education = #{education,jdbcType=VARCHAR},
-      training = #{training,jdbcType=VARCHAR},
-      health = #{health,jdbcType=VARCHAR},
-      reward = #{reward,jdbcType=VARCHAR},
-      commission = #{commission,jdbcType=DOUBLE},
+      applause_rate = #{applauseRate,jdbcType=DOUBLE},
+      photo_url = #{photoUrl,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      brokerage = #{brokerage,jdbcType=INTEGER},
       stores_id = #{storesId,jdbcType=INTEGER},
-      service_stauts = #{serviceStauts,jdbcType=VARCHAR},
+      stauts = #{stauts,jdbcType=VARCHAR},
       program_code = #{programCode,jdbcType=VARCHAR},
-      service_grade = #{serviceGrade,jdbcType=VARCHAR},
-      service_upline = #{serviceUpline,jdbcType=VARCHAR},
-      ssionsid = #{ssionsid,jdbcType=INTEGER}
-    where service_id = #{serviceId,jdbcType=INTEGER}
+      upline = #{upline,jdbcType=INTEGER},
+      upupline = #{upupline,jdbcType=INTEGER},
+      certificate_id = #{certificateId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select service_id, name, password, age, gender, phone, specialtyid, native_place, 
-    work_experience, categoryid, level, chargestandard, work_city, rate, photo, video, 
-    myself, education, training, health, reward, commission, stores_id, service_stauts, 
-    program_code, service_grade, service_upline, ssionsid
+    select id, name, password, age, gender, phone, specialty_id, native_place, work_experience, 
+    category_id, level, charge_standard, work_city, applause_rate, photo_url, video_url, 
+    profile, brokerage, stores_id, stauts, program_code, upline, upupline, certificate_id
     from service_personnel
-    where service_id = #{serviceId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select service_id, name, password, age, gender, phone, specialtyid, native_place, 
-    work_experience, categoryid, level, chargestandard, work_city, rate, photo, video, 
-    myself, education, training, health, reward, commission, stores_id, service_stauts, 
-    program_code, service_grade, service_upline, ssionsid
+    select id, name, password, age, gender, phone, specialty_id, native_place, work_experience, 
+    category_id, level, charge_standard, work_city, applause_rate, photo_url, video_url, 
+    profile, brokerage, stores_id, stauts, program_code, upline, upupline, certificate_id
     from service_personnel
   </select>
 </mapper>

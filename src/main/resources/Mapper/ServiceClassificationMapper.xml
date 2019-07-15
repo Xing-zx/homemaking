@@ -2,37 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeropoint.homemaking.dao.ServiceClassificationMapper">
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.ServiceClassification">
-    <id column="icon_id" jdbcType="INTEGER" property="iconId" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
-    <result column="service_introduced" jdbcType="VARCHAR" property="serviceIntroduced" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="introduced" jdbcType="VARCHAR" property="introduced" />
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_classification
-    where icon_id = #{iconId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
-    insert into service_classification (icon_id, icon, service_name, 
-      service_introduced, status)
-    values (#{iconId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, 
-      #{serviceIntroduced,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+    insert into service_classification (id, icon_url, name, 
+      introduced, article_id)
+    values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
     update service_classification
-    set icon = #{icon,jdbcType=VARCHAR},
-      service_name = #{serviceName,jdbcType=VARCHAR},
-      service_introduced = #{serviceIntroduced,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
-    where icon_id = #{iconId,jdbcType=INTEGER}
+    set icon_url = #{iconUrl,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      introduced = #{introduced,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select icon_id, icon, service_name, service_introduced, status
+    select id, icon_url, name, introduced, article_id
     from service_classification
-    where icon_id = #{iconId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select icon_id, icon, service_name, service_introduced, status
+    select id, icon_url, name, introduced, article_id
     from service_classification
   </select>
 </mapper>

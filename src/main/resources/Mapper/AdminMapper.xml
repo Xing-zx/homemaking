@@ -60,10 +60,11 @@
         role = #{role}
 
       </if>
-      <if test="startTime != null and endTime != null">
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
         register_time between #{startTime} and #{endTime}
       </if>
+
     </where>
   </select>
   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">

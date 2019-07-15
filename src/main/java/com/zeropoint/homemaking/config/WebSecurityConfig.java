@@ -4,6 +4,8 @@ import com.zeropoint.homemaking.services.AdminService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,8 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author Administrator
  */
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * @param http

@@ -1,12 +1,15 @@
 package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.Article;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Map;
 
 /** 文章
  * @author zx
  */
+@Mapper
 public interface ArticleMapper {
     /**
      *  删除

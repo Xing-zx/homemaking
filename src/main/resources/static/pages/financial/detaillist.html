@@ -34,19 +34,30 @@
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search">
 					<div class="layui-inline">
-						<input class="layui-input" placeholder="开始日" name="start" id="start">
+						<input type="text" name="username" placeholder="请输入交易单号" autocomplete="off" class="layui-input" />
 					</div>
 					<div class="layui-inline">
-						<input class="layui-input" placeholder="截止日" name="end" id="end">
+						<input type="text" name="username" placeholder="请输入客户名称" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-input-inline">
+						<select name="cateid">
+							<option>请选择订单状态</option>
+							<option></option>
+							<option>会员</option>
+							<option>权限</option>
+						</select>
 					</div>
 					<div class="layui-inline">
-						<input type="text" name="username" placeholder="请输入交易单号" autocomplete="off" class="layui-input">
+						<div class="layui-input-inline">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择提现时间">
+						</div>
 					</div>
 					<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
 				</form>
 			</div>
 			<div class="weadmin-block">
 				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+				<button class="layui-btn" style="background-color: #00008B;">导出</button>
 				<span class="fr" style="line-height:40px">共有数据：88 条</span>
 			</div>
 			<table class="layui-table">
@@ -55,13 +66,12 @@
 						<th>
 							<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
 						</th>
-						<th>交易单号</th>
-						<th>服务名称</th>
-						<th>支付时间</th>
-						<th>支付方式</th>
-						<th>订单状态</th>
-						<th>客户名称</th>
-						<th>负责人</th>
+						<th>订单号</th>
+						<th>创建时间</th>
+						<th>订单类型</th>
+						<th>客户</th>
+						<th>金额</th>
+						<th>状态</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -70,13 +80,14 @@
 						<td>
 							<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
 						</td>
-						<td>2017009171822298053</td>
+						<td>4579874156411432</td>
+						<td>2017-09-17
+						<p style="text-align: left;">16:44</p>
+						</td>
 						<td>老王</td>
 						<td>4579874156411432</td>
-						<td>17369356615</td>
-						<td>2019-6-5</td>
-						<td>湖南首郴州市资兴市鲤鱼江镇林海城</td>
-						<td>已付定金</td>
+						<td><span style="color: #198B25;font-weight: bold;">+1000</span></td>
+						<td><span style="color: #198B25;font-weight: bold;">交易成功</span></td>
 						<td class="td-manage">
 							<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
 								<i class="layui-icon">&#xe640;</i>
@@ -88,14 +99,12 @@
 						<td>
 							<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
 						</td>
+						<td>4579874156411432</td>
 						<td>2017009171822298053</td>
 						<td>老王</td>
 						<td>4579874156411432</td>
-						<td>17369356615</td>
-						<td>2019-6-5</td>
-						<td>湖南首郴州市资兴市鲤鱼江镇林海城</td>
-						<td>已付定金</td>
-
+						<td><span style="color: #198B25;font-weight: bold;">+1000</span></td>
+						<td><span style="color: #198B25;font-weight: bold;">交易成功</span></td>
 						<td class="td-manage">
 							<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
 								<i class="layui-icon">&#xe640;</i>
@@ -120,14 +129,10 @@
 			layui.use('laydate', function() {
 				var laydate = layui.laydate;
 
-				//执行一个laydate实例
+				//日期范围
 				laydate.render({
-					elem: '#start' //指定元素
-				});
-
-				//执行一个laydate实例
-				laydate.render({
-					elem: '#end' //指定元素
+					elem: '#test6',
+					range: true
 				});
 			});
 			$(function() { // 初始化内容

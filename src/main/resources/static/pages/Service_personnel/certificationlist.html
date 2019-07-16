@@ -35,15 +35,21 @@
 		<div class="weadmin-body">
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search">
-					<div class="layui-inline">
-						<input type="text" name="username" placeholder="请输入工号" autocomplete="off" class="layui-input" />
-					</div>
+					
 					<div class="layui-inline">
 						<input type="text" name="username" placeholder="请输入员工姓名" autocomplete="off" class="layui-input" />
 					</div>
 					<div class="layui-input-inline">
 						<select name="cateid">
-							<option>请选择所属门店</option>
+							<option>请选择意向工作</option>
+							<option>文章</option>
+							<option>会员</option>
+							<option>权限</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="cateid">
+							<option>请选择工作类型</option>
 							<option>文章</option>
 							<option>会员</option>
 							<option>权限</option>
@@ -125,49 +131,7 @@
 			</div>
 
 		</div>
-		<!--列表页增加form表单，接收add页面传过来的值，模拟后台提交与接收-->
-		<form class="layui-form" id="modalForm" style="display: none;">
-			<div class="layui-form-item">
-				<label for="L_username" class="layui-form-label">
-		                <span class="we-red">*</span>登录名
-		            </label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_username" name="username" class="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_sex" class="layui-form-label">性别</label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_sex" name="sex" class="layui-input">
-				</div>
-			</div>
-
-			<div class="layui-form-item">
-				<label for="L_email" class="layui-form-label">
-		             <span class="we-red">*</span>手机
-		        </label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_phone" name="phone" class="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_email" class="layui-form-label">
-		                <span class="we-red">*</span>邮箱
-		            </label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_email" name="email" lass="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_pass" class="layui-form-label">
-                  <span class="we-red">*</span>密码
-              </label>
-				<div class="layui-input-inline">
-					<input type="password" id="L_pass" name="pass" class="layui-input">
-				</div>
-			</div>
-		</form>
-		<!--/列表页增加form表单，接收add页面传过来的值，模拟后台提交与接收-->
+		
 		
 		<style>
 			.views:link{

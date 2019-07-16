@@ -62,6 +62,7 @@ public class AdminController {
         admin.setRole(jsonObject.getString("role"));
         admin.setStatus(jsonObject.getInteger("status"));
         admin.setRegisterTime(new Date());
+        System.out.println(admin);
         return adminService.add(admin);
     }
 
@@ -70,10 +71,11 @@ public class AdminController {
      * @return status
      */
     @RequestMapping ("/delete")
-    public String delete(@RequestBody JSONObject jsonObject){
-        Integer[] ids=new Integer[100];
-        ((List<Integer>)jsonObject.get("data")).toArray(ids);
-        return adminService.delete(ids);
+    public String delete(@RequestBody JSONObject jsonObject,String ids){
+        System.out.println("进入");
+
+        System.out.println(ids);
+        return "";
     }
 
 

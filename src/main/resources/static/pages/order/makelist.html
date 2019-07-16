@@ -47,7 +47,7 @@
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input name="time" type="text" class="layui-input" id="test6" placeholder="请选择预约时间">
+							<input name="time" type="text"  autocomplete="off" class="layui-input" id="test6" placeholder="请选择预约时间">
 						</div>
 					</div>
 					<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -65,14 +65,12 @@
 						</th>
 						<th>订单编号</th>
 						<th>预约人</th>
-						<th>身份证号</th>
 						<th>手机号</th>
-						<th>预约服务</th>
+						<th>服务类型</th>
+						<th>服务地址</th>
+						<th>服务时间</th>
 						<th>预约时间</th>
-						<th>详细地址</th>
-						<th>支付状态</th>
 						<th width="5%">订单状态</th>
-						<th width="3%">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -87,17 +85,8 @@
 						<td>17369356615</td>
 						<td>2019-6-5</td>
 						<td>湖南首郴州市资兴市鲤鱼江镇林海城</td>
-						<td>已付定金</td>
 						<td class="td-status">
 							<span onclick="member_stop(this,'10001');" href="javascript:;" title="审核" class="layui-btn layui-btn-danger">未审核</span>
-						</td>
-						<td class="td-manage">
-							<!-- <a title="分配"  class="layui-btn layui-btn-xs fen" onclick="WeAdminShow('分配','add.html',600,400)" href="javascript:;">
-								分配
-							</a> -->
-							<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-								<i class="layui-icon">&#xe640;</i>
-							</a>
 						</td>
 					</tr>
 
@@ -112,16 +101,8 @@
 						<td>2019-6-5</td>
 						<td>17369356615</td>
 						<td>湖南首郴州市资兴市鲤鱼江镇林海城</td>
-						<td>已付定金</td>
 						<td class="td-status">
-							<span class="layui-btn layui-btn-danger" onclick="member_stop(this,'10001')" href="javascript:;" title="审核">未审核</span></td>
-						<td class="td-manage">
-							<!-- <a title="分配"  class="layui-btn layui-btn-xs fen" onclick="" href="javascript:;">
-								分配
-							</a> -->
-							<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-								<i class="layui-icon">&#xe640;</i>
-							</a>
+							<span class="layui-btn layui-btn-danger" onclick="member_stop(this,'10001')" href="javascript:;" title="审核">未审核</span>
 						</td>
 					</tr>
 				</tbody>
@@ -161,9 +142,9 @@
 			/*用户-审核-分配*/
 			function member_stop(obj, id) {
 					if($(obj).attr('title') == '审核') {
-						$(obj).attr('title', '未分配')
+						$(obj).attr('title', '生成订单')
 						$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-danger')
-						$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-warm').html('未分配');
+						$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-warm').html('生成订单');
 						layer.msg('已审核!', {
 							icon: 1,
 							time: 1000
@@ -171,7 +152,7 @@
 			
 					}
 					else{
-						WeAdminShow('分配','add.html',893, 600);
+						WeAdminShow('生成订单','makeadd.html');
 					}
 					
 			}

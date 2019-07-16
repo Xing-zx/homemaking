@@ -44,7 +44,7 @@
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input name="time" type="text" class="layui-input" id="test6" placeholder="请选择评价时间">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择投诉时间">
 						</div>
 					</div>
 					<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -60,12 +60,12 @@
 						<th>
 							<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
 						</th>
-						<th>ID</th>
+						<th>订单编号</th>
 						<th>客户姓名</th>
 						<th>服务项目</th>
-						<th>订单编号</th>
 						<th>服务人员</th>
 						<th>投诉原因</th>
+						<th>投诉时间</th>
 						<th width="5%">状态</th>
 						<!-- <th width="15%">操作</th> -->
 					</tr>
@@ -75,12 +75,12 @@
 						<td>
 							<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="2"><i class="layui-icon">&#xe605;</i></div>
 						</td>
-						<td>1</td>
+						<td>20190704001</td>
 						<td>小明</td>
 						<td>月嫂</td>
-						<td>20190704001</td>
 						<td>王阿姨</td>
 						<td>服务态度不好</td>
+						<td>20190704001</td>
 						<td class="td-status">
 							<span class="layui-btn layui-btn-normal" title="待处理" onclick="member_stop(this,'10001')" href="javascript:;">待处理</span></td>
 						<!-- <td class="td-manage">
@@ -99,11 +99,12 @@
 						<td>1</td>
 						<td>小明</td>
 						<td>月嫂</td>
-						<td>20190704001</td>
 						<td>王阿姨</td>
 						<td>服务态度不好</td>
+						<td>20190704001</td>
 						<td class="td-status">
-							<span class="layui-btn layui-btn-normal" title="已处理" onclick="member_stop(this,'10001')" href="javascript:;">已处理</span>
+							<span class="layui-btn layui-btn-normal" title="待处理" onclick="member_stop(this,'10001')" href="javascript:;">待处理</span>
+						</td>
 						<!-- <td class="td-manage">
 							<a class="layui-btn layui-btn-warm layui-btn-normal" onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
 								查看
@@ -127,50 +128,7 @@
 			</div>
 
 		</div>
-		<!--列表页增加form表单，接收add页面传过来的值，模拟后台提交与接收-->
-		<form class="layui-form" id="modalForm" style="display: none;">
-
-			<div class="layui-form-item">
-				<h1>处理</h1>
-				<label for="L_username" class="layui-form-label">
-					<span class="we-red">*</span>登录名
-				</label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_username" name="username" class="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_sex" class="layui-form-label">性别</label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_sex" name="sex" class="layui-input">
-				</div>
-			</div>
-
-			<div class="layui-form-item">
-				<label for="L_email" class="layui-form-label">
-					<span class="we-red">*</span>手机
-				</label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_phone" name="phone" class="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_email" class="layui-form-label">
-					<span class="we-red">*</span>邮箱
-				</label>
-				<div class="layui-input-inline">
-					<input type="text" id="L_email" name="email" lass="layui-input">
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label for="L_pass" class="layui-form-label">
-					<span class="we-red">*</span>密码
-				</label>
-				<div class="layui-input-inline">
-					<input type="password" id="L_pass" name="pass" class="layui-input">
-				</div>
-			</div>
-		</form>
+		
 		<!--/列表页增加form表单，接收add页面传过来的值，模拟后台提交与接收-->
 		<script>
 			layui.use('laydate', function() {
@@ -223,51 +181,9 @@
 				
 			})
 			
-			/*用户-停用*/
+			/*用户-投诉处理*/
 			function member_stop(obj, id) {
-				
-				if($(obj).attr('title') == '待处理') {
-					//发异步把用户状态进行更改
-					WeAdminEdit('编辑','./edit.html', 1, 893, 600);
-					$(obj).attr('title', '已处理')
-					$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已处理');
-					
-				}
-				
-				/* if($(".td-status span").attr('title') == '待处理'){
-					WeAdminEdit('编辑','./edit.html', 1, 893, 600)
-					$('.td-status span').addClass('layui-btn-danger');
-				}
-				else if($(".td-status span").attr('title') == '已处理'){
-					$('.td-status span').addClass('layui-btn-disabled');
-				} */
-
-				/* if ($(obj).attr('title') == '待处理') {
-					$(obj).attr('title', '已处理')
-					layer.open({
-						type: 2,
-						skin: 'layui-layer-demo', //样式类名
-						title: '标题',
-						closeBtn: 0, //不显示关闭按钮
-						anim: 2,
-						area: ['893px', '600px'],
-						shadeClose: true, //开启遮罩关闭
-						content: './edit.html'
-					})
-					
-				} */
-				
-				/* if ($(obj).attr('title') == '已处理') {
-					//发异步把用户状态进行更改
-					$(obj).find('i').html('&#xe62f;');
-				
-					$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已处理');
-					layer.msg('处理完成!', {
-						icon: 1,
-						time: 1000
-					});
-				} */
-				
+				WeAdminShow('投诉处理','./complaintsedit.html',800,450);
 			}
 
 			/*用户-删除*/

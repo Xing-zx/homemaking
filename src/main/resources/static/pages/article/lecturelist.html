@@ -9,8 +9,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<link rel="stylesheet" href="../../static/css/font.css">
 		<link rel="stylesheet" href="../../static/css/weadmin.css">
-		<link rel="stylesheet" type="text/css" href="../../lib/layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="../../lib/layui/css/layui.css" />
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
+		<style>
+			.views:link{
+				color: #007DDB;
+			}
+			.views:hover{
+				color: darkblue;
+			}
+		</style>
 		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 		<!--[if lt IE 9]>
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -22,7 +32,7 @@
 		<div class="weadmin-nav">
 			<span class="layui-breadcrumb">
 				<a href="">首页</a>
-				<a href="">文章管理</a>
+				<a href="">讲座管理</a>
 				<a><cite>讲座列表</cite></a>
 			</span>
 			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
@@ -38,14 +48,15 @@
 					<div class="layui-input-inline">
 						<select name="cateid">
 							<option>请选择状态</option>
-							<option>未开始</option>
-							<option>进行中</option>
-							<option>已结束</option>
+							<option value="1">未发布</option>
+							<option value="2">已发布</option>
+							<option value="3">进行中</option>
+							<option value="4">已结束</option>
 						</select>
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input name="time" type="text" class="layui-input" id="test6" placeholder="请选择活动时间">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择活动时间">
 						</div>
 					</div>
 					<button class="layui-btn" lay-submit="" lay-filter="sreach">
@@ -72,7 +83,7 @@
 						<th>价格</th>
 						<th>报名人数</th>
 						<th>状态</th>
-						<th>操作</th>
+						<th style="width: 10%;">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -80,20 +91,23 @@
 						<td>
 							<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
 						</td>
-						<td>2017009171822298053</td>
-						<td>老王:18925139194</td>
+						<td><img src="../../static/img/QQ图片20190530171602.jpg"></td>
+						<td><a class="views" onclick="WeAdminShow('查看详情','./lectureedit.html')" href="javascript:;">老王:18925139194</a></td>
 						<td>7829.10</td>
-						<td>7854.10</td>
-						<td>未支付</td>
+						<td>2019-11-11 至 2019-11-13</td>
+						<td>未支付未支付未支付未支付未支付未支付未支付未支付未支付未支付未支付未支付</td>
 						<td>未发货</td>
 						<td>其他方式</td>
-						<td>其他方式</td>
+						<td class="td-status">
+							<span>未发布</span>
+						</td>
 						<td class="td-manage">
-							<a title="查看" onclick="WeAdminShow('编辑','order-view.html')" href="javascript:;">
-								<i class="layui-icon">&#xe63c;</i>
+							<a class="layui-btn layui-btn-warm layui-btn-xs stops" onclick="member_stop(this,'10001')" href="javascript:;"
+							 title="发布">
+								发布
 							</a>
-							<a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-								<i class="layui-icon">&#xe640;</i>
+							<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+								删除
 							</a>
 						</td>
 					</tr>
@@ -112,75 +126,57 @@
 
 		</div>
 		<script>
-			layui.extend({
-				admin: '{/}../../static/js/admin'
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+
+				//日期范围
+				laydate.render({
+					elem: '#test6',
+					range: true
+				});
+
 			});
-			layui.use(['laydate', 'jquery', 'admin'], function() {
-				var laydate = layui.laydate,
-					$ = layui.jquery,
-					admin = layui.admin;
-				//执行一个laydate实例
-				laydate.render({
-					elem: '#start' //指定元素
-				});
-				//执行一个laydate实例
-				laydate.render({
-					elem: '#end' //指定元素
-				});
 
-				/*用户-停用*/
-				function member_stop(obj, id) {
-					layer.confirm('确认要停用吗？', function(index) {
-						if ($(obj).attr('title') == '启用') {
-							//发异步把用户状态进行更改
-							$(obj).attr('title', '停用')
-							$(obj).find('i').html('&#xe62f;');
 
-							$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-							layer.msg('已停用!', {
-								icon: 5,
-								time: 1000
-							});
-
-						} else {
-							$(obj).attr('title', '启用')
-							$(obj).find('i').html('&#xe601;');
-
-							$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-							layer.msg('已启用!', {
-								icon: 5,
-								time: 1000
-							});
-						}
+			/*用户-删除*/
+			function member_del(obj, id) {
+				layer.confirm('确认要删除吗？', function(index) {
+					//发异步删除数据
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!', {
+						icon: 1,
+						time: 1000
 					});
-				}
+				});
+			}
 
-				/*用户-删除*/
-				function member_del(obj, id) {
-					layer.confirm('确认要删除吗？', function(index) {
-						//发异步删除数据
-						$(obj).parents("tr").remove();
-						layer.msg('已删除!', {
-							icon: 1,
+			function delAll(argument) {
+				var data = tableCheck.getData();
+				layer.confirm('确认要删除吗？' + data, function(index) {
+					//捉到所有被选中的，发异步进行删除
+					layer.msg('删除成功', {
+						icon: 1
+					});
+					$(".layui-form-checked").not('.header').parents('tr').remove();
+				});
+			}
+
+			/*bannder-停用*/
+			function member_stop(obj, id) {
+				layer.confirm('确定要发布吗？', function(index) {
+					if ($(obj).attr('title') == '发布') {
+						//发异步把用户状态进行更改
+						$(obj).attr('title', '已发布')
+						$(obj).find('i').html('&#xe62f;');
+						$(obj).parents("tr").find(".td-status").find('span').html('已发布');
+						$(obj).parents("tr").find(".td-manage .stops").hide();
+						layer.msg('已发布!', {
+							icon: 6,
 							time: 1000
 						});
-					});
-				}
-
-				function delAll(argument) {
-					var data = tableCheck.getData();
-					layer.confirm('确认要删除吗？' + data, function(index) {
-						//捉到所有被选中的，发异步进行删除
-						layer.msg('删除成功', {
-							icon: 1
-						});
-						$(".layui-form-checked").not('.header').parents('tr').remove();
-					});
-				}
-			});
-
-
-			
+					}
+				});
+			}
 		</script>
 	</body>
 

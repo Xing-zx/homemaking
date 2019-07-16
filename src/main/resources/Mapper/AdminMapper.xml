@@ -52,7 +52,7 @@
     select * from admin
     <where>
       <if test="name != null and name != ''">
-        name = #{name,jdbcType=VARCHAR}
+        name LIKE  '%${name}%'
 
       </if>
       <if test="role != null and role != '' ">
@@ -60,14 +60,21 @@
         role = #{role}
 
       </if>
-      <if test="startTime != null and endTime != null">
+      <if test="startTime != '' and endTime != ''">
         and
         register_time between #{startTime} and #{endTime}
       </if>
     </where>
+    limit 1,10
   </select>
   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from admin
     where name = #{name,jdbcType=VARCHAR}
   </select>
+
+  <!-- 查询用户记录总数 -->
+  <select id="AdminCount" resultType="int">
+		select count(*) from admin
+  </select>
+
 </mapper>

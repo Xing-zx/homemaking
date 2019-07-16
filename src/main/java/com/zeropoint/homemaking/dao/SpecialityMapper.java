@@ -1,8 +1,10 @@
 package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.Speciality;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+@Mapper
 public interface SpecialityMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -12,7 +14,7 @@ public interface SpecialityMapper {
 
     List<Speciality> selectAll();
 
-    List<Speciality> selectByPersonnelId();
+    List<Speciality> selectByPersonnelId(Integer id);
 
     int updateByPrimaryKey(Speciality record);
 }

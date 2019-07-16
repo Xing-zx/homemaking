@@ -35,4 +35,8 @@
     select id, category_id, name, picture_url, personnel_id
     from certificate
   </select>
+  <select id="selectByPersonnelId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+    select * from certificate
+    where personnel_id = #{personnelId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -31,4 +31,9 @@
     select id, category_id, personnel_id
     from speciality
   </select>
+
+  <select id="selectByPersonnelId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select * from speciality
+    where personnel_id = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

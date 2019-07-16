@@ -91,4 +91,63 @@
     profile, brokerage, stores_id, stauts, program_code, upline, upupline, certificate_id
     from service_personnel
   </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="Map">
+    select * from service_personnel
+    <where>
+    <if test="certificate != null" >
+      <foreach collection="certificate" item="item" separator="," open="(" close=")" >
+        #{item} in
+        (
+        SELECT category_id from certificate
+        where personnel_id=service_personnel.id
+        )
+      </foreach>
+    </if>
+
+      <if test="speciality != null">
+      <foreach collection="speciality" item="item" separator="," open="(" close=")">
+        AND
+        #{item} in
+        (
+        SELECT catelogy_id from speciality
+        where personnel_id =service_personnel.id
+        )
+        </foreach>
+
+      </if>
+      <if test="comment != null and comment !=''">
+        and
+        applause_rate =#{comment}
+      </if>
+      <if test="workCity != '' and workCity != null">
+        and
+        work_city =#{workCity}
+      </if>
+      <if test="nativePlace !=null and nativePlace !='' ">
+        and
+        native_place = #{nativePlace}
+      </if>
+      <if test="ageMin !='' and ageMax !='' and ageMin !=null and ageMax !=null">
+        and
+        age between #{ageMin} and #{ageMax}
+      </if>
+      <if test="chargeMax !=null and chargeMin !=null and chargeMin !='' and chargeMax !=''">
+       and
+        charge_standard between #{chargeMin} and #{chargeMax}
+      </if>
+      <if test="chargeMin != null and chargeMin != ''">
+        and
+        charge_standard >#{chargeMin}
+      </if>
+      <if test="expirence != null and expirence != ''">
+        and
+        work_experience >= #{expirence}
+      </if>
+      <if test="keyword !=null and keyword !=''" >
+        and
+        name like concat ("%",#{keyword,jdbcType=VARCHAR},"%")
+      </if>
+
+    </where>
+  </select>
 </mapper>

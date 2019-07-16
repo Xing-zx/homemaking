@@ -1,0 +1,35 @@
+package com.zeropoint.homemaking.services;
+
+import com.zeropoint.homemaking.domain.Certificate;
+import com.zeropoint.homemaking.domain.ServicePersonnel;
+import com.zeropoint.homemaking.domain.Speciality;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author Administrator
+ */
+public interface PersonnelService {
+
+    /** 列表/筛选
+     * @param condition 筛选条件
+     * @return 阿姨列表
+     */
+    List<ServicePersonnel> getList(Map<String,Object> condition);
+
+    /** 特长
+     * @param id  阿姨id
+     * @return 特长
+     */
+    List<Speciality> getSpeciality(Integer id);
+
+    /** 证书
+     * @param id 阿姨id
+     * @return 证书
+     */
+    List<Certificate>getCertificate(Integer id);
+
+
+    List<String> getChildList(String name);
+}

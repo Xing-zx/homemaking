@@ -2,33 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeropoint.homemaking.dao.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Category">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent" jdbcType="INTEGER" property="parent" />
+  </resultMap>
+  <resultMap id="view" type="com.zeropoint.homemaking.domain.Category">
     <id column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
-    <result column="parent" jdbcType="INTEGER" property="parent" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from category
-    where category_id = #{categoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Category">
-    insert into category (category_id, category_name, parent
+    insert into category (id, name, parent
       )
-    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Category">
     update category
-    set category_name = #{categoryName,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       parent = #{parent,jdbcType=INTEGER}
-    where category_id = #{categoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select category_id, category_name, parent
+    select id, name, parent
     from category
-    where category_id = #{categoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select category_id, category_name, parent
+    select id, name, parent
     from category
   </select>
+  <select id="getChildListByName" parameterType="java.lang.String" resultMap="view">
+    select id,name from category
+    where parent in (
+    select id from category
+    where name = #{parentName,jdbcType=VARCHAR}
+    )
+  </select>
+
+
 </mapper>

@@ -67,8 +67,9 @@
 
     </where>
   </select>
-  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from admin
     where name = #{name,jdbcType=VARCHAR}
-  </select>
+    </select>
+
 </mapper>

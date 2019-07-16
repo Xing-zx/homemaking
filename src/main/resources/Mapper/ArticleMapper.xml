@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Article">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="cover_img1" jdbcType="VARCHAR" property="coverImg1" />
+    <result column="cover_img2" jdbcType="VARCHAR" property="coverImg2" />
+    <result column="cover_img3" jdbcType="VARCHAR" property="coverImg3" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Article">
+    insert into article (id, title, author, 
+      time, state, views, 
+      cover_img1, cover_img2, cover_img3, 
+      content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{views,jdbcType=INTEGER}, 
+      #{coverImg1,jdbcType=VARCHAR}, #{coverImg2,jdbcType=VARCHAR}, #{coverImg3,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Article">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      cover_img1 = #{coverImg1,jdbcType=VARCHAR},
+      cover_img2 = #{coverImg2,jdbcType=VARCHAR},
+      cover_img3 = #{coverImg3,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, title, author, time, state, views, cover_img1, cover_img2, cover_img3, 
+    content
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, title, author, time, state, views, cover_img1, cover_img2, cover_img3, 
+    content
+    from article
+  </select>
+</mapper>

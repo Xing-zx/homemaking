@@ -11,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -68,12 +66,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String delete(Integer[] ids) {
-        if (adminMapper.deleteByIds(ids)>0)
+    public void delete(Integer[] ids){
+         adminMapper.delete(ids);
+    }
+
+
+    @Override
+    public String update(Admin record) {
+        if (adminMapper.updateByPrimaryKey(record) > 0)
         {
             return "success";
         }
-        return "fail";
+        return  "fail";
     }
 
 

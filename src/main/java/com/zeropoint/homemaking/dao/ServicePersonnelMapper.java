@@ -4,11 +4,11 @@ import com.zeropoint.homemaking.domain.ServicePersonnel;
 import java.util.List;
 
 public interface ServicePersonnelMapper {
-    int deleteByPrimaryKey(Integer serviceId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ServicePersonnel record);
 
-    ServicePersonnel selectByPrimaryKey(Integer serviceId);
+    ServicePersonnel selectByPrimaryKey(Integer id);
 
     List<ServicePersonnel> selectAll();
 

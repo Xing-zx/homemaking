@@ -1,7 +1,7 @@
 package com.zeropoint.homemaking.domain;
 
 public class ServicePersonnel {
-    private Integer serviceId;
+    private Integer id;
 
     private String name;
 
@@ -13,56 +13,48 @@ public class ServicePersonnel {
 
     private String phone;
 
-    private Integer specialtyid;
+    private Integer specialtyId;
 
     private String nativePlace;
 
     private Integer workExperience;
 
-    private Integer categoryid;
+    private Integer categoryId;
 
     private String level;
 
-    private Integer chargestandard;
+    private Integer chargeStandard;
 
     private String workCity;
 
-    private Double rate;
+    private Double applauseRate;
 
-    private String photo;
+    private String photoUrl;
 
-    private String video;
+    private String videoUrl;
 
-    private String myself;
+    private String profile;
 
-    private String education;
-
-    private String training;
-
-    private String health;
-
-    private String reward;
-
-    private Double commission;
+    private Integer brokerage;
 
     private Integer storesId;
 
-    private String serviceStauts;
+    private String stauts;
 
     private String programCode;
 
-    private String serviceGrade;
+    private Integer upline;
 
-    private String serviceUpline;
+    private Integer upupline;
 
-    private Integer ssionsid;
+    private Integer certificateId;
 
-    public Integer getServiceId() {
-        return serviceId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setServiceId(Integer serviceId) {
-        this.serviceId = serviceId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -105,12 +97,12 @@ public class ServicePersonnel {
         this.phone = phone;
     }
 
-    public Integer getSpecialtyid() {
-        return specialtyid;
+    public Integer getSpecialtyId() {
+        return specialtyId;
     }
 
-    public void setSpecialtyid(Integer specialtyid) {
-        this.specialtyid = specialtyid;
+    public void setSpecialtyId(Integer specialtyId) {
+        this.specialtyId = specialtyId;
     }
 
     public String getNativePlace() {
@@ -129,12 +121,12 @@ public class ServicePersonnel {
         this.workExperience = workExperience;
     }
 
-    public Integer getCategoryid() {
-        return categoryid;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryid(Integer categoryid) {
-        this.categoryid = categoryid;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getLevel() {
@@ -145,12 +137,12 @@ public class ServicePersonnel {
         this.level = level;
     }
 
-    public Integer getChargestandard() {
-        return chargestandard;
+    public Integer getChargeStandard() {
+        return chargeStandard;
     }
 
-    public void setChargestandard(Integer chargestandard) {
-        this.chargestandard = chargestandard;
+    public void setChargeStandard(Integer chargeStandard) {
+        this.chargeStandard = chargeStandard;
     }
 
     public String getWorkCity() {
@@ -161,76 +153,44 @@ public class ServicePersonnel {
         this.workCity = workCity;
     }
 
-    public Double getRate() {
-        return rate;
+    public Double getApplauseRate() {
+        return applauseRate;
     }
 
-    public void setRate(Double rate) {
-        this.rate = rate;
+    public void setApplauseRate(Double applauseRate) {
+        this.applauseRate = applauseRate;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
-    public String getVideo() {
-        return video;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
-    public String getMyself() {
-        return myself;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setMyself(String myself) {
-        this.myself = myself;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
-    public String getEducation() {
-        return education;
+    public Integer getBrokerage() {
+        return brokerage;
     }
 
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public String getTraining() {
-        return training;
-    }
-
-    public void setTraining(String training) {
-        this.training = training;
-    }
-
-    public String getHealth() {
-        return health;
-    }
-
-    public void setHealth(String health) {
-        this.health = health;
-    }
-
-    public String getReward() {
-        return reward;
-    }
-
-    public void setReward(String reward) {
-        this.reward = reward;
-    }
-
-    public Double getCommission() {
-        return commission;
-    }
-
-    public void setCommission(Double commission) {
-        this.commission = commission;
+    public void setBrokerage(Integer brokerage) {
+        this.brokerage = brokerage;
     }
 
     public Integer getStoresId() {
@@ -241,12 +201,12 @@ public class ServicePersonnel {
         this.storesId = storesId;
     }
 
-    public String getServiceStauts() {
-        return serviceStauts;
+    public String getStauts() {
+        return stauts;
     }
 
-    public void setServiceStauts(String serviceStauts) {
-        this.serviceStauts = serviceStauts;
+    public void setStauts(String stauts) {
+        this.stauts = stauts;
     }
 
     public String getProgramCode() {
@@ -257,27 +217,27 @@ public class ServicePersonnel {
         this.programCode = programCode;
     }
 
-    public String getServiceGrade() {
-        return serviceGrade;
+    public Integer getUpline() {
+        return upline;
     }
 
-    public void setServiceGrade(String serviceGrade) {
-        this.serviceGrade = serviceGrade;
+    public void setUpline(Integer upline) {
+        this.upline = upline;
     }
 
-    public String getServiceUpline() {
-        return serviceUpline;
+    public Integer getUpupline() {
+        return upupline;
     }
 
-    public void setServiceUpline(String serviceUpline) {
-        this.serviceUpline = serviceUpline;
+    public void setUpupline(Integer upupline) {
+        this.upupline = upupline;
     }
 
-    public Integer getSsionsid() {
-        return ssionsid;
+    public Integer getCertificateId() {
+        return certificateId;
     }
 
-    public void setSsionsid(Integer ssionsid) {
-        this.ssionsid = ssionsid;
+    public void setCertificateId(Integer certificateId) {
+        this.certificateId = certificateId;
     }
 }

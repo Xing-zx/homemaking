@@ -78,6 +78,16 @@ public class AdminController {
         return "";
     }
 
+    /**
+     *  更新
+     * @param admin  更新的内容
+     * @return status
+     */
+    @RequestMapping("/update")
+    public String update(@RequestBody Admin admin){
+        return adminService.update(admin);
+    }
+
 
 
 

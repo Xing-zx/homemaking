@@ -1,14 +1,16 @@
 package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.ServiceClassification;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+@Mapper
 public interface ServiceClassificationMapper {
-    int deleteByPrimaryKey(Integer iconId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ServiceClassification record);
 
-    ServiceClassification selectByPrimaryKey(Integer iconId);
+    ServiceClassification selectByPrimaryKey(Integer id);
 
     List<ServiceClassification> selectAll();
 

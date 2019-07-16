@@ -1,43 +1,53 @@
 package com.zeropoint.homemaking.domain;
 
 public class ServiceClassification {
-    private Integer iconId;
+    private Integer id;
 
-    private String icon;
+    private String iconUrl;
 
-    private String serviceName;
+    private String name;
 
-    private String serviceIntroduced;
+    private String introduced;
 
-    public Integer getIconId() {
-        return iconId;
+    private Integer articleId;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setIconId(Integer iconId) {
-        this.iconId = iconId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getName() {
+        return name;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getServiceIntroduced() {
-        return serviceIntroduced;
+    public String getIntroduced() {
+        return introduced;
     }
 
-    public void setServiceIntroduced(String serviceIntroduced) {
-        this.serviceIntroduced = serviceIntroduced;
+    public void setIntroduced(String introduced) {
+        this.introduced = introduced;
+    }
+
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
     }
 }

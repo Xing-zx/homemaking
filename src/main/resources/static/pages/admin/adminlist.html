@@ -158,28 +158,26 @@
 			}
 
 			function delAll(argument) {
-				var ids = tableCheck.getData();
-				layer.confirm('确认要删除吗？' + ids, function(index) {
-                    var obj = JSON.stringify({"ids":ids});
+				var ids =[];
+                ids=tableCheck.getData();
+				layer.confirm('确认要删除吗？', function(index) {
                     $.ajax({
                         type:"post",
-                        url:"/admin/delete?ids="+ids,
-                        dataType:"json",
-                        contentType: 'application/json;charset=utf-8',
-                        data:obj,
-                        success:function () {
-                            //捉到所有被选中的，发异步进行删除
-                            layer.msg('删除成功', {
-                                icon: 1
-                            });
-                            $(".layui-form-checked").not('.header').parents('tr').remove();
+                        url:"/admin/delete",
+                        dataType:"text",
+                        data:{"ids":ids},
+                        traditional:true,
+                        success:function (data) {
+							//捉到所有被选中的，发异步进行删除
+							layer.msg('删除成功', {
+								icon: 1
+							});
+							$(".layui-form-checked").not('.header').parents('tr').remove();
                         },
                         error:function () {
                             alert("error");
                         }
                     })
-
-
 				});
 			}
 			$(function () {

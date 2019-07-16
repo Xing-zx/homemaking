@@ -1,7 +1,7 @@
 <!--此页面已废弃，仅供参考-->
 <!DOCTYPE html>
 <html>
-<!--frame传值后再添加新数据的实现方法尝试页面备份-->
+	<!--frame传值后再添加新数据的实现方法尝试页面备份-->
 	<head>
 		<meta charset="UTF-8">
 		<title>会员列表-WeAdmin 1.0</title>
@@ -24,12 +24,13 @@
 	<body>
 		<div class="weadmin-nav">
 			<span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a href="">客户管理</a>
-        <a>
-          <cite>客户评价列表</cite></a>
-      </span>
-			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+				<a href="">首页</a>
+				<a href="">客户管理</a>
+				<a>
+					<cite>客户评价列表</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
+			 title="刷新">
 				<i class="layui-icon" style="line-height:30px">ဂ</i></a>
 		</div>
 		<div class="weadmin-body">
@@ -48,7 +49,7 @@
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input name="time" type="text" class="layui-input" id="test6" placeholder="请选择评价时间">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择评价时间">
 						</div>
 					</div>
 					<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -64,7 +65,7 @@
 						<th>
 							<div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
 						</th>
-						<th>ID</th>
+						<th>订单号</th>
 						<th>服务人员</th>
 						<th>服务项目</th>
 						<th>服务日期</th>
@@ -90,7 +91,6 @@
 						<td>20190709</td>
 						<td class="td-status">
 							<span class="layui-btn layui-btn-danger" onclick="member_stop(this,'10001')" href="javascript:;" title="审核">未审核</span></td>
-						
 					</tr>
 					<tr>
 						<td>
@@ -105,8 +105,9 @@
 						<td>服务态度好</td>
 						<td>20190709</td>
 						<td class="td-status">
-							<span class="layui-btn layui-btn-danger" onclick="member_stop(this,'10001')" href="javascript:;" title="审核">未审核</span></td>
-						
+							<span class="layui-btn layui-btn-danger" onclick="member_stop(this,'10001')" href="javascript:;" title="审核">未审核</span>
+						</td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -126,8 +127,8 @@
 		<form class="layui-form" id="modalForm" style="display: none;">
 			<div class="layui-form-item">
 				<label for="L_username" class="layui-form-label">
-		                <span class="we-red">*</span>登录名
-		            </label>
+					<span class="we-red">*</span>登录名
+				</label>
 				<div class="layui-input-inline">
 					<input type="text" id="L_username" name="username" class="layui-input">
 				</div>
@@ -141,24 +142,24 @@
 
 			<div class="layui-form-item">
 				<label for="L_email" class="layui-form-label">
-		             <span class="we-red">*</span>手机
-		        </label>
+					<span class="we-red">*</span>手机
+				</label>
 				<div class="layui-input-inline">
 					<input type="text" id="L_phone" name="phone" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label for="L_email" class="layui-form-label">
-		                <span class="we-red">*</span>邮箱
-		            </label>
+					<span class="we-red">*</span>邮箱
+				</label>
 				<div class="layui-input-inline">
 					<input type="text" id="L_email" name="email" lass="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label for="L_pass" class="layui-form-label">
-                  <span class="we-red">*</span>密码
-              </label>
+					<span class="we-red">*</span>密码
+				</label>
 				<div class="layui-input-inline">
 					<input type="password" id="L_pass" name="pass" class="layui-input">
 				</div>
@@ -166,66 +167,67 @@
 		</form>
 		<!--/列表页增加form表单，接收add页面传过来的值，模拟后台提交与接收-->
 		<script>
-			
 			layui.use('laydate', function() {
 				var laydate = layui.laydate;
-			
+
 				//日期范围
 				laydate.render({
 					elem: '#test6',
 					range: true
 				});
-				
+
 			});
-			
-			$(function() {// 初始化内容
+
+			$(function() { // 初始化内容
 				console.log($('input[name="username"]').val());
 				console.log($('input[name="phone"]').val());
 				console.log($('input[name="sex"]').val());
 				console.log($('input[name="email"]').val());
 				console.log($('input[name="pass"]').val());
-    			});
-			function addMember(){
+			});
+
+			function addMember() {
 				var _len = $('#memberList tr').length;
 				alert(_len);
-				$('#memberList').append(						
+				$('#memberList').append(
 					'<tr data-id="' + _len + '">' +
-						'<td>'+
-							'<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="5"><i class="layui-icon">&#xe605;</i></div>'+
-						'</td>'+
-						'<td>5</td>'+
-						'<td>'+$('input[name="username"]').val()+'</td>'+
-						'<td>'+$('input[name="sex"]').val()+'</td>'+
-						'<td>'+$('input[name="phone"]').val()+'</td>'+
-						'<td>'+$('input[name="email"]').val()+'</td>'+
-						'<td>北京市西城区</td>'+
-						'<td>2018-01-01 11:11:42</td>'+
-						'<td class="td-status"><span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span></td>'+
-						'<td class="td-manage">'+
-							'<a onclick="member_stop(this,\'10001\')" href="javascript:;" title="启用"><i class="layui-icon">&#xe601;</i></a>'+
-							'<a title="编辑" onclick="WeAdminShow(\'编辑\',\'./edit.html\',600,400)" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>'+
-							'<a onclick="WeAdminShow(\'修改密码\',\'./password.html\',600,400)" title="修改密码" href="javascript:;"><i class="layui-icon">&#xe631;</i></a>'+
-							'<a title="删除" onclick="member_del(this,\'要删除的id\')" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>'+
-						'</td>'+
-					'</tr>'	
+					'<td>' +
+					'<div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id="5"><i class="layui-icon">&#xe605;</i></div>' +
+					'</td>' +
+					'<td>5</td>' +
+					'<td>' + $('input[name="username"]').val() + '</td>' +
+					'<td>' + $('input[name="sex"]').val() + '</td>' +
+					'<td>' + $('input[name="phone"]').val() + '</td>' +
+					'<td>' + $('input[name="email"]').val() + '</td>' +
+					'<td>北京市西城区</td>' +
+					'<td>2018-01-01 11:11:42</td>' +
+					'<td class="td-status"><span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span></td>' +
+					'<td class="td-manage">' +
+					'<a onclick="member_stop(this,\'10001\')" href="javascript:;" title="启用"><i class="layui-icon">&#xe601;</i></a>' +
+					'<a title="编辑" onclick="WeAdminShow(\'编辑\',\'./edit.html\',600,400)" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>' +
+					'<a onclick="WeAdminShow(\'修改密码\',\'./password.html\',600,400)" title="修改密码" href="javascript:;"><i class="layui-icon">&#xe631;</i></a>' +
+					'<a title="删除" onclick="member_del(this,\'要删除的id\')" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>' +
+					'</td>' +
+					'</tr>'
 				);
 			}
+			
 			/*用户-停用*/
 			function member_stop(obj, id) {
 
-					if($(obj).attr('title') == '审核') {
+				if ($(obj).attr('title') == '审核') {
 
-						//发异步把用户状态进行更改
-						$(obj).attr('title', '已审核')
-						$(obj).find('i').html('&#xe62f;');
-						$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-danger')
-						$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已审核');
-						layer.msg('审核成功!', {
-							icon: 1,
-							time: 1000
-						});
+					//发异步把用户状态进行更改
+					$(obj).attr('title', '已审核')
+					$(obj).find('i').html('&#xe62f;');
+					$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-danger')
+					$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已审核');
+					layer.msg('审核成功!', {
+						icon: 1,
+						time: 1000
+					});
 
-					} 
+				}
 			}
 
 			/* 用户-删除

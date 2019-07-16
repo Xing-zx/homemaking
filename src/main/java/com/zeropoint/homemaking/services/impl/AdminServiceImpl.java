@@ -66,13 +66,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public String delete(Integer[] ids) {
-        if (adminMapper.deleteByIds(ids)>0)
-        {
-            return "success";
-        }
-        return "fail";
+    public void delete(Integer[] ids){
+         adminMapper.delete(ids);
     }
+
 
     @Override
     public String update(Admin record) {

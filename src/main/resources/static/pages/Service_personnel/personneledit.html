@@ -29,7 +29,41 @@
 						<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
 					</div>
 				</div>
-
+				
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							工号：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_name" name="name" lay-verify="name" autocomplete="off" class="layui-input" value="145564564"
+							 disabled="">
+						</div>
+					</div>
+					
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							余额：
+						</label>
+						<div class="layui-input-inline" style="width: 500px;">
+							<span class="layui-btn layui-btn-warm" style="width: 150px;float: left;">余额：500</span>
+							<span class="layui-btn layui-btn-danger" style="width: 150px;float: left;">佣金：6000</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label for="L_username" class="layui-form-label">
+							薪资：
+						</label>
+						<div class="layui-input-inline">
+							<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="9000">
+						</div>
+						<div class="layui-form-mid layui-word-aux" style="position: relative;top: 10px;">元/月</div>
+					</div>
+				</div>
+				
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label for="L_username" class="layui-form-label">
@@ -78,15 +112,11 @@
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label for="L_username" class="layui-form-label">
-							意向工作：
+							职位：
 						</label>
 						<div class="layui-input-inline">
-							<select name="province" disabled="">
-								<option value="">请选择意向工作</option>
-								<option value="浙江">月嫂</option>
-								<option value="江西">育儿嫂</option>
-								<option value="福建">保姆</option>
-							</select>
+							<input type="text" id="L_agee="age" lay-verify="age" autocomplete="off" class="layui-input" value="月嫂" 
+							 disabled="">
 						</div>
 						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
 					</div>
@@ -96,12 +126,8 @@
 							工作类型：
 						</label>
 						<div class="layui-input-inline">
-							<select name="province" disabled="">
-								<option value="">请选择工作类型</option>
-								<option value="浙江">住家</option>
-								<option value="江西">钟点工</option>
-								<option value="福建">白班</option>
-							</select>
+							<input type="text" id="L_agee="age" lay-verify="age" autocomplete="off" class="layui-input" value="住家" 
+							 disabled="">
 						</div>
 						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
 					</div>
@@ -121,7 +147,7 @@
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label for="L_username" class="layui-form-label">
-							特长：
+							工作内容：
 						</label>
 						<div class="layui-input-block" style="width: 1500px; position: relative;top: 10px;">
 							<span class="layui-btn layui-btn-normal layui-btn-xs">洗衣服</span>
@@ -146,25 +172,34 @@
 				</div>
 
 				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
-							期望薪资：
-						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="431002199710082990"
-							 disabled="">
-						</div>
-						<div class="layui-form-mid layui-word-aux">元/月</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
 					<label for="L_username" class="layui-form-label">
 						工作地点：
 					</label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="431002199710082990"
-						 disabled="">
+						<select name="province" disabled="">
+							<option value="">请选择省</option>
+							<option value="浙江">浙江省</option>
+							<option value="江西">江西省</option>
+							<option value="福建">福建省</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="city" disabled="">
+							<option value="">请选择市</option>
+							<option value="杭州">杭州</option>
+							<option value="宁波">宁波</option>
+							<option value="温州">温州</option>
+							<option value="温州">台州</option>
+							<option value="温州">绍兴</option>
+						</select>
+					</div>
+					<div class="layui-input-inline">
+						<select name="area" disabled="">
+							<option value="">请选择县/区</option>
+							<option value="西湖区">西湖区</option>
+							<option value="余杭区">余杭区</option>
+							<option value="拱墅区">临安市</option>
+						</select>
 					</div>
 				</div>
 
@@ -237,55 +272,9 @@
 				</div>
 
 				<div class="layui-form-item">
-
-					<fieldset class="layui-elem-field"  style="margin: 50px auto;padding: 50px 0px;">
-						<legend>门店分配与工资设置</legend>
-						<div class="layui-field-box">
-							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
-									意向工作：
-								</label>
-								<div class="layui-input-inline">
-									<select name="province">
-										<option value="">请选择所属门店</option>
-										<option value="浙江">月嫂</option>
-										<option value="江西">育儿嫂</option>
-										<option value="福建">保姆</option>
-									</select>
-								</div>
-								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
-							</div>
-							
-							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
-									时薪：
-								</label>
-								<div class="layui-input-inline">
-									<input type="text" id="L_hours" name="hours" lay-verify="hours" autocomplete="off" class="layui-input">
-								</div>
-								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
-							</div>
-							
-							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
-									月薪：
-								</label>
-								<div class="layui-input-inline">
-									<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input">
-								</div>
-							</div>
-						</div>
-					</fieldset>
-					
-				</div>
-
-
-				<div class="layui-form-item">
 					<label for="L_repass" class="layui-form-label">
 					</label>
-					<button class="layui-btn" lay-filter="add" lay-submit="">通过</button>
-
-					<button class="layui-btn" lay-filter="noadd" lay-submit="">不通过</button>
+					<button class="layui-btn" lay-filter="retun" lay-submit="">返回</button>
 					<input type="hidden" name="dataId" id="dataId" value="" />
 				</div>
 			</form>
@@ -340,37 +329,12 @@
 					});
 				}
 				//监听提交
-				/* 审核通过 */
-				form.on('submit(add)', function(data) {
-					console.log(data);
-					//发异步，把数据提交给php
-					layer.msg("审核通过", {
-						icon: 6,
-						time: 1000
-					}, function() {
-						// 获得frame索引
-						var index = parent.layer.getFrameIndex(window.name);
-						//关闭当前frame
-						parent.layer.close(index);
-					});
-					return false;
-				});
-
 				/* 审核不通过 */
-				form.on('submit(noadd)', function(data) {
-					console.log(data);
-					//发异步，把数据提交给php
-					layer.msg("审核不通过", {
-
-						icon: 5,
-						time: 1000
-					}, function() {
-						// 获得frame索引
+				form.on('submit(retun)', function(data) {
+					
 						var index = parent.layer.getFrameIndex(window.name);
 						//关闭当前frame
 						parent.layer.close(index);
-					});
-					return false;
 				});
 
 			});

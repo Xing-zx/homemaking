@@ -2,6 +2,7 @@ package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.Admin;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public interface AdminMapper {
      * @param ids id数组
      * @return status
      */
-   int deleteByIds(Integer[] ids);
+   void delete(@Param("ids")Integer[] ids);
 
     /**
      *  匹配账号

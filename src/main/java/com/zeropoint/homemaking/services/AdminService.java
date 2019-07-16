@@ -30,7 +30,7 @@ public interface AdminService extends UserDetailsService {
      * @param ids id数组
      * @return
      */
-     String delete(Integer[] ids);
+    void delete(Integer[] ids);
 
     /** 修改
      * @param  record  修改的内容

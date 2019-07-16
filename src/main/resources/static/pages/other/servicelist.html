@@ -32,48 +32,11 @@
 		</div>
 		<div class="weadmin-body">
 			<div class="layui-row">
-				<form class="layui-form layui-col-md12 we-search">
-					<div class="layui-inline">
-						<input class="layui-input" placeholder="开始日" name="start" id="start">
-					</div>
-					<div class="layui-inline">
-						<input class="layui-input" placeholder="截止日" name="end" id="end">
-					</div>
-					<div class="layui-input-inline">
-						<select name="contrller">
-							<option>支付状态</option>
-							<option>已支付</option>
-							<option>未支付</option>
-						</select>
-					</div>
-					<div class="layui-input-inline">
-						<select name="contrller">
-							<option>支付方式</option>
-							<option>支付宝</option>
-							<option>微信</option>
-							<option>货到付款</option>
-						</select>
-					</div>
-					<div class="layui-input-inline">
-						<select name="contrller">
-							<option value="">订单状态</option>
-							<option value="0">待确认</option>
-							<option value="1">已确认</option>
-							<option value="2">已收货</option>
-							<option value="3">已取消</option>
-							<option value="4">已完成</option>
-							<option value="5">已作废</option>
-						</select>
-					</div>
-					<div class="layui-inline">
-						<input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input">
-					</div>
-					<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-				</form>
+				
 			</div>
 			<div class="weadmin-block">
 				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-				<button class="layui-btn" onclick="WeAdminShow('添加订单','./add.html')"><i class="layui-icon"></i>添加服务</button>
+				<button class="layui-btn" onclick="WeAdminShow('添加服务','./serviceadd.html',800,600)"><i class="layui-icon"></i>添加服务</button>
 				<span class="fr" style="line-height:40px">共有数据：88 条</span>
 			</div>
 			<table class="layui-table">
@@ -84,8 +47,8 @@
 						</th>
 						<th>编号</th>
 						<th>图标</th>
-						<th>图标名称</th>
-						<th width="50%">服务详情</th>
+						<th>服务名称</th>
+						<th width="50%">跳转地址</th>
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
@@ -102,8 +65,7 @@
 						<td class="td-status">
 							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span></td>
 						<td class="td-manage">
-							<a class="layui-btn layui-btn-warm layui-btn-xs stops" onclick="member_stop(this,'10001')" href="javascript:;"
-							 title="启用">
+							<a class="layui-btn layui-btn-warm layui-btn-xs stops" onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
 								停用
 							</a>
 							<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
@@ -129,19 +91,18 @@
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
-			layui.use(['laydate', 'jquery', 'admin'], function() {
-				var laydate = layui.laydate,
-					$ = layui.jquery,
-					admin = layui.admin;
-				//执行一个laydate实例
+			
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+			
+				//日期范围
 				laydate.render({
-					elem: '#start' //指定元素
+					elem: '#test6',
+					range: true
 				});
-				//执行一个laydate实例
-				laydate.render({
-					elem: '#end' //指定元素
-				});
+				
 			});
+			
 			
 			$(function() {// 初始化内容
 				console.log($('input[name="username"]').val());
@@ -198,29 +159,6 @@
 				});
 			}
 				
-			function delAll(argument) {
-				var data = tableCheck.getData();
-				layer.confirm('确认要删除吗？' + data, function(index) {
-					//捉到所有被选中的，发异步进行删除
-					layer.msg('删除成功', {
-						icon: 1
-					});
-					$(".layui-form-checked").not('.header').parents('tr').remove();
-				});
-			}
-
-			/*用户-删除*/
-			function member_del(obj, id) {
-				layer.confirm('确认要删除吗？', function(index) {
-					//发异步删除数据
-					$(obj).parents("tr").remove();
-					layer.msg('已删除!', {
-						icon: 1,
-						time: 1000
-					});
-				});
-			}
-
 			function delAll(argument) {
 				var data = tableCheck.getData();
 				layer.confirm('确认要删除吗？' + data, function(index) {

@@ -14,10 +14,10 @@
     delete from admin
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByIds" parameterType="java.util.Arrays">
+  <delete id="delete">
     delete from admin
     where id in
-    <foreach collection="array" close=")" open="(" separator="," item="item" index="index">
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
       #{item}
     </foreach>
   </delete>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="portrait_url" jdbcType="VARCHAR" property="portraitUrl" />
+    <result column="due_date" jdbcType="TIMESTAMP" property="dueDate" />
+    <result column="children_birthday" jdbcType="TIMESTAMP" property="childrenBirthday" />
+    <result column="mother_name" jdbcType="VARCHAR" property="motherName" />
+    <result column="mother_age" jdbcType="INTEGER" property="motherAge" />
+    <result column="program_code" jdbcType="VARCHAR" property="programCode" />
+    <result column="upline" jdbcType="INTEGER" property="upline" />
+    <result column="upupline" jdbcType="INTEGER" property="upupline" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.User">
+    insert into user (id, name, nick_name, 
+      password, gender, age, 
+      phone, address, portrait_url, 
+      due_date, children_birthday, mother_name, 
+      mother_age, program_code, upline, 
+      upupline, balance, brokerage, 
+      open_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{portraitUrl,jdbcType=VARCHAR}, 
+      #{dueDate,jdbcType=TIMESTAMP}, #{childrenBirthday,jdbcType=TIMESTAMP}, #{motherName,jdbcType=VARCHAR}, 
+      #{motherAge,jdbcType=INTEGER}, #{programCode,jdbcType=VARCHAR}, #{upline,jdbcType=INTEGER}, 
+      #{upupline,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, #{brokerage,jdbcType=INTEGER}, 
+      #{openId,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.User">
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      portrait_url = #{portraitUrl,jdbcType=VARCHAR},
+      due_date = #{dueDate,jdbcType=TIMESTAMP},
+      children_birthday = #{childrenBirthday,jdbcType=TIMESTAMP},
+      mother_name = #{motherName,jdbcType=VARCHAR},
+      mother_age = #{motherAge,jdbcType=INTEGER},
+      program_code = #{programCode,jdbcType=VARCHAR},
+      upline = #{upline,jdbcType=INTEGER},
+      upupline = #{upupline,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=INTEGER},
+      brokerage = #{brokerage,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, nick_name, password, gender, age, phone, address, portrait_url, 
+    due_date, children_birthday, mother_name, mother_age, program_code, upline, upupline, 
+    balance, brokerage, open_id
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, nick_name, password, gender, age, phone, address, portrait_url, 
+    due_date, children_birthday, mother_name, mother_age, program_code, upline, upupline, 
+    balance, brokerage, open_id
+    from user
+  </select>
+  <select id="selectByOpenId" resultMap="BaseResultMap">
+    select * from user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    select * from user
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+</mapper>

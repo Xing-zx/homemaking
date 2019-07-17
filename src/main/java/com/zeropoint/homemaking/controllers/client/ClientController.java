@@ -5,15 +5,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zeropoint.homemaking.annotation.PassToken;
 import com.zeropoint.homemaking.domain.Article;
 import com.zeropoint.homemaking.domain.Lecture;
 import com.zeropoint.homemaking.domain.ServicePersonnel;
-import com.zeropoint.homemaking.services.ArticleService;
-import com.zeropoint.homemaking.services.HomeService;
-import com.zeropoint.homemaking.services.LectureService;
-import com.zeropoint.homemaking.services.PersonnelService;
+import com.zeropoint.homemaking.domain.User;
+import com.zeropoint.homemaking.services.*;
+import com.zeropoint.homemaking.utils.HttpUtil;
 import com.zeropoint.homemaking.vo.ArticleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +41,22 @@ public class ClientController {
     LectureService lectureService;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    TokenService tokenService;
+    String sessionKey="";
 
+    private String appId="wxff876a118beab366";
+
+    private String appSecret="02667bd06fd0064f43482e7ddf6dffda";
+
+    private String grantType="authorization_code";
+
+
+   // private String requestUrl="https://api.weixin.qq.com/sns/jscode2session";
+
+    private String code="";
 
 
     /** 主页信息填充和链接
@@ -60,89 +77,111 @@ public class ClientController {
         return  res;
     }
 
-    /**  阿姨列表
-     * @param cond  城市
-     * @return 阿姨列表
+    /**
+     *  用户登录
+     * @param request 登录请求
+     * @return 返回 登录信息
      */
-    @RequestMapping("/personnelList")
-    public JSONObject getList(@RequestBody Map<String,Object> cond){
-        JSONObject res=new JSONObject();
+    @PassToken
+    @RequestMapping("/userLogin")
+    public JSONObject login(@RequestBody JSONObject request){
+
+        JSONObject res = new JSONObject();
+        String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
+               + grantType;
+        System.out.println("url"+url);
+        String data = HttpUtil.get(url);
+        System.out.println("data"+data);
+        JSONObject params=JSONObject.parseObject(data);
+        String openId=params.getString("openid");
+        sessionKey =params.getString("session_key");
         res.put("code",1);
-        res.put("msg","list");
-        System.out.println(cond.toString());
-       res.put("data",personnelService.getList(cond));
+        res.put("msg","login");
+        Integer id;
+        if (userService.selectByOpenId(openId)== null)
+        {
+            User user =new User();
+            user.setNickName(request.getString("nickName"));
+            user.setAddress(request.getString("country")+request.getString("province")+request.getString("city"));
+            user.setPortraitUrl(request.getString("avatarUrl"));
+            user.setGender(request.getInteger("gender"));
+            user.setOpenId(openId);
+            userService.Add(user);
+            request.put("id",userService.selectByOpenId(openId));
+            request.put("code",openId);
+            request.put("phone","");
+            request.put("token",tokenService.getToken(user));
+            res.put("data",request);
+            return res;
+        }
+
+        res.put("data",userService.selectByOpenId(openId));
         return res;
     }
 
     /**
-     *  筛选阿姨
-     * @param cond 筛选条件
-     * @return 阿姨列表
+     * 获取电话号码
+     * @param request
+     * @return
      */
-    @RequestMapping("/filterPersonnel")
-    public JSONObject query(@RequestBody Map<String,Object> cond){
-        int pageCount=(int)cond.get("pagination");
-        PageHelper.startPage(pageCount,8);
-        PageInfo<ServicePersonnel> personnelPageInfo = new PageInfo<>(personnelService.getList(cond));
-        JSONObject res=new JSONObject();
-        if(personnelPageInfo.getSize() >=pageCount )
-        {
-            res.put("code", 1);
-            res.put("msg", "filter");
-            System.out.println(cond.toString());
-            List<ServicePersonnel> list = personnelPageInfo.getList();
-            res.put("data", list);
-            System.out.println(list.size());
-        }
-        else{
-            res.put("code",1);
-            res.put("msg","there are not more thing");
-            res.put("data",null);
-        }
+    @RequestMapping("/getPhone")
+    public JSONObject getPhone(@RequestBody JSONObject request){
+        System.out.println(request.toJSONString());
+        JSONObject res = new JSONObject();
+//        String url = this.requestUrl + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
+//                + grantType;
+//        String data = HttpUtil.get(url);
+//        JSONObject params=JSONObject.parseObject(data);
+//       // sessionKey= params.getString("session_key");
+//        System.out.println(data);
+        res.put("code",1);
+        res.put("msg","phone");
+        res.put("data",homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey));
         System.out.println(res.toJSONString());
         return res;
     }
 
-    /** 线下课程列表
-     * @return 线下课程列表
-     */
-    @RequestMapping("/lectureList")
-    public JSONObject listLecture(){
-        System.out.println("listLecture");
-        JSONObject res = new JSONObject();
-        res.put("code",1);
-        res.put("message","lecture");
-        res.put("data",lectureService.getList());
-        return res;
-    }
-
     /**
-     *  文章列表
-     * @return 列表
+     *  手机号/短信验证
+     * @param request
+     * @return
      */
-    @RequestMapping("/articleList")
-    public JSONObject listArticle(){
+    @RequestMapping("/message")
+    public JSONObject messageAC(@RequestBody JSONObject request){
         JSONObject res =new JSONObject();
-        res.put("code",1);
-        res.put("message","articleList");
-        List<ArticleInfo> articleInfos =new ArrayList<>();
-        List<Article> articles = articleService.getList();
-        for(int i=0; i<articles.size();i++)
+        System.out.println(request.toJSONString());
+        User user=userService.findUserByPhone(request.getString("phone"));
+        if(user==null)
         {
-            ArticleInfo articleInfo = new ArticleInfo();
-            articleInfo.setArticle(articles.get(i));
-            articleInfo.setImgs();
-            articleInfos.add(articleInfo);
+            code =HomeService.verifyCode();
+            JSONObject respone=homeService.senSms(request.getString("phone"),code);
+            System.out.println(respone.toJSONString());
+            res.put("code",1);
+            res.put("msg","发送成功");
         }
-        res.put("data",articles);
+        res.put("code",1);
+        res.put("msg","已注册");
         return res;
     }
-    @RequestMapping("/userLogin")
-    public JSONObject login(@RequestBody JSONObject request){
-        JSONObject res = new JSONObject();
 
+    /** 注册
+     * @param request
+     * @return
+     */
+    @RequestMapping("/register")
+    public JSONObject register(@RequestBody JSONObject request){
+        JSONObject res = new JSONObject();
+        User user=new User();
+        user.setPhone(request.getString("phone"));
+        user.setPassword(request.getString("password"));
+        userService.Add(user);
+        user =userService.findUserByPhone(request.getString("phone"));
+        res.put("code",1);
+        res.put("msg","register");
+        res.put("data",user);
         return res;
     }
+
 
 
 

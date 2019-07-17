@@ -67,7 +67,7 @@
             domainObjectName：指定生成的 POJO 的类名
          -->
 
-        <table tableName="article" domainObjectName=""/>
+<!--        <table tableName="article" domainObjectName=""/>-->
 <!--        <table tableName="admin" domainObjectName=""/>-->
 <!--        <table tableName="banners" domainObjectName=""/>-->
 <!--        <table tableName="category" domainObjectName=""/>-->
@@ -83,7 +83,7 @@
 <!--        <table tableName="speciality" domainObjectName=""/>-->
 <!--        <table tableName="certificate" domainObjectName=""/>-->
 <!--        <table tableName="stores" domainObjectName=""/>-->
-<!--        <table tableName="user" domainObjectName=""/>-->
+        <table tableName="user" domainObjectName=""/>
 <!--        <table tableName="usercitys" domainObjectName=""/>-->
 
 

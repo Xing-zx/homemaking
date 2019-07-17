@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
 
-
     }
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,9 +56,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         System.out.println("configure");
 
     }
-
-
-
-
 
 }

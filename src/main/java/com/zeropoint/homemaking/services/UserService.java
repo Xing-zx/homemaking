@@ -32,4 +32,5 @@ public interface UserService {
      * @return
      */
     User findUserByPhone(String phone);
+    int update(User user);
 }

@@ -1,5 +1,8 @@
 package com.zeropoint.homemaking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zeropoint.homemaking.services.TokenService;
+
 import java.util.Date;
 
 public class User {
@@ -41,6 +44,17 @@ public class User {
 
     private String openId;
 
+    private Date createTime;
+    private int Status;
+
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -64,7 +78,7 @@ public class User {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -192,4 +206,16 @@ public class User {
     public void setOpenId(String openId) {
         this.openId = openId;
     }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+        public String getToken(){
+            return TokenService.getToken(this);
+        }
+
 }

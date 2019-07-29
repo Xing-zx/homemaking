@@ -26,7 +26,6 @@ import java.security.AlgorithmParameters;
 import java.security.Security;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author Administrator
@@ -94,14 +93,15 @@ public class HomeServiceImpl implements HomeService {
         request.setDomain("dysmsapi.aliyuncs.com");
         request.setVersion("2017-05-25");
         request.setAction("SendSms");
+        JSONObject params= new JSONObject();
+        params.put("code",code);
         request.putQueryParameter("PhoneNumbers", phoneNumber);
-        request.putQueryParameter("TemplateCode", "SMS_123287492");
-        request.putQueryParameter("TemplateParam", code);
-        request.putQueryParameter("Format","json");
+        request.putQueryParameter("SignName","零点科技");
+        request.putQueryParameter("TemplateCode", "SMS_154594981");
+        request.putQueryParameter("TemplateParam", params.toJSONString());
         CommonResponse response;
         try {
              response = client.getCommonResponse(request);
-            System.out.println(response.getData());
             return JSONObject.parseObject(response.getData());
         } catch (ServerException e) {
             e.printStackTrace();

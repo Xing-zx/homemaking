@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @Service
 public class PersonnelServiceImpl  implements PersonnelService {
+
     @Autowired
     ServicePersonnelMapper personnelMapper;
     @Autowired
@@ -53,4 +55,79 @@ public class PersonnelServiceImpl  implements PersonnelService {
 
         return categoryMapper.getChildListByName(name);
     }
+
+    @Override
+    public ServicePersonnel findById(Integer id) {
+        return personnelMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int  update(ServicePersonnel personnel) {
+
+        return personnelMapper.updateByPrimaryKey(personnel);
+    }
+
+    @Override
+    public ServicePersonnel findByUserId(Integer userId) {
+        return personnelMapper.findByUserId(userId);
+    }
+
+    @Override
+    public int updateSpeciality(Integer[] categoryIds, Integer personnelId) {
+        int count=0;
+        specialityMapper.deleteBunchByPersonnelId(personnelId);
+        for(Integer categorId : categoryIds)
+        {
+            if(specialityMapper.selectByCategoryIdAndPersonnelId(categorId,personnelId) == null)
+            {
+                Speciality speciality=new Speciality();
+                speciality.setCategoryId(categorId);
+                speciality.setPersonnelId(personnelId);
+               count += specialityMapper.insert(speciality);
+            }
+
+        }
+        return count;
+    }
+
+    @Override
+    public int updateCertificate(Certificate certificate) {
+        return certificateMapper.updateByPrimaryKey(certificate);
+    }
+
+    @Override
+    public int addCertificate(Certificate certificate) {
+
+        if(certificateMapper.updateByPrimaryKey(certificate)==0)
+        {
+            return certificateMapper.insert(certificate);
+        }
+        else{
+
+           return 0;
+        }
+
+    }
+
+    @Override
+    public int addPersonnel(ServicePersonnel personnel) {
+        return personnelMapper.insert(personnel);
+    }
+
+    @Override
+    public Certificate findCertificatByid(Integer id) {
+        return certificateMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<ServicePersonnel> findPersonnelByids(String[] ids) {
+        List<ServicePersonnel> list=new ArrayList<>();
+        for(String id:ids)
+        {
+            ServicePersonnel servicePersonnel=findById(Integer.parseInt(id));
+           if(servicePersonnel!=null) list.add(servicePersonnel);
+        }
+        return list;
+    }
+
 }

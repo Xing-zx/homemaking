@@ -7,4 +7,7 @@ import java.util.List;
 public interface LectureService {
 
     List<Lecture> getList();
+    Lecture findLectureById(Integer id);
+
+
 }

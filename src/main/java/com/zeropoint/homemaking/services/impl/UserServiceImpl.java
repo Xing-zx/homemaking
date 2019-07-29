@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByPhone(phone);
     }
 
+    @Override
+    public int update(User user) {
+        return userMapper.updateByPrimaryKey(user);
+    }
+
 }

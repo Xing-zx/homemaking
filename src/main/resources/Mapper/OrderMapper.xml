@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="requirement" jdbcType="VARCHAR" property="requirement" />
+    <result column="hetong_imgsrc" jdbcType="VARCHAR" property="hetongImgsrc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="hascomment" jdbcType="BIT" property="hascomment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="money_hour" jdbcType="INTEGER" property="moneyHour" />
+    <result column="money_bargin" jdbcType="DOUBLE" property="moneyBargin" />
+    <result column="money_advance" jdbcType="DOUBLE" property="moneyAdvance" />
+    <result column="money_final" jdbcType="DOUBLE" property="moneyFinal" />
+    <result column="money_total" jdbcType="DOUBLE" property="moneyTotal" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="personnel_name" jdbcType="VARCHAR" property="personnelName" />
+    <result column="require_age" jdbcType="VARCHAR" property="requireAge" />
+    <result column="require_expirence" jdbcType="VARCHAR" property="requireExpirence" />
+    <result column="work_start_time" jdbcType="TIMESTAMP" property="workStartTime" />
+    <result column="work_end_time" jdbcType="TIMESTAMP" property="workEndTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="assign_ids" jdbcType="VARCHAR" property="assignIds" />
+    <result column="appiont_date" jdbcType="TIMESTAMP" property="appiontDate" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="money_actual" jdbcType="DOUBLE" property="moneyActual" />
+    <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+  </resultMap>
+  <resultMap id="PersonneOrder" type="com.zeropoint.homemaking.vo.PersonnelOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_gender" jdbcType="INTEGER" property="userGender" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="requirement" jdbcType="VARCHAR" property="requirement" />
+    <result column="hetong_imgsrc" jdbcType="VARCHAR" property="hetongImgsrc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="hascomment" jdbcType="BIT" property="hascomment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="money_actual" jdbcType="DOUBLE" property="moneyActual" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="work_start_time" jdbcType="TIMESTAMP" property="workStartTime" />
+    <result column="work_end_time" jdbcType="TIMESTAMP" property="workEndTime" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+  </resultMap>
+  <resultMap id="UserOrder" type="com.zeropoint.homemaking.vo.UserOder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="requirement" jdbcType="VARCHAR" property="requirement" />
+    <result column="hetong_imgsrc" jdbcType="VARCHAR" property="hetongImgsrc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="hascomment" jdbcType="BIT" property="hascomment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="money_hour" jdbcType="INTEGER" property="moneyHour" />
+    <result column="money_bargin" jdbcType="DOUBLE" property="moneyBargin" />
+    <result column="money_advance" jdbcType="DOUBLE" property="moneyAdvance" />
+    <result column="money_final" jdbcType="DOUBLE" property="moneyFinal" />
+    <result column="money_total" jdbcType="DOUBLE" property="moneyTotal" />
+    <result column="personnel_name1" jdbcType="VARCHAR" property="personnelName" />
+    <result column="gender" jdbcType="INTEGER" property="personnelGender" />
+    <result column="phone" jdbcType="VARCHAR" property="personnelPhone" />
+    <result column="work_start_time" jdbcType="TIMESTAMP" property="workStartTime" />
+    <result column="work_end_time" jdbcType="TIMESTAMP" property="workEndTime" />
+    <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="assign_ids" jdbcType="VARCHAR" property="assignIds" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="require_age" jdbcType="VARCHAR" property="requireAge" />
+    <result column="require_expirence" jdbcType="VARCHAR" property="requireExpirence" />
+  </resultMap>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="UserOrder">
+   select d.*,c.gender as gender,c.phone as phone,c.name as personnel_name1 from (select `order`.*,address.province,address.city,address.county,address.detail from `order`,address where `order`.user_id =#{userId} and `order`.address_id =address.id ) as d left outer join service_personnel as c
+ on c.id=d.personnel_id
+
+ </select>
+  <select id="selectPersonnelOrderByPersonnelId" resultMap="PersonneOrder">
+   select d.*,c.gender as user_gender,c.phone as user_phone from (select `order`.*,address.province,address.city,address.county,address.detail from `order`,address where `order`.personnel_id =#{personnelId} and `order`.address_id =address.id ) as d left outer join user as c
+ on c.id=d.user_id
+ </select>
+  <select id="selectPersonOrderByOrderNumber" parameterType="java.lang.String" resultMap="PersonneOrder">
+    select* from `order`,address
+    where order_number=#{orderNumber,jdbcType=VARCHAR} and address.id =`order`.address_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT last_insert_id()
+    </selectKey>
+    insert into order (id, title, type, 
+      user_phone, user_id, personnel_id, 
+      order_number, requirement, hetong_imgsrc, 
+      status, address, remark, 
+      hascomment, create_time, money_hour, 
+      money_bargin, money_advance, money_final, 
+      money_total, user_name, personnel_name, 
+      require_age, require_expirence, work_start_time, 
+      work_end_time, pay_time, address_id, 
+      assign_ids, appiont_date, native_place, 
+      money_actual, comment_id)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{personnelId,jdbcType=INTEGER}, 
+      #{orderNumber,jdbcType=VARCHAR}, #{requirement,jdbcType=VARCHAR}, #{hetongImgsrc,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{hascomment,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{moneyHour,jdbcType=INTEGER}, 
+      #{moneyBargin,jdbcType=DOUBLE}, #{moneyAdvance,jdbcType=DOUBLE}, #{moneyFinal,jdbcType=DOUBLE}, 
+      #{moneyTotal,jdbcType=DOUBLE}, #{userName,jdbcType=VARCHAR}, #{personnelName,jdbcType=VARCHAR}, 
+      #{requireAge,jdbcType=VARCHAR}, #{requireExpirence,jdbcType=VARCHAR}, #{workStartTime,jdbcType=TIMESTAMP}, 
+      #{workEndTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=INTEGER}, 
+      #{assignIds,jdbcType=VARCHAR}, #{appiontDate,jdbcType=TIMESTAMP}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{moneyActual,jdbcType=DOUBLE}, #{commentId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Order">
+    update `order`
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      personnel_id = #{personnelId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      requirement = #{requirement,jdbcType=VARCHAR},
+      hetong_imgsrc = #{hetongImgsrc,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      hascomment = #{hascomment,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      money_hour = #{moneyHour,jdbcType=INTEGER},
+      money_bargin = #{moneyBargin,jdbcType=DOUBLE},
+      money_advance = #{moneyAdvance,jdbcType=DOUBLE},
+      money_final = #{moneyFinal,jdbcType=DOUBLE},
+      money_total = #{moneyTotal,jdbcType=DOUBLE},
+      user_name = #{userName,jdbcType=VARCHAR},
+      personnel_name = #{personnelName,jdbcType=VARCHAR},
+      require_age = #{requireAge,jdbcType=VARCHAR},
+      require_expirence = #{requireExpirence,jdbcType=VARCHAR},
+      work_start_time = #{workStartTime,jdbcType=TIMESTAMP},
+      work_end_time = #{workEndTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      address_id = #{addressId,jdbcType=INTEGER},
+      assign_ids = #{assignIds,jdbcType=VARCHAR},
+      appiont_date = #{appiontDate,jdbcType=TIMESTAMP},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      money_actual = #{moneyActual,jdbcType=DOUBLE},
+      comment_id = #{commentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, title, type, user_phone, user_id, personnel_id, order_number, requirement, 
+    hetong_imgsrc, status, address, remark, hascomment, create_time, money_hour, money_bargin, 
+    money_advance, money_final, money_total, user_name, personnel_name, require_age, 
+    require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
+    appiont_date, native_place, money_actual, comment_id
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, title, type, user_phone, user_id, personnel_id, order_number, requirement, 
+    hetong_imgsrc, status, address, remark, hascomment, create_time, money_hour, money_bargin, 
+    money_advance, money_final, money_total, user_name, personnel_name, require_age, 
+    require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
+    appiont_date, native_place, money_actual, comment_id
+    from order
+  </select>
+
+  <select id="selectByPersonnelId" resultMap="BaseResultMap">
+   select * from `order`
+   where personnel_id =#{personnelId,jdbcType=INTEGER}
+ </select>
+  <select id="selectByOrderNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select* from `order`
+    where order_number=#{orderNumber,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

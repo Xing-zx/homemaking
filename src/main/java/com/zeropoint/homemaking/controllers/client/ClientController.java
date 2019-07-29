@@ -6,26 +6,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zeropoint.homemaking.annotation.PassToken;
-import com.zeropoint.homemaking.domain.Article;
-import com.zeropoint.homemaking.domain.Lecture;
-import com.zeropoint.homemaking.domain.ServicePersonnel;
-import com.zeropoint.homemaking.domain.User;
+import com.zeropoint.homemaking.domain.*;
 import com.zeropoint.homemaking.services.*;
 import com.zeropoint.homemaking.utils.HttpUtil;
-import com.zeropoint.homemaking.vo.ArticleInfo;
+import com.zeropoint.homemaking.utils.QRcodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * @author Administrator
@@ -34,7 +28,7 @@ import java.util.Map;
 public class ClientController {
 
     @Autowired
-     private  HomeService homeService;
+    HomeService homeService;
     @Autowired
     PersonnelService personnelService;
     @Autowired
@@ -45,6 +39,11 @@ public class ClientController {
     UserService userService;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    AddressService addressService;
+    @Value("${file.uploadFolder}")
+    private String uploadFolder;
+
     String sessionKey="";
 
     private String appId="wxff876a118beab366";
@@ -53,8 +52,7 @@ public class ClientController {
 
     private String grantType="authorization_code";
 
-
-   // private String requestUrl="https://api.weixin.qq.com/sns/jscode2session";
+    private String token="";
 
     private String code="";
 
@@ -78,27 +76,26 @@ public class ClientController {
     }
 
     /**
-     *  用户登录
+     *  微信用户登录
      * @param request 登录请求
      * @return 返回 登录信息
      */
     @PassToken
     @RequestMapping("/userLogin")
-    public JSONObject login(@RequestBody JSONObject request){
-
+    public JSONObject login(@RequestBody JSONObject request, HttpServletRequest http){
+        HttpSession session =http.getSession();
         JSONObject res = new JSONObject();
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                + grantType;
-        System.out.println("url"+url);
         String data = HttpUtil.get(url);
-        System.out.println("data"+data);
         JSONObject params=JSONObject.parseObject(data);
         String openId=params.getString("openid");
+        Integer upline=request.getInteger("v_id");
         sessionKey =params.getString("session_key");
         res.put("code",1);
         res.put("msg","login");
-        Integer id;
-        if (userService.selectByOpenId(openId)== null)
+        User user1=  userService.selectByOpenId(openId);
+        if (user1 == null&&openId !=null && openId != "")
         {
             User user =new User();
             user.setNickName(request.getString("nickName"));
@@ -106,16 +103,53 @@ public class ClientController {
             user.setPortraitUrl(request.getString("avatarUrl"));
             user.setGender(request.getInteger("gender"));
             user.setOpenId(openId);
+            user.setCreateTime(new Date());
+            if(upline !=null)
+            {
+                user.setUpline(upline);
+                Integer upupline =userService.findUserById(upline).getUpline();
+                if(upupline!=null)
+                {
+                    user.setUpupline(upupline);
+                }
+            }
             userService.Add(user);
-            request.put("id",userService.selectByOpenId(openId));
+            ServicePersonnel personnel =new ServicePersonnel();
+            personnel.setName(request.getString("nickName"));
+            personnel.setGender(request.getInteger("gender"));
+            personnel.setUserId(user.getId());
+            personnel.setStatus(0);
+            personnel.setPhotoUrl(request.getString("avatarUrl"));
+            personnelService.addPersonnel(personnel);
+            request.put("id",user.getId());
             request.put("code",openId);
             request.put("phone","");
-            request.put("token",tokenService.getToken(user));
+            token=TokenService.getToken(userService.selectByOpenId(openId));
+            request.put("token",token);
+            request.put("stauts",0);
             res.put("data",request);
             return res;
         }
-
-        res.put("data",userService.selectByOpenId(openId));
+        else if(openId == null || openId == "")
+        {
+            return res;
+        }
+        if (user1.getProgramCode() == null || user1.getProgramCode() =="")
+        {
+            System.out.println("programcode");
+            String accessToken=TokenService.getAccessToken();
+            System.out.println(accessToken);
+           String filename= QRcodeUtil.getminiqrQr(user1.getId().toString(),accessToken,uploadFolder);
+            if(filename !=null && filename !="")
+            {
+               filename = http.getScheme() + "://" + http.getServerName() + ":" + http.getServerPort() + "/" +filename;
+            }
+            user1.setProgramCode(filename);
+        }
+        System.out.println(user1.getToken());
+        user1.setStatus(personnelService.findByUserId(user1.getId()).getStatus());
+        res.put("data",user1);
+        System.out.println(res);
         return res;
     }
 
@@ -128,15 +162,16 @@ public class ClientController {
     public JSONObject getPhone(@RequestBody JSONObject request){
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
-//        String url = this.requestUrl + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
-//                + grantType;
-//        String data = HttpUtil.get(url);
-//        JSONObject params=JSONObject.parseObject(data);
-//       // sessionKey= params.getString("session_key");
-//        System.out.println(data);
+        String phone= homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey).getString("phoneNumber");
+        User user=userService.findUserById(request.getInteger("id"));
+        if( user.getPhone() ==null || user.getPhone() == "")
+        {
+            user.setPhone(phone);
+            userService.update(user);
+        }
         res.put("code",1);
         res.put("msg","phone");
-        res.put("data",homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey));
+        res.put("data",phone);
         System.out.println(res.toJSONString());
         return res;
     }
@@ -147,19 +182,23 @@ public class ClientController {
      * @return
      */
     @RequestMapping("/message")
-    public JSONObject messageAC(@RequestBody JSONObject request){
+    public JSONObject messageAC(@RequestBody JSONObject request, HttpServletRequest http){
         JSONObject res =new JSONObject();
         System.out.println(request.toJSONString());
+        HttpSession session =http.getSession();
         User user=userService.findUserByPhone(request.getString("phone"));
         if(user==null)
         {
             code =HomeService.verifyCode();
+            session.setAttribute("code",code);
+            session.setMaxInactiveInterval(300);
             JSONObject respone=homeService.senSms(request.getString("phone"),code);
             System.out.println(respone.toJSONString());
             res.put("code",1);
-            res.put("msg","发送成功");
+            res.put("msg",respone.getString("Message"));
+            return res;
         }
-        res.put("code",1);
+        res.put("code",0);
         res.put("msg","已注册");
         return res;
     }
@@ -169,16 +208,82 @@ public class ClientController {
      * @return
      */
     @RequestMapping("/register")
-    public JSONObject register(@RequestBody JSONObject request){
+    public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http){
         JSONObject res = new JSONObject();
-        User user=new User();
-        user.setPhone(request.getString("phone"));
-        user.setPassword(request.getString("password"));
-        userService.Add(user);
-        user =userService.findUserByPhone(request.getString("phone"));
+        String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
+                + grantType;
+        if(request.getString("code").equals(code))
+        {
+            res.put("code",0);
+            res.put("msg","验证码错误");
+            return  res;
+        }
+        String data = HttpUtil.get(url);
+        System.out.println("data"+data);
+        JSONObject params=JSONObject.parseObject(data);
+        String openId=params.getString("openid");
+        Integer upline=request.getInteger("v_id");
         res.put("code",1);
         res.put("msg","register");
-        res.put("data",user);
+        System.out.println(openId);
+        User user=new User();
+        user.setNickName(request.getString("phone"));
+        user.setPhone(request.getString("phone"));
+        user.setPassword(request.getString("password"));
+        user.setCreateTime(new Date());
+        user.setOpenId(openId);
+        user.setPortraitUrl(request.getString("avatarUrl"));
+        user.setGender(request.getInteger("gender"));
+        if(upline !=null)
+        {
+            user.setUpline(upline);
+            Integer upupline =userService.findUserById(upline).getUpline();
+            if(upupline!=null)
+            {
+                user.setUpupline(upupline);
+            }
+        }
+        userService.Add(user);
+        ServicePersonnel personnel =new ServicePersonnel();
+        personnel.setName(request.getString("nickName"));
+        personnel.setGender(request.getInteger("gender"));
+        personnel.setUserId(user.getId());
+        personnel.setPhotoUrl(request.getString("avatarUrl"));
+        personnel.setStatus(0);
+        personnelService.addPersonnel(personnel);
+        Address address=new Address();
+        address.setProvince(request.getString("province"));
+        address.setCounty(request.getString("district"));
+        address.setCity(request.getString("city"));
+        address.setLatitude(request.getDouble("latitude"));
+        address.setLongtitude(request.getDouble("longitude"));
+        address.setUserId(user.getId());
+        addressService.add(address);
+        res.put("code",1);
+        res.put("msg","register");
+        res.put("data",1);
+        System.out.println(res);
+        return res;
+    }
+    @RequestMapping("/loginByPhone")
+    public JSONObject loginByName(@RequestBody JSONObject request) {
+        JSONObject res = new JSONObject();
+        String password=request.getString("password");
+        String phone= request.getString("phone");
+        User  user=userService.findUserByPhone(phone);
+        if (user!=null)
+        {
+            if(user.getPassword().equals(password))
+            {
+                res.put("code",1);
+                res.put("msg","success");
+                user.setStatus(personnelService.findByUserId(user.getId()).getStatus());
+                res.put("data",user);
+                return res;
+            }
+        }
+        res.put("code",0);
+        res.put("msg","密码错误或用户名错误");
         return res;
     }
 

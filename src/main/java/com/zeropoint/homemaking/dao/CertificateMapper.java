@@ -17,4 +17,6 @@ public interface CertificateMapper {
     List<Certificate> selectByPersonnelId(Integer id);
 
     int updateByPrimaryKey(Certificate record);
+
+    Certificate selectByCategoryAndPersonnel(Integer categoryId, Integer personnelId);
 }

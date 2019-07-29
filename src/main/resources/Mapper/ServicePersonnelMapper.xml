@@ -5,120 +5,148 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="specialty_id" jdbcType="INTEGER" property="specialtyId" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="work_experience" jdbcType="INTEGER" property="workExperience" />
-    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="work_content" jdbcType="VARCHAR" property="workContent" />
+    <result column="work_type" jdbcType="INTEGER" property="workType" />
+    <result column="work_city" jdbcType="VARCHAR" property="workCity" />
     <result column="level" jdbcType="CHAR" property="level" />
     <result column="charge_standard" jdbcType="INTEGER" property="chargeStandard" />
-    <result column="work_city" jdbcType="VARCHAR" property="workCity" />
     <result column="applause_rate" jdbcType="DOUBLE" property="applauseRate" />
     <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
     <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
     <result column="profile" jdbcType="VARCHAR" property="profile" />
-    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
     <result column="stores_id" jdbcType="INTEGER" property="storesId" />
-    <result column="stauts" jdbcType="VARCHAR" property="stauts" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="program_code" jdbcType="VARCHAR" property="programCode" />
     <result column="upline" jdbcType="INTEGER" property="upline" />
     <result column="upupline" jdbcType="INTEGER" property="upupline" />
-    <result column="certificate_id" jdbcType="INTEGER" property="certificateId" />
+    <result column="creat_times" jdbcType="TIMESTAMP" property="creatTimes" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="balance" jdbcType="DOUBLE" property="balance" />
+    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_personnel
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
-    insert into service_personnel (id, name, password, 
-      age, gender, phone, 
-      specialty_id, native_place, work_experience, 
-      category_id, level, charge_standard, 
-      work_city, applause_rate, photo_url, 
-      video_url, profile, brokerage, 
-      stores_id, stauts, program_code, 
-      upline, upupline, certificate_id
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT last_insert_id()
+    </selectKey>
+    insert into service_personnel (id, name, password,
+      real_name, idcard, age, 
+      gender, phone, native_place, 
+      work_experience, work_content, work_type, 
+      work_city, level, charge_standard, 
+      applause_rate, photo_url, video_url, 
+      profile, stores_id, status, 
+      program_code, upline, upupline, 
+      creat_times, count, balance, 
+      brokerage, user_id, schedule, 
+      myself)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{specialtyId,jdbcType=INTEGER}, #{nativePlace,jdbcType=VARCHAR}, #{workExperience,jdbcType=INTEGER}, 
-      #{categoryId,jdbcType=INTEGER}, #{level,jdbcType=CHAR}, #{chargeStandard,jdbcType=INTEGER}, 
-      #{workCity,jdbcType=VARCHAR}, #{applauseRate,jdbcType=DOUBLE}, #{photoUrl,jdbcType=VARCHAR}, 
-      #{videoUrl,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, #{brokerage,jdbcType=INTEGER}, 
-      #{storesId,jdbcType=INTEGER}, #{stauts,jdbcType=VARCHAR}, #{programCode,jdbcType=VARCHAR}, 
-      #{upline,jdbcType=INTEGER}, #{upupline,jdbcType=INTEGER}, #{certificateId,jdbcType=INTEGER}
-      )
+      #{realName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{workExperience,jdbcType=INTEGER}, #{workContent,jdbcType=VARCHAR}, #{workType,jdbcType=INTEGER}, 
+      #{workCity,jdbcType=VARCHAR}, #{level,jdbcType=CHAR}, #{chargeStandard,jdbcType=INTEGER}, 
+      #{applauseRate,jdbcType=DOUBLE}, #{photoUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, 
+      #{profile,jdbcType=VARCHAR}, #{storesId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{programCode,jdbcType=VARCHAR}, #{upline,jdbcType=INTEGER}, #{upupline,jdbcType=INTEGER}, 
+      #{creatTimes,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, #{balance,jdbcType=DOUBLE},
+      #{brokerage,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{schedule,jdbcType=INTEGER}, 
+      #{myself,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
     update service_personnel
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       gender = #{gender,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      specialty_id = #{specialtyId,jdbcType=INTEGER},
       native_place = #{nativePlace,jdbcType=VARCHAR},
       work_experience = #{workExperience,jdbcType=INTEGER},
-      category_id = #{categoryId,jdbcType=INTEGER},
+      work_content = #{workContent,jdbcType=VARCHAR},
+      work_type = #{workType,jdbcType=INTEGER},
+      work_city = #{workCity,jdbcType=VARCHAR},
       level = #{level,jdbcType=CHAR},
       charge_standard = #{chargeStandard,jdbcType=INTEGER},
-      work_city = #{workCity,jdbcType=VARCHAR},
       applause_rate = #{applauseRate,jdbcType=DOUBLE},
       photo_url = #{photoUrl,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       profile = #{profile,jdbcType=VARCHAR},
-      brokerage = #{brokerage,jdbcType=INTEGER},
       stores_id = #{storesId,jdbcType=INTEGER},
-      stauts = #{stauts,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       program_code = #{programCode,jdbcType=VARCHAR},
       upline = #{upline,jdbcType=INTEGER},
       upupline = #{upupline,jdbcType=INTEGER},
-      certificate_id = #{certificateId,jdbcType=INTEGER}
+      creat_times = #{creatTimes,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DOUBLE},
+      brokerage = #{brokerage,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      schedule = #{schedule,jdbcType=INTEGER},
+      myself = #{myself,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, password, age, gender, phone, specialty_id, native_place, work_experience, 
-    category_id, level, charge_standard, work_city, applause_rate, photo_url, video_url, 
-    profile, brokerage, stores_id, stauts, program_code, upline, upupline, certificate_id
+    select id, name, password, real_name, idcard, age, gender, phone, native_place, work_experience, 
+    work_content, work_type, work_city, level, charge_standard, applause_rate, photo_url, 
+    video_url, profile, stores_id, status, program_code, upline, upupline, creat_times, 
+    count, balance, brokerage, user_id, schedule, myself
     from service_personnel
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, password, age, gender, phone, specialty_id, native_place, work_experience, 
-    category_id, level, charge_standard, work_city, applause_rate, photo_url, video_url, 
-    profile, brokerage, stores_id, stauts, program_code, upline, upupline, certificate_id
+    select id, name, password, real_name, idcard, age, gender, phone, native_place, work_experience, 
+    work_content, work_type, work_city, level, charge_standard, applause_rate, photo_url, 
+    video_url, profile, stores_id, status, program_code, upline, upupline, creat_times, 
+    count, balance, brokerage, user_id, schedule, myself
     from service_personnel
   </select>
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="Map">
+  <select id="selectByCondition" parameterType="Map" resultMap="BaseResultMap">
     select * from service_personnel
     <where>
-    <if test="certificate != null" >
-      <foreach collection="certificate" item="item" separator="," open="(" close=")" >
-        #{item} in
-        (
-        SELECT category_id from certificate
-        where personnel_id=service_personnel.id
-        )
-      </foreach>
-    </if>
-
-      <if test="speciality != null">
-      <foreach collection="speciality" item="item" separator="," open="(" close=")">
-        AND
-        #{item} in
-        (
-        SELECT catelogy_id from speciality
-        where personnel_id =service_personnel.id
-        )
-        </foreach>
-
-      </if>
+         1=1
       <if test="comment != null and comment !=''">
         and
         applause_rate =#{comment}
       </if>
+      <if test="certificate != null and certificate.size() > 0   " >
+       AND
+        <foreach close="" collection="certificate" item="item" open="" separator="and">
+
+          #{item} in
+          (
+          SELECT category_id from certificate
+          where personnel_id=service_personnel.id
+          )
+        </foreach>
+      </if>
+
+      <if test="speciality != null and speciality.size()>0 ">
+        AND
+        <foreach close="" collection="speciality" item="item" open="" separator="and">
+
+          #{item} in
+          (
+          SELECT category_id from speciality
+          where personnel_id =service_personnel.id
+          )
+        </foreach>
+
+      </if>
+
       <if test="workCity != '' and workCity != null">
         and
         work_city =#{workCity}
@@ -132,22 +160,33 @@
         age between #{ageMin} and #{ageMax}
       </if>
       <if test="chargeMax !=null and chargeMin !=null and chargeMin !='' and chargeMax !=''">
-       and
+        and
         charge_standard between #{chargeMin} and #{chargeMax}
       </if>
       <if test="chargeMin != null and chargeMin != ''">
         and
-        charge_standard >#{chargeMin}
+        charge_standard &gt;#{chargeMin}
       </if>
       <if test="expirence != null and expirence != ''">
         and
-        work_experience >= #{expirence}
+        work_experience &gt;= #{expirence}
       </if>
-      <if test="keyword !=null and keyword !=''" >
+      <if test="keyword !=null and keyword !=''">
         and
         name like concat ("%",#{keyword,jdbcType=VARCHAR},"%")
+      </if>
+      <if test="status !=null and status !=''">
+        and
+        status =#{status,jdbcType=INTEGER}
       </if>
 
     </where>
   </select>
+  <select id="findByUserId" resultMap="BaseResultMap">
+    select * from service_personnel
+    where user_id =#{userId,jdbcType=INTEGER}
+  </select>
+
+
+
 </mapper>

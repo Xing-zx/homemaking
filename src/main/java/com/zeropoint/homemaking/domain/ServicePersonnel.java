@@ -1,5 +1,8 @@
 package com.zeropoint.homemaking.domain;
 
+import java.util.Date;
+import java.util.List;
+
 public class ServicePersonnel {
     private Integer id;
 
@@ -7,25 +10,29 @@ public class ServicePersonnel {
 
     private String password;
 
+    private String realName;
+
+    private String idcard;
+
     private Integer age;
 
     private Integer gender;
 
     private String phone;
 
-    private Integer specialtyId;
-
     private String nativePlace;
 
     private Integer workExperience;
 
-    private Integer categoryId;
+    private String workContent;
+
+    private Integer workType;
+
+    private String workCity;
 
     private String level;
 
     private Integer chargeStandard;
-
-    private String workCity;
 
     private Double applauseRate;
 
@@ -35,11 +42,9 @@ public class ServicePersonnel {
 
     private String profile;
 
-    private Integer brokerage;
-
     private Integer storesId;
 
-    private String stauts;
+    private Integer status;
 
     private String programCode;
 
@@ -47,7 +52,38 @@ public class ServicePersonnel {
 
     private Integer upupline;
 
-    private Integer certificateId;
+    private Date creatTimes;
+
+    private Integer count;
+
+    private Double balance;
+
+    private Integer brokerage;
+
+    private Integer userId;
+
+    private Integer schedule;
+
+    private String myself;
+
+    private List<Integer> specialities;
+    private List<Integer> certificates;
+
+    public List<Integer> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(List<Integer> certificates) {
+        this.certificates = certificates;
+    }
+
+    public List<Integer> getSpecialities() {
+        return specialities;
+    }
+
+    public void setSpecialities(List<Integer> specialities) {
+        this.specialities = specialities;
+    }
 
     public Integer getId() {
         return id;
@@ -71,6 +107,22 @@ public class ServicePersonnel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
     }
 
     public Integer getAge() {
@@ -97,14 +149,6 @@ public class ServicePersonnel {
         this.phone = phone;
     }
 
-    public Integer getSpecialtyId() {
-        return specialtyId;
-    }
-
-    public void setSpecialtyId(Integer specialtyId) {
-        this.specialtyId = specialtyId;
-    }
-
     public String getNativePlace() {
         return nativePlace;
     }
@@ -121,12 +165,28 @@ public class ServicePersonnel {
         this.workExperience = workExperience;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public String getWorkContent() {
+        return workContent;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setWorkContent(String workContent) {
+        this.workContent = workContent;
+    }
+
+    public Integer getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(Integer workType) {
+        this.workType = workType;
+    }
+
+    public String getWorkCity() {
+        return workCity;
+    }
+
+    public void setWorkCity(String workCity) {
+        this.workCity = workCity;
     }
 
     public String getLevel() {
@@ -143,14 +203,6 @@ public class ServicePersonnel {
 
     public void setChargeStandard(Integer chargeStandard) {
         this.chargeStandard = chargeStandard;
-    }
-
-    public String getWorkCity() {
-        return workCity;
-    }
-
-    public void setWorkCity(String workCity) {
-        this.workCity = workCity;
     }
 
     public Double getApplauseRate() {
@@ -185,14 +237,6 @@ public class ServicePersonnel {
         this.profile = profile;
     }
 
-    public Integer getBrokerage() {
-        return brokerage;
-    }
-
-    public void setBrokerage(Integer brokerage) {
-        this.brokerage = brokerage;
-    }
-
     public Integer getStoresId() {
         return storesId;
     }
@@ -201,12 +245,12 @@ public class ServicePersonnel {
         this.storesId = storesId;
     }
 
-    public String getStauts() {
-        return stauts;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setStauts(String stauts) {
-        this.stauts = stauts;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getProgramCode() {
@@ -233,11 +277,59 @@ public class ServicePersonnel {
         this.upupline = upupline;
     }
 
-    public Integer getCertificateId() {
-        return certificateId;
+    public Date getCreatTimes() {
+        return creatTimes;
     }
 
-    public void setCertificateId(Integer certificateId) {
-        this.certificateId = certificateId;
+    public void setCreatTimes(Date creatTimes) {
+        this.creatTimes = creatTimes;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public Integer getBrokerage() {
+        return brokerage;
+    }
+
+    public void setBrokerage(Integer brokerage) {
+        this.brokerage = brokerage;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Integer schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getMyself() {
+        return myself;
+    }
+
+    public void setMyself(String myself) {
+        this.myself = myself;
     }
 }

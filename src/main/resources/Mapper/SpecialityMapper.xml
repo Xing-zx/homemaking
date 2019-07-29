@@ -11,7 +11,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Speciality">
-    insert into speciality (id, category_id, personnel_id
+
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT last_insert_id()
+    </selectKey>
+     insert into speciality (id, category_id, personnel_id
       )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{personnelId,jdbcType=INTEGER}
       )
@@ -36,4 +40,12 @@
     select * from speciality
     where personnel_id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByCategoryIdAndPersonnelId" resultMap="BaseResultMap">
+    select * from speciality
+    where category_id =#{categoryId} and personnel_id =#{personnelId}
+  </select>
+  <delete id="deleteBunchByPersonnelId" >
+    delete from speciality
+    where personnel_id =#{personnelId,jdbcType=INTEGER}
+  </delete>
 </mapper>

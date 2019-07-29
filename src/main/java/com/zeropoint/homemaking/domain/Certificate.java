@@ -1,5 +1,7 @@
 package com.zeropoint.homemaking.domain;
 
+import java.util.Date;
+
 public class Certificate {
     private Integer id;
 
@@ -10,6 +12,12 @@ public class Certificate {
     private String pictureUrl;
 
     private Integer personnelId;
+
+    private Date createTime;
+
+    private Date expirationTime;
+
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -49,5 +57,29 @@ public class Certificate {
 
     public void setPersonnelId(Integer personnelId) {
         this.personnelId = personnelId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Date expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

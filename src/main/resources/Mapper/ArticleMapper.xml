@@ -18,6 +18,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Article">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT last_insert_id()
+    </selectKey>
     insert into article (id, title, author, 
       time, state, views, 
       cover_img1, cover_img2, cover_img3, 

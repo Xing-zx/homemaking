@@ -7,36 +7,54 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from certificate
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Certificate">
-    insert into certificate (id, category_id, name, 
-      picture_url, personnel_id)
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT last_insert_id()
+    </selectKey>
+    insert into certificate (id, category_id, name,
+      picture_url, personnel_id, create_time, 
+      expiration_time, status)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{pictureUrl,jdbcType=VARCHAR}, #{personnelId,jdbcType=INTEGER})
+      #{pictureUrl,jdbcType=VARCHAR}, #{personnelId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{expirationTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Certificate">
     update certificate
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       picture_url = #{pictureUrl,jdbcType=VARCHAR},
-      personnel_id = #{personnelId,jdbcType=INTEGER}
+      personnel_id = #{personnelId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, category_id, name, picture_url, personnel_id
+    select id, category_id, name, picture_url, personnel_id, create_time, expiration_time, 
+    status
     from certificate
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, category_id, name, picture_url, personnel_id
+    select id, category_id, name, picture_url, personnel_id, create_time, expiration_time, 
+    status
     from certificate
   </select>
-  <select id="selectByPersonnelId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+  <select id="selectByPersonnelId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select * from certificate
-    where personnel_id = #{personnelId,jdbcType=INTEGER}
+    where personnel_id = #{personnelId,jdbcType=INTEGER} and status =1
   </select>
+  <select id="selectByCategoryAndPersonnel" resultMap="BaseResultMap">
+    select * from certificate
+    where category_id =#{categoryId} and personnel_id =#{personnelId}
+  </select>
+
 </mapper>

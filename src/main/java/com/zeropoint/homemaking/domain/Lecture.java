@@ -1,5 +1,7 @@
 package com.zeropoint.homemaking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class Lecture {
@@ -32,6 +34,8 @@ public class Lecture {
     private Date activeEnd;
 
     private Date createTime;
+
+    private Integer erollStatus;
 
     public Integer getId() {
         return id;
@@ -151,5 +155,13 @@ public class Lecture {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getErollStatus() {
+        return erollStatus;
+    }
+
+    public void setErollStatus(Integer erollStatus) {
+        this.erollStatus = erollStatus;
     }
 }

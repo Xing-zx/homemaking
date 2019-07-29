@@ -30,6 +30,26 @@ public interface PersonnelService {
      */
     List<Certificate>getCertificate(Integer id);
 
-
     List<String> getChildList(String name);
+
+    ServicePersonnel findById(Integer id);
+
+    int update(ServicePersonnel personnel);
+
+    ServicePersonnel findByUserId(Integer userId);
+
+    int updateSpeciality(Integer[] categoryIds, Integer personnelId);
+
+    int updateCertificate(Certificate certificate);
+
+    int addCertificate(Certificate certificate);
+
+    int addPersonnel(ServicePersonnel personnel);
+
+    Certificate findCertificatByid(Integer id);
+
+    List<ServicePersonnel> findPersonnelByids(String[] ids);
+
+
+
 }

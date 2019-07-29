@@ -16,5 +16,10 @@ public interface SpecialityMapper {
 
     List<Speciality> selectByPersonnelId(Integer id);
 
+    Speciality selectByCategoryIdAndPersonnelId(Integer categoryId,Integer personnelId);
+
     int updateByPrimaryKey(Speciality record);
+
+    int deleteBunchByPersonnelId(Integer personnelId);
+
 }

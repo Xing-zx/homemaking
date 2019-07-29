@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.WithdrawMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Withdraw">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="fee" jdbcType="DOUBLE" property="fee" />
+    <result column="bank_card" jdbcType="VARCHAR" property="bankCard" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="final_money" jdbcType="DOUBLE" property="finalMoney" />
+    <result column="alipay_account" jdbcType="VARCHAR" property="alipayAccount" />
+    <result column="wechat_account" jdbcType="VARCHAR" property="wechatAccount" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from withdraw
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Withdraw">
+    insert into withdraw (id, name, type, 
+      money, fee, bank_card, 
+      create_time, final_money, alipay_account, 
+      wechat_account, personnel_id, user_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      #{money,jdbcType=DOUBLE}, #{fee,jdbcType=DOUBLE}, #{bankCard,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{finalMoney,jdbcType=DOUBLE}, #{alipayAccount,jdbcType=VARCHAR}, 
+      #{wechatAccount,jdbcType=VARCHAR}, #{personnelId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Withdraw">
+    update withdraw
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      fee = #{fee,jdbcType=DOUBLE},
+      bank_card = #{bankCard,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      final_money = #{finalMoney,jdbcType=DOUBLE},
+      alipay_account = #{alipayAccount,jdbcType=VARCHAR},
+      wechat_account = #{wechatAccount,jdbcType=VARCHAR},
+      personnel_id = #{personnelId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, type, money, fee, bank_card, create_time, final_money, alipay_account, 
+    wechat_account, personnel_id, user_id, status
+    from withdraw
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, type, money, fee, bank_card, create_time, final_money, alipay_account, 
+    wechat_account, personnel_id, user_id, status
+    from withdraw
+  </select>
+  <select id="selectByPersonnelAndDate" resultMap="BaseResultMap">
+    select * from withdraw
+    where personnel_id =#{personnelId} and create_time between DATE_FORMAT(#{date},'%Y-%m-%d 00:00:00')
+    and DATE_FORMAT(#{date},'%Y-%m-%d 23:59:59') and status=1
+  </select>
+
+
+
+</mapper>

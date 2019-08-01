@@ -2,6 +2,7 @@ package com.zeropoint.homemaking.services;
 
 import com.zeropoint.homemaking.domain.LectureOrders;
 import com.zeropoint.homemaking.domain.Order;
+import com.zeropoint.homemaking.domain.OrderStatus;
 import com.zeropoint.homemaking.domain.UserRequirement;
 import com.zeropoint.homemaking.vo.PersonnelOrder;
 
@@ -57,5 +58,8 @@ public interface OrderService {
      List<PersonnelOrder> findPersonnelOrderByPersonnelId(Integer personnelId);
      int addUserRequirement(UserRequirement userRequirement);
      UserRequirement findUserRequirementById(Integer id);
+
+     List<OrderStatus> getOrderStatus(Integer orderId);
+     int addOrderStatus(OrderStatus orderStatus);
 
 }

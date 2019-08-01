@@ -44,18 +44,15 @@ public class ClientController {
     @Value("${file.uploadFolder}")
     private String uploadFolder;
 
-    String sessionKey="";
-
     private String appId="wxff876a118beab366";
 
     private String appSecret="02667bd06fd0064f43482e7ddf6dffda";
 
     private String grantType="authorization_code";
 
-    private String token="";
 
-    private String code="";
-
+    private ThreadLocal<String> sessionKey=new ThreadLocal<>();
+    private ThreadLocal<String> code=new ThreadLocal<>();
 
     /** 主页信息填充和链接
      * @return
@@ -91,7 +88,7 @@ public class ClientController {
         JSONObject params=JSONObject.parseObject(data);
         String openId=params.getString("openid");
         Integer upline=request.getInteger("v_id");
-        sessionKey =params.getString("session_key");
+        sessionKey.set(params.getString("session_key"));
         res.put("code",1);
         res.put("msg","login");
         User user1=  userService.selectByOpenId(openId);
@@ -124,7 +121,7 @@ public class ClientController {
             request.put("id",user.getId());
             request.put("code",openId);
             request.put("phone","");
-            token=TokenService.getToken(userService.selectByOpenId(openId));
+            String token=TokenService.getToken(userService.selectByOpenId(openId));
             request.put("token",token);
             request.put("stauts",0);
             res.put("data",request);
@@ -162,7 +159,7 @@ public class ClientController {
     public JSONObject getPhone(@RequestBody JSONObject request){
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
-        String phone= homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey).getString("phoneNumber");
+        String phone= homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey.get()).getString("phoneNumber");
         User user=userService.findUserById(request.getInteger("id"));
         if( user.getPhone() ==null || user.getPhone() == "")
         {
@@ -189,10 +186,10 @@ public class ClientController {
         User user=userService.findUserByPhone(request.getString("phone"));
         if(user==null)
         {
-            code =HomeService.verifyCode();
+            code.set(HomeService.verifyCode());
             session.setAttribute("code",code);
             session.setMaxInactiveInterval(300);
-            JSONObject respone=homeService.senSms(request.getString("phone"),code);
+            JSONObject respone=homeService.senSms(request.getString("phone"),code.get());
             System.out.println(respone.toJSONString());
             res.put("code",1);
             res.put("msg",respone.getString("Message"));
@@ -212,7 +209,7 @@ public class ClientController {
         JSONObject res = new JSONObject();
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                 + grantType;
-        if(request.getString("code").equals(code))
+        if(request.getString("code").equals(code.get()))
         {
             res.put("code",0);
             res.put("msg","验证码错误");

@@ -94,6 +94,7 @@
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="require_age" jdbcType="VARCHAR" property="requireAge" />
     <result column="require_expirence" jdbcType="VARCHAR" property="requireExpirence" />
+    <result column="appiont_date" jdbcType="TIMESTAMP" property="appiontDate" />
   </resultMap>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="UserOrder">
    select d.*,c.gender as gender,c.phone as phone,c.name as personnel_name1 from (select `order`.*,address.province,address.city,address.county,address.detail from `order`,address where `order`.user_id =#{userId} and `order`.address_id =address.id ) as d left outer join service_personnel as c
@@ -109,14 +110,14 @@
     where order_number=#{orderNumber,jdbcType=VARCHAR} and address.id =`order`.address_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Order">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT last_insert_id()
     </selectKey>
-    insert into order (id, title, type, 
+    insert into `order` (id, title, type,
       user_phone, user_id, personnel_id, 
       order_number, requirement, hetong_imgsrc, 
       status, address, remark, 
@@ -180,7 +181,7 @@
     money_advance, money_final, money_total, user_name, personnel_name, require_age, 
     require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
     appiont_date, native_place, money_actual, comment_id
-    from order
+    from `order`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
@@ -189,7 +190,7 @@
     money_advance, money_final, money_total, user_name, personnel_name, require_age, 
     require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
     appiont_date, native_place, money_actual, comment_id
-    from order
+    from `order`
   </select>
 
   <select id="selectByPersonnelId" resultMap="BaseResultMap">

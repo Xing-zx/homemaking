@@ -135,7 +135,7 @@ public class OrderController {
      * @param request
      * @return
      */
-    @RequestMapping("cancelOrder")
+    @RequestMapping("/cancelOrder")
     public JSONObject cancelOrder(@RequestBody JSONObject request){
         JSONObject res=new JSONObject();
         Integer id =request.getInteger("id");
@@ -154,6 +154,27 @@ public class OrderController {
         res.put("code",1);
         res.put("msg","取消成功");
         System.out.println(res);
+        return res;
+    }
+    @RequestMapping("/orderInfo")
+    public JSONObject orderInfo(@RequestBody JSONObject request){
+        JSONObject res=new JSONObject();
+        Integer orderId=request.getInteger("order_id");
+        Integer userId=request.getInteger("id");
+        String token=request.getString("token");
+        Order order=orderService.findById(orderId);
+        try{
+            res.put("code",1);
+            res.put("msg","orderInfo");
+            res.put("data",order);
+
+        }catch (NullPointerException e)
+        {
+            res.put("code",0);
+            res.put("msg","该订单不存在");
+
+        }
+        System.out.println(res.toJSONString());
         return res;
     }
 

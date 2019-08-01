@@ -2,10 +2,7 @@ package com.zeropoint.homemaking.controllers.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.utils.StringUtils;
-import com.zeropoint.homemaking.domain.LectureOrders;
-import com.zeropoint.homemaking.domain.Order;
-import com.zeropoint.homemaking.domain.ServicePersonnel;
-import com.zeropoint.homemaking.domain.User;
+import com.zeropoint.homemaking.domain.*;
 import com.zeropoint.homemaking.services.*;
 import com.zeropoint.homemaking.utils.ConvertUtil;
 import com.zeropoint.homemaking.vo.PayOrder;
@@ -36,6 +33,8 @@ public class PayController {
     LectureService lectureService;
     @Autowired
     PersonnelService personnelService;
+    @Autowired
+    BillService billService;
 
     @RequestMapping(value = "/lecture", method = RequestMethod.POST)
     public JSONObject lecturePay(@RequestBody JSONObject request,HttpServletRequest requestHeader) {
@@ -65,6 +64,11 @@ public class PayController {
             res.put("msg", "pay submit");
             res.put("data", result);
         } catch (NullPointerException e) {
+            e.printStackTrace();
+            res.put("code",0);
+            res.put("msg", "pay fail");
+        } catch (Exception e)
+        {
             e.printStackTrace();
             res.put("code",0);
             res.put("msg", "pay fail");
@@ -188,19 +192,18 @@ public class PayController {
            String openId = user.getOpenId();
            String spbill_create_ip = getIpAddr(requestHeader);
            Order order = orderService.findById(orderId);
-           PayOrder payOrder = new PayOrder(order);
            Integer type=order.getType();
-           if( type ==1)
-           {
-               order.setStatus(3);
-           }
-           if(type ==2 )
-           {
-               order.setStatus(4);
-           }
-           order.setPersonnelId(personnelId);
-
+           order.setOrderNumber(OrderService.generateOrderNumber(userId.toString(),type.toString()));
+           PayOrder payOrder = new PayOrder(order);
            Integer status =order.getStatus();
+          if(status<3) {
+              if (type == 1) {
+                  status = 3;
+              }
+              if (type == 2) {
+                  status = 4;
+              }
+          }
            switch (status) {
                case 3:
                    payOrder.setAmount(order.getMoneyBargin());
@@ -225,8 +228,9 @@ public class PayController {
            }
            JSONObject result = payService.wxPay(spbill_create_ip, openId, payOrder);
            res.put("code", 1);
-           res.put("msg", "pay success");
+           res.put("msg", result.getString("result"));
            res.put("data", result);
+           order.setPersonnelId(personnelId);
            orderService.updateOrder(order);
        }catch (NullPointerException e)
        {
@@ -264,6 +268,12 @@ public class PayController {
         }
         return request.getRemoteAddr();
     }
+
+    /**
+     * //1待签约 2待服务 (3待付定金 4待付预付款 5待付尾款)==服务中 6完成 -1取消
+     * @param request
+     * @return
+     */
     @RequestMapping("/confirmPay")
     public JSONObject confirmPay(@RequestBody JSONObject request){
         JSONObject res= new JSONObject();
@@ -271,10 +281,11 @@ public class PayController {
             Integer id = request.getInteger("id");
             String token = request.getString("token");
             String orderNumber = request.getString("orderNumber");
+            Integer personnelId =request.getInteger("aunt_id");
             User user =userService.findUserById(id);
             if(token.equals(TokenService.getToken(user)))
             {
-                if(request.getInteger("type").intValue()==4)
+                if(request.getInteger("type").intValue()== 4)
                 {
                     LectureOrders lectureOrders = orderService.findLectureOrderByOrderNumber(orderNumber);
                     lectureOrders.setStatus(2);
@@ -283,43 +294,73 @@ public class PayController {
                     res.put("code",1);
                     res.put("msg","完成支付");
                 }
-                else if(request.getInteger("type").intValue() ==3)
+                else if(request.getInteger("type").intValue() == 3)
                 {
+
                     Order order =orderService.findOrderByOrderNumber(orderNumber);
-                    order.setStatus(3);
-                    order.setPayTime(new Date());
+                    if(order.getStatus() == 3)
+                    {
+                        order.setStatus(6);
+                        billService.orderCheckout(personnelId,order.getId());
+                        res.put("msg","完成订单");
+                    }
+                    else{
+                        order.setStatus(3);
+                        order.setPayTime(new Date());
+                        res.put("msg","完成支付");
+                    }
                     orderService.updateOrder(order);
                     res.put("code",1);
-                    res.put("msg","完成支付");
+
                 }
                 else
                 {
                     Order order=orderService.findOrderByOrderNumber(orderNumber);
+                    OrderStatus orderStatus =new OrderStatus();
+                    orderStatus.setOrderNumber(orderNumber);
+                    orderStatus.setOrderId(order.getId());
                     Integer status=order.getStatus();
                     switch (status) {
-                        case 3:
-                            order.setStatus(4);
-                            order.setPayTime(new Date());
-                            res.put("code",1);
-                            res.put("msg","定金支付完成");
-                            break;
                         case 4:
                             order.setStatus(5);
-                            order.setPayTime(new Date());
+                            order.setPersonnelId(personnelId);
+                            orderStatus.setStatus(5);
+                            orderStatus.setPayTime(new Date());
+                            orderStatus.setPayMoney(order.getMoneyAdvance());
                             res.put("code",1);
                             res.put("msg","预付款支付完成");
                             break;
                         case 5:
                             order.setStatus(6);
                             order.setPayTime(new Date());
+                            orderStatus.setStatus(6);
+                            orderStatus.setPayTime(new Date());
+                            orderStatus.setPayMoney(order.getMoneyFinal());
+                            billService.orderCheckout(personnelId,order.getId());
                             res.put("code",1);
                             res.put("msg","尾款支付完成");
                             break;
                         case 2:
-                            order.setStatus(3);
-                            order.setPayTime(new Date());
-                            res.put("code",1);
-                            res.put("msg","钟点工支付完成");
+                            if(request.getInteger("type")== 2)
+                            {
+                                order.setStatus(5);
+                                order.setPayTime(new Date());
+                                orderStatus.setStatus(5);
+                                orderStatus.setPayTime(new Date());
+                                orderStatus.setPayMoney(order.getMoneyAdvance());
+                                res.put("code", 1);
+                                res.put("msg", "预付款支付完成");
+                            }
+                            else {
+                                order.setStatus(4);
+                                order.setPayTime(new Date());
+                                orderStatus.setStatus(4);
+                                orderStatus.setPayTime(new Date());
+                                orderStatus.setPayMoney(order.getMoneyBargin());
+                                order.setPersonnelId(personnelId);
+                                res.put("code",1);
+                                res.put("msg","定金支付完成");
+                            }
                             break;
                         default:
                             res.put("code", 0);
@@ -327,12 +368,14 @@ public class PayController {
                             return res;
                     }
                     orderService.updateOrder(order);
+                    orderService.addOrderStatus(orderStatus);
                 }
            }
 
         }
         catch (NullPointerException e)
         {
+            e.printStackTrace();
             res.put("code",0);
             res.put("msg","用户或订单不存在");
         }

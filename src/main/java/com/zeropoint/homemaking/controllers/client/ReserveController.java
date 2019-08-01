@@ -76,7 +76,7 @@ public class ReserveController {
             order.setUserId(id);
             order.setType(type);
             order.setOrderNumber(OrderService.generateOrderNumber(id.toString(),type.toString()));
-            order.setStatus(0);
+            order.setStatus(1);
             order.setRequireAge(requireAge);
             order.setUserName(name);
             order.setUserPhone(phone);

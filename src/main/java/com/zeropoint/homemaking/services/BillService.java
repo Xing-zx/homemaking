@@ -13,5 +13,8 @@ public interface BillService {
    Double getInput(String date,Integer personnelId);
    Double getOutput(String date,Integer personnelId);
    List<Income> findByPersonnelIdAndDate(Integer personnelId,String date);
+   List<Withdraw> withdrawlistByPersonnelAndDate(Integer personnelId,String date);
    int addWithdraw(Withdraw withdraw);
+   int orderCheckout(Integer personnelId, Integer orderId);
+
 }

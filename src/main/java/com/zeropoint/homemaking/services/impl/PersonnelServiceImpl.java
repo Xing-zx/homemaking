@@ -130,4 +130,9 @@ public class PersonnelServiceImpl  implements PersonnelService {
         return list;
     }
 
+    @Override
+    public int getPersonCount(Integer personnelId) {
+        return personnelMapper.getCountByUpline(personnelId);
+    }
+
 }

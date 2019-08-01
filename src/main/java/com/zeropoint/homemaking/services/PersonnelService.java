@@ -50,6 +50,8 @@ public interface PersonnelService {
 
     List<ServicePersonnel> findPersonnelByids(String[] ids);
 
+    int getPersonCount(Integer personnelId);
+
 
 
 }

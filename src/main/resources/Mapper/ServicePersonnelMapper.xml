@@ -29,9 +29,11 @@
     <result column="creat_times" jdbcType="TIMESTAMP" property="creatTimes" />
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="balance" jdbcType="DOUBLE" property="balance" />
-    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="current_brokerage" jdbcType="DOUBLE" property="currentBrokerage" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="all_brokerage" jdbcType="DOUBLE" property="allBrokerage" />
+    <result column="withdrawal_brokerage" jdbcType="DOUBLE" property="withdrawalBrokerage" />
     <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -51,8 +53,9 @@
       profile, stores_id, status, 
       program_code, upline, upupline, 
       creat_times, count, balance, 
-      brokerage, user_id, schedule, 
-      myself)
+      current_brokerage, user_id, schedule, 
+      all_brokerage, withdrawal_brokerage, myself
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{realName,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
@@ -61,9 +64,10 @@
       #{applauseRate,jdbcType=DOUBLE}, #{photoUrl,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, 
       #{profile,jdbcType=VARCHAR}, #{storesId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{programCode,jdbcType=VARCHAR}, #{upline,jdbcType=INTEGER}, #{upupline,jdbcType=INTEGER}, 
-      #{creatTimes,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, #{balance,jdbcType=DOUBLE},
-      #{brokerage,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{schedule,jdbcType=INTEGER}, 
-      #{myself,jdbcType=LONGVARCHAR})
+      #{creatTimes,jdbcType=TIMESTAMP}, #{count,jdbcType=INTEGER}, #{balance,jdbcType=DOUBLE}, 
+      #{currentBrokerage,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, #{schedule,jdbcType=INTEGER}, 
+      #{allBrokerage,jdbcType=DOUBLE}, #{withdrawalBrokerage,jdbcType=DOUBLE}, #{myself,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
     update service_personnel
@@ -93,9 +97,11 @@
       creat_times = #{creatTimes,jdbcType=TIMESTAMP},
       count = #{count,jdbcType=INTEGER},
       balance = #{balance,jdbcType=DOUBLE},
-      brokerage = #{brokerage,jdbcType=INTEGER},
+      current_brokerage = #{currentBrokerage,jdbcType=DOUBLE},
       user_id = #{userId,jdbcType=INTEGER},
       schedule = #{schedule,jdbcType=INTEGER},
+      all_brokerage = #{allBrokerage,jdbcType=DOUBLE},
+      withdrawal_brokerage = #{withdrawalBrokerage,jdbcType=DOUBLE},
       myself = #{myself,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -103,7 +109,8 @@
     select id, name, password, real_name, idcard, age, gender, phone, native_place, work_experience, 
     work_content, work_type, work_city, level, charge_standard, applause_rate, photo_url, 
     video_url, profile, stores_id, status, program_code, upline, upupline, creat_times, 
-    count, balance, brokerage, user_id, schedule, myself
+    count, balance, current_brokerage, user_id, schedule, all_brokerage, withdrawal_brokerage, 
+    myself
     from service_personnel
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -111,9 +118,11 @@
     select id, name, password, real_name, idcard, age, gender, phone, native_place, work_experience, 
     work_content, work_type, work_city, level, charge_standard, applause_rate, photo_url, 
     video_url, profile, stores_id, status, program_code, upline, upupline, creat_times, 
-    count, balance, brokerage, user_id, schedule, myself
+    count, balance, current_brokerage, user_id, schedule, all_brokerage, withdrawal_brokerage, 
+    myself
     from service_personnel
   </select>
+
   <select id="selectByCondition" parameterType="Map" resultMap="BaseResultMap">
     select * from service_personnel
     <where>
@@ -122,7 +131,7 @@
         and
         applause_rate =#{comment}
       </if>
-      <if test="certificate != null and certificate.size() > 0   " >
+      <if test="certificate != null and certificate.size() &gt; 0   ">
        AND
         <foreach close="" collection="certificate" item="item" open="" separator="and">
 
@@ -134,7 +143,7 @@
         </foreach>
       </if>
 
-      <if test="speciality != null and speciality.size()>0 ">
+      <if test="speciality != null and speciality.size()&gt;0 ">
         AND
         <foreach close="" collection="speciality" item="item" open="" separator="and">
 
@@ -185,6 +194,10 @@
   <select id="findByUserId" resultMap="BaseResultMap">
     select * from service_personnel
     where user_id =#{userId,jdbcType=INTEGER}
+  </select>
+  <select id="getCountByUpline" resultType="java.lang.Integer">
+    select count(*)from service_personnel
+    where upline=#{upline} or upupline=#{upline}
   </select>
 
 

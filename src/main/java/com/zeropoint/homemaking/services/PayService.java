@@ -16,10 +16,10 @@ import java.util.Random;
 @Service
 public class PayService {
 
-    public JSONObject wxPay(String spbill_create_ip, String openId, PayOrder order) {
+    public JSONObject wxPay(String spbill_create_ip, String openId, PayOrder order)throws Exception{
         //返回给小程序端需要的参数
         JSONObject res = new JSONObject();
-        try {
+
             //生成的随机字符串
             String nonce_str = getRandomStringByLength(32);
             //商品名称
@@ -101,9 +101,7 @@ public class PayService {
                 return res;
             }
             res.put("appid", WechatConfig.appid);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return res;
     }
 

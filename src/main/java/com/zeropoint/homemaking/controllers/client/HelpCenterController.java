@@ -92,7 +92,6 @@ public class HelpCenterController {
         res.put("data",wrap);
         return res;
     }
-
     /**
      * id,token
      * 	order_id,	//已经完成的单号
@@ -105,9 +104,10 @@ public class HelpCenterController {
     public  JSONObject comment(@RequestBody JSONObject request){
         JSONObject res= new JSONObject();
         Integer id=request.getInteger("id");
-        Integer orderId=request.getInteger("orderId");
+        Integer orderId=request.getInteger("order_id");
         Integer score=request.getInteger("score");
         String content=request.getString("content");
+        System.out.println(request);
         Order order =orderService.findById(orderId);
         if(order.getHascomment())
         {
@@ -120,10 +120,12 @@ public class HelpCenterController {
         comment.setScore(score);
         comment.setContent(content);
         helpCenterService.addComment(comment);
+        order.setHascomment(true);
         order.setCommentId(comment.getId());
         orderService.updateOrder(order);
         res.put("code",1);
         res.put("msg","ok");
+        System.out.println(res.toJSONString());
         return res;
     }
 }

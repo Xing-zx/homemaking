@@ -23,5 +23,7 @@ public interface ServicePersonnelMapper {
 
     ServicePersonnel findByUserId(Integer userId);
 
+    int getCountByUpline(Integer upline);
+
 
 }

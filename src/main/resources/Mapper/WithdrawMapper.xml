@@ -61,8 +61,8 @@
   </select>
   <select id="selectByPersonnelAndDate" resultMap="BaseResultMap">
     select * from withdraw
-    where personnel_id =#{personnelId} and create_time between DATE_FORMAT(#{date},'%Y-%m-%d 00:00:00')
-    and DATE_FORMAT(#{date},'%Y-%m-%d 23:59:59') and status=1
+    where personnel_id =#{personnelId} and create_time between DATE_FORMAT(#{date},'%Y-%m-01 00:00:00')
+    and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59') and status=1
   </select>
 
 

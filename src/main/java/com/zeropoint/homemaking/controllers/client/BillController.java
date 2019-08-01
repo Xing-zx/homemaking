@@ -35,6 +35,7 @@ public class BillController {
         ServicePersonnel personnel =personnelService.findByUserId(id);
         Double balance=personnel.getBalance();
         List<Income> list=billService.findByPersonnelIdAndDate(personnel.getId(),date);
+        List<Withdraw> list2=billService.withdrawlistByPersonnelAndDate(personnel.getId(),date);
         Double input=billService.getInput(date,personnel.getId());
         Double output=billService.getOutput(date,personnel.getId());
         JSONObject data= new JSONObject();
@@ -68,12 +69,27 @@ public class BillController {
         String alipayAccount =request.getString("alipayAccount");
         String name=request.getString("name");
         Integer type=request.getInteger("type");
+        System.out.println(request);
         ServicePersonnel personnel =personnelService.findByUserId(id);
-        if(money > personnel.getBalance())
+        if(type ==1)
         {
-            res.put("code",0);
-            res.put("msg","余额不足");
-            return res;
+            if(money >personnel.getWithdrawalBrokerage())
+            {
+                res.put("code",0);
+                res.put("msg","可提现额度不足");
+                return res;
+            }
+            personnel.setWithdrawalBrokerage(personnel.getWithdrawalBrokerage()-money);
+            personnel.setCurrentBrokerage(personnel.getCurrentBrokerage()-money);
+        }
+        if(type ==2 )
+        {
+            if (money > personnel.getBalance()) {
+                res.put("code", 0);
+                res.put("msg", "余额不足");
+                return res;
+            }
+            personnel.setBalance(personnel.getBalance()-money);
         }
         Withdraw withdraw =new Withdraw();
         withdraw.setAlipayAccount(alipayAccount);
@@ -83,7 +99,7 @@ public class BillController {
         withdraw.setMoney(money);
         withdraw.setType(type);
         billService.addWithdraw(withdraw);
-        personnel.setBalance(personnel.getBalance()-money);
+        personnelService.update(personnel);
         res.put("code",1);
         res.put("msg","提交提现请求成功");
         System.out.println(res);

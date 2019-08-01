@@ -4,11 +4,14 @@ import com.zeropoint.homemaking.dao.IncomeMapper;
 import com.zeropoint.homemaking.dao.WithdrawMapper;
 import com.zeropoint.homemaking.domain.Income;
 
+import com.zeropoint.homemaking.domain.Order;
 import com.zeropoint.homemaking.domain.Withdraw;
 import com.zeropoint.homemaking.services.BillService;
+import com.zeropoint.homemaking.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +23,8 @@ public class BillServiceImpl implements BillService {
     IncomeMapper incomeMapper;
     @Autowired
     WithdrawMapper withdrawMapper;
+    @Autowired
+    OrderService orderService;
     @Override
     public List<Income> findByPersonnelId(Integer personnelId) {
         return incomeMapper.selectByPersonnelId(personnelId);
@@ -55,7 +60,24 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public List<Withdraw> withdrawlistByPersonnelAndDate(Integer personnelId, String date) {
+        return withdrawMapper.selectByPersonnelAndDate(personnelId,date);
+    }
+
+    @Override
     public int addWithdraw(Withdraw withdraw) {
         return withdrawMapper.insert(withdraw);
+    }
+
+    @Override
+    public int orderCheckout(Integer personnelId, Integer orderId) {
+        Income income=new Income();
+        Order order=orderService.findById(orderId);
+        income.setPersonnelId(personnelId);
+        income.setMoney(order.getMoneyActual());
+        income.setCreateTime(new Date());
+        income.setType(order.getType());
+        income.setTitle("服务费结算");
+        return incomeMapper.insert(income);
     }
 }

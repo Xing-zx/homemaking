@@ -85,6 +85,18 @@ private Integer id;
 
     private Integer personnelGender;
 
+    public Date getAppiontDate() {
+        return appiontDate;
+    }
+
+    public void setAppiontDate(Date appiontDate) {
+        this.appiontDate = appiontDate;
+    }
+
+    private Date appiontDate;
+
+
+
     public String getPersonnelPhone() {
         return personnelPhone;
     }

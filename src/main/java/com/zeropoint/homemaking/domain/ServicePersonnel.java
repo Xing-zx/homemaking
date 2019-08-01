@@ -58,32 +58,36 @@ public class ServicePersonnel {
 
     private Double balance;
 
-    private Integer brokerage;
+    private Double currentBrokerage;
 
     private Integer userId;
 
     private Integer schedule;
 
+    private Double allBrokerage;
+
+    private Double withdrawalBrokerage;
+
     private String myself;
+     private List<Integer> specialities;
+        private List<Integer> certificates;
 
-    private List<Integer> specialities;
-    private List<Integer> certificates;
+        public List<Integer> getCertificates() {
+            return certificates;
+        }
 
-    public List<Integer> getCertificates() {
-        return certificates;
-    }
+        public void setCertificates(List<Integer> certificates) {
+            this.certificates = certificates;
+        }
 
-    public void setCertificates(List<Integer> certificates) {
-        this.certificates = certificates;
-    }
+        public List<Integer> getSpecialities() {
+            return specialities;
+        }
 
-    public List<Integer> getSpecialities() {
-        return specialities;
-    }
+        public void setSpecialities(List<Integer> specialities) {
+            this.specialities = specialities;
+        }
 
-    public void setSpecialities(List<Integer> specialities) {
-        this.specialities = specialities;
-    }
 
     public Integer getId() {
         return id;
@@ -301,12 +305,12 @@ public class ServicePersonnel {
         this.balance = balance;
     }
 
-    public Integer getBrokerage() {
-        return brokerage;
+    public Double getCurrentBrokerage() {
+        return currentBrokerage;
     }
 
-    public void setBrokerage(Integer brokerage) {
-        this.brokerage = brokerage;
+    public void setCurrentBrokerage(Double currentBrokerage) {
+        this.currentBrokerage = currentBrokerage;
     }
 
     public Integer getUserId() {
@@ -323,6 +327,22 @@ public class ServicePersonnel {
 
     public void setSchedule(Integer schedule) {
         this.schedule = schedule;
+    }
+
+    public Double getAllBrokerage() {
+        return allBrokerage;
+    }
+
+    public void setAllBrokerage(Double allBrokerage) {
+        this.allBrokerage = allBrokerage;
+    }
+
+    public Double getWithdrawalBrokerage() {
+        return withdrawalBrokerage;
+    }
+
+    public void setWithdrawalBrokerage(Double withdrawalBrokerage) {
+        this.withdrawalBrokerage = withdrawalBrokerage;
     }
 
     public String getMyself() {

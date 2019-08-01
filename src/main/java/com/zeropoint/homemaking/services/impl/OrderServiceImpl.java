@@ -1,13 +1,7 @@
 package com.zeropoint.homemaking.services.impl;
 
-import com.zeropoint.homemaking.dao.LectureMapper;
-import com.zeropoint.homemaking.dao.LectureOrdersMapper;
-import com.zeropoint.homemaking.dao.OrderMapper;
-import com.zeropoint.homemaking.dao.UserRequirementMapper;
-import com.zeropoint.homemaking.domain.Lecture;
-import com.zeropoint.homemaking.domain.LectureOrders;
-import com.zeropoint.homemaking.domain.Order;
-import com.zeropoint.homemaking.domain.UserRequirement;
+import com.zeropoint.homemaking.dao.*;
+import com.zeropoint.homemaking.domain.*;
 import com.zeropoint.homemaking.services.LectureService;
 import com.zeropoint.homemaking.services.OrderService;
 import com.zeropoint.homemaking.vo.PersonnelOrder;
@@ -32,6 +26,8 @@ public class OrderServiceImpl implements OrderService {
     OrderMapper orderMapper;
     @Autowired
     UserRequirementMapper requirementMapper;
+    @Autowired
+    OrderStatusMapper orderStatusMapper;
     @Override
     public LectureOrders generateLectureOrder(Integer id, Integer userId) {
             String orderNumber =OrderService.generateOrderNumber(id.toString(),"0");
@@ -175,6 +171,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public UserRequirement findUserRequirementById(Integer id) {
         return requirementMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<OrderStatus> getOrderStatus(Integer orderId) {
+        return orderStatusMapper.selectByOrderId(orderId);
+    }
+
+    @Override
+    public int addOrderStatus(OrderStatus orderStatus) {
+        return orderStatusMapper.insert(orderStatus);
     }
 
 

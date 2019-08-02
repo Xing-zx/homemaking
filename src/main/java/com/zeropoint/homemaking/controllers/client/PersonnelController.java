@@ -49,7 +49,6 @@ public class PersonnelController {
         JSONObject res=new JSONObject();
         res.put("code",1);
         res.put("msg","list");
-
         cond.put("status",2);
         System.out.println(cond.toString());
         res.put("data",personnelService.getList(cond));
@@ -59,12 +58,14 @@ public class PersonnelController {
     /**
      *  筛选阿姨
      * @param cond 筛选条件
+     *             1 普通会员 2阿姨审核中 3阿姨审核通过 -1黑名单
      * @return 阿姨列表
      */
     @RequestMapping("/filterPersonnel")
     public JSONObject query(@RequestBody Map<String,Object> cond){
         int pageCount=(int)cond.get("pagination");
         PageHelper.startPage(pageCount,8);
+        System.out.println(cond.toString());
         PageInfo<ServicePersonnel> personnelPageInfo = new PageInfo<>(personnelService.getList(cond));
         JSONObject res=new JSONObject();
         cond.put("status",2);
@@ -72,36 +73,9 @@ public class PersonnelController {
         {
             res.put("code", 1);
             res.put("msg", "filter");
-            System.out.println(cond.toString());
+
             List<ServicePersonnel> list = personnelPageInfo.getList();
-            if(list !=null) {
-                try {
-                    for (ServicePersonnel personnel : list) {
-                        List<Speciality> specialitys = personnelService.getSpeciality(personnel.getId());
-                        if (specialitys != null) {
-                            List<Integer> list1 = new ArrayList<>();
-                            for (Speciality speciality : specialitys) {
-                                list1.add(speciality.getCategoryId());
-                            }
-                            personnel.setSpecialities(list1);
-                        }
-                        List<Certificate> certificates = personnelService.getCertificate(personnel.getId());
-                        if (certificates != null) {
-                            List<Integer> list2 = new ArrayList<>();
-                            for (Certificate certificate : certificates) {
-                                list2.add(certificate.getCategoryId());
-                            }
-                            personnel.setCertificates(list2);
-                        }
-                    }
-                    res.put("data", list);
-                    System.out.println(list.size());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    res.put("code", 0);
-                    res.put("msg", "kong");
-                }
-            }
+            res.put("data", list);
         }
         else{
             res.put("code",1);
@@ -139,24 +113,16 @@ public class PersonnelController {
         try
         {
             ServicePersonnel personnel = personnelService.findByUserId(userId);
-            List<Speciality> specialitys =personnelService.getSpeciality(personnel.getId());
-             if(specialitys !=null)
+            List<String> specialities =personnelService.getSpecialityId(personnel.getId());
+             if(specialities !=null)
              {
-                 List<Integer> list=new ArrayList<>();
-                   for(Speciality speciality:specialitys)
-                   {
-                       list.add(speciality.getCategoryId());
-                   }
-                personnel.setSpecialities(list);
+
+                personnel.setSpecialities(specialities);
              }
-            List<Certificate> certificates =personnelService.getCertificate(personnel.getId());
+            List<String> certificates =personnelService.getCertificateId(personnel.getId());
             if(certificates !=null)
             {
-                List<Integer> list=new ArrayList<>();
-                for(Certificate certificate:certificates){
-                    list.add(certificate.getCategoryId());
-                }
-                personnel.setCertificates(list);
+                personnel.setCertificates(certificates);
             }
             res.put("data",personnel);
             res.put("code",1);
@@ -197,7 +163,7 @@ public class PersonnelController {
             personnel.setWorkCity(request.getString("workCity"));
             personnel.setWorkExperience(request.getInteger("workExperience"));
             personnel.setGender(request.getInteger("gender"));
-            personnel.setWorkType(request.getInteger("worktype"));
+            personnel.setWorkType(request.getInteger("workType"));
             if( personnel.getWorkType()==1)
             {
                 personnel.setSchedule(request.getInteger("schedule"));
@@ -212,10 +178,42 @@ public class PersonnelController {
             res.put("msg","editPersonnel");
         }catch (NullPointerException e)
         {
+            e.printStackTrace();
             res.put("code",0);
             res.put("msg","用户不存在");
 
         }
+        System.out.println(res.toJSONString());
+        return  res;
+    }
+    @RequestMapping("/uploadAvatar")
+    public JSONObject uploadAvatar(HttpServletRequest req, @RequestParam("file") MultipartFile file)throws IOException
+    {
+
+        Integer userId= Integer.parseInt(req.getParameter("id"));
+        String token =req.getParameter("token");
+        ServicePersonnel personnel= personnelService.findByUserId(userId);
+        SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/");
+        String format = sdf.format(new Date());
+        String realPath = uploadFolder + format;
+        System.out.println(realPath);
+        File folder = new File(realPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        String oldName = file.getOriginalFilename();
+        String newName = UUID.randomUUID().toString() + oldName.substring(oldName.lastIndexOf("."));
+        file.transferTo(new File(folder,newName));
+        String url = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/" + format + newName;
+        personnel.setPhotoUrl(url);
+        personnelService.update(personnel);
+
+
+        JSONObject res =new JSONObject();
+        res.put("code",1);
+        res.put("msg","avatarUrl");
+        res.put("data",url);
+        System.out.println(url);
         System.out.println(res.toJSONString());
         return  res;
     }

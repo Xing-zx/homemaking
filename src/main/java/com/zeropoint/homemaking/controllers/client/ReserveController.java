@@ -107,21 +107,15 @@ public class ReserveController {
            List<ServicePersonnel> servicePersonnels = personnelService.findPersonnelByids(ids);
            if(servicePersonnels!=null) {
                for (ServicePersonnel personnel : servicePersonnels) {
-                   List<Speciality> specialitys = personnelService.getSpeciality(personnel.getId());
-                   if (specialitys != null) {
-                       List<Integer> list = new ArrayList<>();
-                       for (Speciality speciality : specialitys) {
-                           list.add(speciality.getCategoryId());
-                       }
-                       personnel.setSpecialities(list);
+                   List<String> specialities =personnelService.getSpeciality(personnel.getId());
+                   if(specialities !=null)
+                   {
+                       personnel.setSpecialities(specialities);
                    }
-                   List<Certificate> certificates = personnelService.getCertificate(personnel.getId());
-                   if (certificates != null) {
-                       List<Integer> list = new ArrayList<>();
-                       for (Certificate certificate : certificates) {
-                           list.add(certificate.getCategoryId());
-                       }
-                       personnel.setCertificates(list);
+                   List<String> certificates =personnelService.getCertificate(personnel.getId());
+                   if(certificates !=null)
+                   {
+                       personnel.setCertificates(certificates);
                    }
 
                }

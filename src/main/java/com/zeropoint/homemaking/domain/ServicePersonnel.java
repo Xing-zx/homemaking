@@ -69,25 +69,21 @@ public class ServicePersonnel {
     private Double withdrawalBrokerage;
 
     private String myself;
-     private List<Integer> specialities;
-        private List<Integer> certificates;
 
-        public List<Integer> getCertificates() {
-            return certificates;
-        }
+    private List<String > specialities;
 
-        public void setCertificates(List<Integer> certificates) {
-            this.certificates = certificates;
-        }
+    private List<String > certificates;
 
-        public List<Integer> getSpecialities() {
-            return specialities;
-        }
 
-        public void setSpecialities(List<Integer> specialities) {
+    public List<String> getCertificates() { return certificates; }
+
+    public void setCertificates(List<String > certificates) { this.certificates = certificates; }
+
+    public List<String> getSpecialities() { return specialities; }
+
+    public void setSpecialities(List<String> specialities) {
             this.specialities = specialities;
         }
-
 
     public Integer getId() {
         return id;

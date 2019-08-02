@@ -7,35 +7,38 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="article_id" jdbcType="INTEGER" property="articleId" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="url_id" jdbcType="INTEGER" property="urlId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from banners
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Banners">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT last_insert_id()
-    </selectKey>
     insert into banners (id, name, url, 
-      article_id, picture_url)
+      article_id, picture_url, status, 
+      url_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{articleId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR})
+      #{articleId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{urlId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Banners">
     update banners
     set name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       article_id = #{articleId,jdbcType=INTEGER},
-      picture_url = #{pictureUrl,jdbcType=VARCHAR}
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      url_id = #{urlId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, url, article_id, picture_url
+    select id, name, url, article_id, picture_url, status, url_id
     from banners
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, url, article_id, picture_url
-    from banners
+   select banners.*,frontend_page.url from banners left JOIN frontend_page on url_id =frontend_page.id and status=1
   </select>
+
 </mapper>

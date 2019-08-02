@@ -37,25 +37,83 @@ public class PersonnelServiceImpl  implements PersonnelService {
         {
             return personnelMapper.selectAll();
         }
-        return personnelMapper.selectByCondition(condition);
+         List<ServicePersonnel> list=personnelMapper.selectByCondition(condition);
+        if(list !=null) {
+            try {
+                for (ServicePersonnel personnel : list) {
+                    List<String> specialities = getSpeciality(personnel.getId());
+                    if (specialities != null) {
+                        personnel.setSpecialities(specialities);
+                    }
+                    List<String> certificates = getCertificate(personnel.getId());
+                    if (certificates != null) {
+                        personnel.setCertificates(certificates);
+                    }
+                }
+                System.out.println(list.size());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+
+            }
+        }
+        return list;
     }
 
     @Override
-    public List<Speciality> getSpeciality(Integer id) {
-        return specialityMapper.selectByPersonnelId(id);
+    public List<String > getSpeciality(Integer id) {
+        List<Speciality> specialities=specialityMapper.selectByPersonnelId(id);
+        List<String> list = new ArrayList<>();
+        if (specialities != null) {
+            for (Speciality speciality : specialities) {
+                list.add(speciality.getName());
+            }
+
+        }
+        return list;
     }
 
     @Override
-    public List<Certificate> getCertificate(Integer id) {
-        return certificateMapper.selectByPersonnelId(id);
+    public List<String> getSpecialityId(Integer id) {
+
+        List<Speciality> specialities=specialityMapper.selectByPersonnelId(id);
+        List<String> list = new ArrayList<>();
+        if (specialities != null) {
+            for (Speciality speciality : specialities) {
+                list.add(speciality.getCategoryId().toString());
+            }
+
+        }
+        return list;
     }
 
+    @Override
+    public List<String> getCertificate(Integer id) {
+        List<Certificate> certificates = certificateMapper.selectByPersonnelId(id);
+        List<String > list = new ArrayList<>();
+        if (certificates != null) {
+            for (Certificate certificate : certificates) {
+                list.add(certificate.getName());
+            }
+        }
+        return list ;
+    }
+
+    @Override
+    public List<String> getCertificateId(Integer id) {
+        List<Certificate> certificates = certificateMapper.selectByPersonnelId(id);
+        List<String > list = new ArrayList<>();
+        if (certificates != null) {
+            for (Certificate certificate : certificates) {
+                list.add(certificate.getCategoryId().toString());
+            }
+        }
+        return list ;
+    }
     @Override
     public List<String> getChildList(String name) {
 
         return categoryMapper.getChildListByName(name);
     }
-
     @Override
     public ServicePersonnel findById(Integer id) {
         return personnelMapper.selectByPrimaryKey(id);
@@ -66,7 +124,6 @@ public class PersonnelServiceImpl  implements PersonnelService {
 
         return personnelMapper.updateByPrimaryKey(personnel);
     }
-
     @Override
     public ServicePersonnel findByUserId(Integer userId) {
         return personnelMapper.findByUserId(userId);

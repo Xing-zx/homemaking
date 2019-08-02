@@ -31,15 +31,7 @@ public class ArticleController {
         JSONObject res =new JSONObject();
         res.put("code",1);
         res.put("message","articleList");
-        List<ArticleInfo> articleInfos =new ArrayList<>();
         List<Article> articles = articleService.getList();
-        for(int i=0; i<articles.size();i++)
-        {
-            ArticleInfo articleInfo = new ArticleInfo();
-            articleInfo.setArticle(articles.get(i));
-            articleInfo.setImgs();
-            articleInfos.add(articleInfo);
-        }
         res.put("data",articles);
         return res;
     }

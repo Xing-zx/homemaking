@@ -22,13 +22,14 @@ public interface PersonnelService {
      * @param id  阿姨id
      * @return 特长
      */
-    List<Speciality> getSpeciality(Integer id);
-
+    List<String> getSpeciality(Integer id);
+    List<String> getSpecialityId(Integer id);
     /** 证书
      * @param id 阿姨id
      * @return 证书
      */
-    List<Certificate>getCertificate(Integer id);
+    List<String>getCertificate(Integer id);
+    List<String>getCertificateId(Integer id);
 
     List<String> getChildList(String name);
 

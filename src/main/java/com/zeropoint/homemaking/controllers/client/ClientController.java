@@ -116,7 +116,9 @@ public class ClientController {
             personnel.setGender(request.getInteger("gender"));
             personnel.setUserId(user.getId());
             personnel.setStatus(0);
-            personnel.setPhotoUrl(request.getString("avatarUrl"));
+           //阿姨头像
+
+
             personnelService.addPersonnel(personnel);
             request.put("id",user.getId());
             request.put("code",openId);
@@ -144,7 +146,6 @@ public class ClientController {
             user1.setProgramCode(filename);
         }
         System.out.println(user1.getToken());
-        user1.setStatus(personnelService.findByUserId(user1.getId()).getStatus());
         res.put("data",user1);
         System.out.println(res);
         return res;
@@ -206,6 +207,7 @@ public class ClientController {
      */
     @RequestMapping("/register")
     public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http){
+        System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                 + grantType;
@@ -245,7 +247,7 @@ public class ClientController {
         personnel.setName(request.getString("nickName"));
         personnel.setGender(request.getInteger("gender"));
         personnel.setUserId(user.getId());
-        personnel.setPhotoUrl(request.getString("avatarUrl"));
+      //  personnel.setPhotoUrl(request.getString("avatarUrl"));
         personnel.setStatus(0);
         personnelService.addPersonnel(personnel);
         Address address=new Address();

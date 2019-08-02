@@ -121,6 +121,7 @@
     count, balance, current_brokerage, user_id, schedule, all_brokerage, withdrawal_brokerage, 
     myself
     from service_personnel
+    where status>0
   </select>
 
   <select id="selectByCondition" parameterType="Map" resultMap="BaseResultMap">
@@ -187,6 +188,14 @@
       <if test="status !=null and status !=''">
         and
         status =#{status,jdbcType=INTEGER}
+      </if>
+      <if test="type !=null and type !=''">
+        and
+        work_type =#{type}
+      </if>
+      <if test="status ==null or status ==''">
+      and
+      status =2
       </if>
 
     </where>

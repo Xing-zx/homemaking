@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="name1" jdbcType="VARCHAR" property="name"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from speciality
@@ -35,10 +36,9 @@
     select id, category_id, personnel_id
     from speciality
   </select>
-
   <select id="selectByPersonnelId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select * from speciality
-    where personnel_id = #{id,jdbcType=INTEGER}
+    select speciality.*,category.name as name1 from speciality,category
+    where personnel_id = #{id,jdbcType=INTEGER} and category.id=speciality.category_id
   </select>
   <select id="selectByCategoryIdAndPersonnelId" resultMap="BaseResultMap">
     select * from speciality

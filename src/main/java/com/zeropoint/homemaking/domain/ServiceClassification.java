@@ -11,6 +11,12 @@ public class ServiceClassification {
 
     private Integer articleId;
 
+    private Integer status;
+
+    private String url;
+
+    private Integer urlId;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +55,29 @@ public class ServiceClassification {
 
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Integer urlId) {
+        this.urlId = urlId;
     }
 }

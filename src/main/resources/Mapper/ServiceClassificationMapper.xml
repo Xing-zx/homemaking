@@ -7,35 +7,39 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="introduced" jdbcType="VARCHAR" property="introduced" />
     <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="url_id" jdbcType="INTEGER" property="urlId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_classification
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT last_insert_id()
-    </selectKey>
-    insert into service_classification (id, icon_url, name,
-      introduced, article_id)
+    insert into service_classification (id, icon_url, name, 
+      introduced, article_id, status, 
+      url, url_id)
     values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER})
+      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{urlId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
     update service_classification
     set icon_url = #{iconUrl,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       introduced = #{introduced,jdbcType=VARCHAR},
-      article_id = #{articleId,jdbcType=INTEGER}
+      article_id = #{articleId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      url_id = #{urlId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, icon_url, name, introduced, article_id
+    select id, icon_url, name, introduced, article_id, status,url_id
     from service_classification
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, icon_url, name, introduced, article_id
-    from service_classification
+  select service_classification.*,frontend_page.url as url from service_classification left JOIN frontend_page on url_id =frontend_page.id and status=1
   </select>
+
 </mapper>

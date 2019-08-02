@@ -30,6 +30,7 @@ public class AddressController {
     public JSONObject addAddress(@RequestBody JSONObject params){
 
         Address address =new Address();
+        System.out.println(params.toJSONString());
         address.setProvince(params.getString("province"));
         address.setCity(params.getString("city"));
         address.setCounty(params.getString("county"));

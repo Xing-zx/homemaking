@@ -11,6 +11,10 @@ public class Banners {
 
     private String pictureUrl;
 
+    private Integer status;
+
+    private Integer urlId;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +53,21 @@ public class Banners {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Integer urlId) {
+        this.urlId = urlId;
     }
 }

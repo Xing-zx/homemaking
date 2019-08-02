@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Certificate">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name1" jdbcType="VARCHAR" property="name" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -49,8 +49,8 @@
     from certificate
   </select>
   <select id="selectByPersonnelId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select * from certificate
-    where personnel_id = #{personnelId,jdbcType=INTEGER} and status =1
+    select certificate.*,category.name as name1 from certificate,category
+    where personnel_id = #{personnelId,jdbcType=INTEGER} and certificate.status =1 and category.id=certificate.category_id
   </select>
   <select id="selectByCategoryAndPersonnel" resultMap="BaseResultMap">
     select * from certificate

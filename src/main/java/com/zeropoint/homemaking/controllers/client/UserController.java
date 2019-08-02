@@ -167,24 +167,15 @@ public class UserController {
             res.put("msg","阿姨未审核");
          return res;
         }
-        List<Speciality> specialitys =personnelService.getSpeciality(personnel.getId());
-        if(specialitys !=null)
+        List<String> specialities =personnelService.getSpeciality(personnel.getId());
+        if(specialities !=null)
         {
-            List<Integer> list=new ArrayList<>();
-            for(Speciality speciality:specialitys)
-            {
-                list.add(speciality.getCategoryId());
-            }
-            personnel.setSpecialities(list);
+            personnel.setSpecialities(specialities);
         }
-        List<Certificate> certificates =personnelService.getCertificate(personnel.getId());
+        List<String> certificates =personnelService.getCertificate(personnel.getId());
         if(certificates !=null)
         {
-            List<Integer> list=new ArrayList<>();
-            for(Certificate certificate:certificates){
-                list.add(certificate.getCategoryId());
-            }
-            personnel.setCertificates(list);
+            personnel.setCertificates(certificates);
         }
 
         res.put("data",personnel);

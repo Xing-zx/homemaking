@@ -45,6 +45,7 @@ public class User {
     private String openId;
 
     private Date createTime;
+
     private int Status;
 
     public int getStatus() {

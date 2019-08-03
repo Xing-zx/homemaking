@@ -50,5 +50,4 @@
     select id, province, city, county, street, detail, longtitude, latitude, user_id
     from address
   </select>
-
 </mapper>

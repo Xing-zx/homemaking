@@ -25,8 +25,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
     @Autowired
-    UserRequirementMapper requirementMapper;
-    @Autowired
     OrderStatusMapper orderStatusMapper;
     @Override
     public LectureOrders generateLectureOrder(Integer id, Integer userId) {
@@ -41,9 +39,7 @@ public class OrderServiceImpl implements OrderService {
             lectureOrdersMapper.insert(lectureOrders);
             System.out.println(lectureOrders.getId());
             return lectureOrders;
-
     }
-
     @Override
     public LectureOrders findLectureOrderById(Integer id) {
         return lectureOrdersMapper.selectByPrimaryKey(id);
@@ -98,10 +94,7 @@ public class OrderServiceImpl implements OrderService {
                 return "ok";
 
 
-
-
     }
-
     @Override
     public String orderCheck(Integer personnelId, Date workStart, Date workEnd) {
         List<Order>  hourlyworkerOrders=orderMapper.selectByPersonnelId(personnelId);
@@ -127,7 +120,6 @@ public class OrderServiceImpl implements OrderService {
         return "ok";
 
     }
-
     @Override
     public int addOrder(Order order) {
         return orderMapper.insert(order);
@@ -161,16 +153,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<PersonnelOrder> findPersonnelOrderByPersonnelId(Integer personnelId) {
         return orderMapper.selectPersonnelOrderByPersonnelId(personnelId);
-    }
-
-    @Override
-    public int addUserRequirement(UserRequirement userRequirement) {
-        return requirementMapper.insert(userRequirement);
-    }
-
-    @Override
-    public UserRequirement findUserRequirementById(Integer id) {
-        return requirementMapper.selectByPrimaryKey(id);
     }
 
     @Override

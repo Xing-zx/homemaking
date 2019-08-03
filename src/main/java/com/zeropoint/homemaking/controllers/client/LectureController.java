@@ -63,7 +63,6 @@ public class LectureController {
                 return res;
             }
 
-
         }
 
         res.put("code",0);

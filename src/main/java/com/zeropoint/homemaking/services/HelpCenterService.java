@@ -13,4 +13,16 @@ public interface HelpCenterService {
     HelpCenter findById(Integer id);
     int addComplaint(Complaint complaint);
     int addComment(Comment comment);
+
+    int update1(HelpCenter helpCenter);
+
+    HelpCenter select1(Integer id);
+
+    int update2(HelpCenter helpCenter);
+
+    HelpCenter select2(Integer id);
+
+    int update3(HelpCenter helpCenter);
+
+    HelpCenter select3(Integer id);
 }

@@ -6,6 +6,7 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from complaint
@@ -32,5 +33,36 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, title, content, user_id
     from complaint
+  </select>
+
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Complaint">
+    insert into complaint (id, title, content,
+      user_id)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+      #{userId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, title, content, user_id
+    from complaint
+  </select>
+
+  <delete id="delete1">
+    delete from complaint
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+
+  <select id="selectPage1" resultMap="BaseResultMap">
+  select ds.*,u.name
+    from complaint ds
+    INNER JOIN user u on u.id=ds.user_id
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    select count(1) from complaint
   </select>
 </mapper>

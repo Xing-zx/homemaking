@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Administrator
  */
 @RestController
+@RequestMapping("/api")
 public class LectureController {
 
     @Autowired
@@ -62,7 +63,6 @@ public class LectureController {
                 res.put("data",lecture);
                 return res;
             }
-
 
         }
 

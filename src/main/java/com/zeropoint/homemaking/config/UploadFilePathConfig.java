@@ -15,6 +15,6 @@ public class UploadFilePathConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(staticAccessPath).addResourceLocations("file:" + uploadFolder);
+/*        registry.addResourceHandler(staticAccessPath).addResourceLocations("file:" + uploadFolder);*/
     }
 }

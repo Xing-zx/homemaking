@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chowhin
  */
 @RestController
-@RequestMapping("/distribute")
+@RequestMapping("/api/distribute")
 public class DistributionController {
     @Autowired
     PersonnelService personnelService;

@@ -35,6 +35,7 @@
     <result column="all_brokerage" jdbcType="DOUBLE" property="allBrokerage" />
     <result column="withdrawal_brokerage" jdbcType="DOUBLE" property="withdrawalBrokerage" />
     <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
+    <result column="stores_name" jdbcType="LONGVARCHAR" property="storesName" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_personnel
@@ -208,6 +209,119 @@
     select count(*)from service_personnel
     where upline=#{upline} or upupline=#{upline}
   </select>
+
+  <resultMap id="StoresResultMap" type="com.zeropoint.homemaking.domain.Stores">
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="stores_password" jdbcType="VARCHAR" property="storesPassword" />
+    <result column="stores_name" jdbcType="VARCHAR" property="storesName" />
+    <result column="stores_address" jdbcType="VARCHAR" property="storesAddress" />
+    <result column="stores_introduced" jdbcType="VARCHAR" property="storesIntroduced" />
+    <result column="sions_id" jdbcType="INTEGER" property="sionsId" />
+    <result column="broker_id" jdbcType="INTEGER" property="brokerId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select s.*,o.stores_name
+    from service_personnel s INNER JOIN stores o on o.stores_id=s.stores_id
+    <where>
+      s.status='1'
+      <if test="name != null and name != ''">
+        and s.name LIKE  '%${name}%'
+      </if>
+      <if test="storesId != null and storesId != '' ">
+        and
+        s.stores_id = #{storesId}
+      </if>
+      <if test="workType != null and workType != '' ">
+        and
+        s.work_type = #{workType}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        s.creat_times between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM service_personnel  s INNER JOIN stores o on o.stores_id=s.stores_id
+    <where>
+      s.status='1'
+      <if test="name != null and name != ''">
+        and s.name LIKE  '%${name}%'
+      </if>
+      <if test="storesId != null and storesId != '' ">
+        and
+        s.stores_id = #{storesId}
+      </if>
+      <if test="workType != null and workType != '' ">
+        and
+        s.work_type = #{workType}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        s.creat_times between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByConditions1" parameterType="Map" resultMap="BaseResultMap">
+    select s.*,o.*
+    from service_personnel s INNER JOIN stores o ON s.stores_id=o.stores_id
+    <where>
+      s.status in(2,3)
+      <if test="name != null and name != ''">
+        and s.name LIKE  '%${name}%'
+      </if>
+      <if test="workType != null and workType != '' ">
+        and
+        s.work_type = #{workType}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        s.creat_times between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="counts1" resultType="int">
+    SELECT  COUNT(1) FROM service_personnel s
+    INNER JOIN stores o on o.stores_id=s.stores_id
+    <where>
+      s.status in(2,3)
+      <if test="name != null and name != ''">
+        and s.name LIKE  '%${name}%'
+      </if>
+      <if test="workType != null and workType != '' ">
+        and
+        s.work_type = #{workType}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        s.creat_times between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="SelectIds1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select s.*,c.*
+    from service_personnel s,certificate c
+    where s.id = #{id}
+  </select>
+
+  <select id="selectStores1" parameterType="Map" resultMap="StoresResultMap">
+    select *  from stores
+  </select>
+
+  <delete id="delete1">
+    delete from service_personnel
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
 
 
 

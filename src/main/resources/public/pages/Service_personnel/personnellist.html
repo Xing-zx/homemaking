@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>会员列表-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+	<meta name="renderer" content="webkit" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<link rel="stylesheet" href="../../static/css/font.css" />
+	<link rel="stylesheet" href="../../static/css/weadmin.css" />
+	<style>
+		.views:link{
+			color: #007DDB;
+		}
+		.views:hover{
+			color: darkblue;
+		}
+	</style>
+	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="javascript:;">首页</a> <a href="javascript:;">员工管理</a>
+				<a href="javascript:;"> <cite>员工列表</cite></a>
+			</span>
+	<a class="layui-btn layui-btn-sm" style="margin-top:3px;float:right" href="javascript:location.replace(location.href);"
+	   title="刷新">
+		<i class="layui-icon layui-icon-refresh"></i>
+		<!-- <i class="layui-icon" style="line-height:30px">&#x1002;</i> -->
+	</a>
+</div>
+
+<div class="weadmin-body">
+	<div class="layui-row">
+		<form class="layui-form layui-col-md12 we-search" onsubmit="return false">
+			<div class="layui-inline">
+				<input type="text" name="username" id="username" placeholder="请输入客户姓名" autocomplete="off" class="layui-input" />
+			</div>
+			<div class="layui-input-inline">
+				<select name="cateid" id="storesId">
+					<option value="">请选择所属门店</option>
+				</select>
+			</div>
+			<div class="layui-input-inline">
+				<select name="position" id="position">
+					<option value="">请选择职位</option>
+					<option value="1">月嫂</option>
+					<option value="2">保姆</option>
+					<option value="3">钟点工</option>
+				</select>
+			</div>
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择认证时间">
+				</div>
+			</div>
+			<button class="layui-btn" onclick="loadlist()">
+				<i class="layui-icon layui-icon-search"></i>
+			</button>
+		</form>
+	</div>
+	<div class="weadmin-block">
+		<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+		<button class="layui-btn" style="background-color: #00008B;">导出</button>
+	</div>
+	<table class="layui-table" id="memberList" lay-filter="test"></table>
+
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../../static/js/admin.js"></script>
+<script type="text/html" id="status">
+	{{#  if(d.status === 1){ }}
+	  <span class="layui-badge layui-bg-green td-status">已认证</span>
+	{{#  } else { }}
+	  <span class="layui-badge td-status">禁用</span>
+	{{#  } }}
+</script>
+
+<script type="text/html" id="workType">
+	{{#  if(d.workType === 1){ }}
+	  <span class="layui-badge layui-bg-cyan td-status" style="width: 50px">月嫂</span>
+	{{#  } else if(d.workType === 2){ }}
+	  <span class="layui-badge layui-bg-orange td-status" style="width: 50px">保姆</span>
+	{{#  } else if(d.workType === 3){ }}
+	  <span class="layui-badge layui-bg-blue td-status" style="width: 50px">钟点工</span>
+	{{#  } }}
+</script>
+<script type="text/html" id="barDemo">
+	<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail">查看</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
+</script>
+
+<script>
+	layui.use(['form','layer','table','layedit','laydate','rate'], function () {
+		$ = layui.jquery;
+		var form = layui.form;
+		var layer = layui.layer;
+		var layedit = layui.layedit;
+		var laydate=layui.laydate;
+		var rate=layui.rate;
+	 	var table = layui.table //表格
+		//日期范围
+		laydate.render({
+			elem: '#test6',
+			range: true
+		});
+
+		//监听行工具事件
+		table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+			var data = obj.data //获得当前行数据
+					,layEvent = obj.event; //获得 lay-event 对应的值
+			var ids=data.id
+			if(layEvent === 'detail'){
+				WeAdminEdit('查看详情', './personneledit.html?id=' + data.id);
+			} else if(layEvent === 'del'){
+				layer.confirm('真的删除行么', function(index){
+					$.ajax({
+						type:"post",
+						url:"/servicepe/delete",
+						dataType:"text",
+						data:{"ids":ids},
+						traditional:true,
+						success:function (data) {
+							//捉到所有被选中的，发异步进行删除
+							layer.msg('删除成功', {
+								icon: 1
+							});
+							obj.del(); //删除对应行（tr）的DOM结构
+							layer.close(index);
+						},
+						error:function () {
+							alert("error");
+						}
+					})
+				});
+			} else if(layEvent === 'edit') {
+
+			}
+		});
+
+	});
+
+	$(function () {
+		loadlist()
+	})
+
+	function loadlist(){
+		var name=$("#username").val();
+		var storesId=$("#storesId").val();
+		var workType=$("#position").val();
+		var startTime=$("#test6").val().substr(0,10);
+		var endTime=$("#test6").val().substr(12,19);
+		layui.use('table', function(){
+			var table = layui.table;
+			table.render({
+				elem: '#memberList'
+				,url:'/servicepe/list'
+				,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,where: {name:name,storesId: storesId,workType:workType,startTime:startTime,endTime:endTime}
+				,cols: [[
+					{type:'checkbox',fixed: 'left'}
+					,{field:'id', title: '工号'}
+					,{field:'name',title: '员工姓名',width:100}
+					,{field:'workType',title: '职位',toolbar: '#workType'}
+					,{field:'storesName', title: '所属门店'}
+					,{field:'phone', title: '手机号',width:120}
+					,{field:'level', title: '级别'}
+					,{field:'count',title: '订单量'}
+					,{field:'creatTimes',title: '认证时间',width:160}
+					,{field:'chargeStandard',  title: '收费标准'}
+					,{field:'applauseRate', title: '好评率',sort:true}
+					,{field:'status', title: '状态',toolbar: '#status'}
+					,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:120}
+				]],
+				page:true,
+				limit:10,
+				request: {
+					pageName: 'curr', //页码的参数名称，默认：page
+					limitName: 'limit'//每页数据量的参数名，默认：limit
+				},
+			});
+		});
+	}
+
+
+
+	$(function () {
+		$.ajax({
+			type:"get",
+			url:"/servicepe/selectstores",
+			dataType:"json",
+			success:function (data) {
+				for(var i=0;i<data.length;i++){
+					$("#storesId").append("<option value='"+data[i].storesId+"'>"+data[i].storesName+"</option>");
+				}
+				layui.form.render("select");
+			},
+			error:function () {
+				alert("error");
+			}
+		})
+		loadlist()
+	})
+
+/*
+	function loadlist() {
+
+		var name=$("#username").val();
+		var storesId=$("#storesId").val();
+		var position=$("#position").val();
+		var startTime=$("#test6").val().substr(0,10);
+		var endTime=$("#test6").val().substr(12,19);
+		var obj = JSON.stringify({"name":name,"storesId":storesId,"position":position,"startTime":startTime,"endTime":endTime});
+		$.ajax({
+			type:"post",
+			url:"/servicepe/list",
+			dataType:"json",
+			contentType: 'application/json;charset=utf-8',
+			data:obj,
+			success:function (data) {
+				var count=data.length;
+				$("#list").empty();
+				$(data).each(
+						function (i, values) {
+							if(values.applauseRate==null){
+								values.applauseRate=""
+							}else{
+								values.applauseRate=values.applauseRate+"%"
+							}
+
+							if(values.level==null){
+								values.level=values.level;
+							}
+
+							if(values.chargeStandard==null){
+								values.chargeStandard="";
+							}
+							else if(values.position==3){
+								values.chargeStandard=values.chargeStandard+"/小时"
+							}
+							else{
+								values.chargeStandard=values.chargeStandard+"/月"
+							}
+
+							if(values.phone==null){
+								values.phone="";
+							}
+
+							if(values.position==null){
+								values.position="";
+							}
+							else if(values.position==1){
+								values.position="月嫂"
+							}
+							else if(values.position==2){
+								values.position="保姆"
+							}
+							else if(values.position==3){
+								values.position="钟点工"
+							}
+
+							if(values.worktype==null){
+								values.worktype=""
+							}else if(values.worktype==1){
+								values.worktype="住家"
+							}
+							else if(values.worktype=2){
+								values.worktype="白班"
+							}
+							else if(values.worktype==3){
+								values.worktype="钟点工"
+							}
+
+							if(values.stores==null){
+								values.stores=""
+							}
+							if(values.level==null){
+								values.level=""
+							}
+							if(values.count==null){
+								values.count=""
+							}
+							if(values.creattimes==null){
+								values.creattimes=""
+							}
+							var str = "";
+							str += "<tr><td><div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+values.id+"'>"
+							str += "<i class='layui-icon'>&#xe605;</i></div></td><td>"+values.id+"</td>"
+							str += "<td><a class='views' onclick='WeAdminEdit(&apos;编辑管理员信息&apos;,&apos;.	/personneledit.html?id="+values.id+"&apos;,"+values.id+")' href='javascript:;'>"+values.name+"</a></td>"
+							str += "<td>"+values.position+"</td><td>"+values.worktype+"</td><td>"+values.storesName+"</td><td>"+values.phone+"</td><td>"+values.level+"</td><td>"+values.count+"</td>"
+							str += "<td>"+values.creattimes+"</td><td>"+values.chargeStandard+"</td><td>"+values.applauseRate+"</td>"
+							if(values.stauts==1){
+								values.stauts="已认证"
+								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: green'>"+values.stauts+"</span></td></tr>"
+							}
+							else if(values.stauts==2){
+								values.stauts="未认证"
+								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: gray'>"+values.stauts+"</span></td></tr>"
+							}
+							else if(values.stauts=3){
+								values.stauts="认证失败"
+								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: black'>"+values.stauts+"</span></td></tr>"
+							}
+							$('#list').append(str)
+						}
+				);
+				$("#count").html(count)
+			},
+			error:function () {
+				alert("error");
+			}
+		})
+	}*/
+</script>
+</body>
+</html>

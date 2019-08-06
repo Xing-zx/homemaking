@@ -25,7 +25,7 @@ import java.util.List;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     UserService userService;
@@ -113,6 +113,7 @@ public class UserController {
         JSONObject res = new JSONObject();
         Integer id=request.getInteger("id");
         String  token=request.getString("token");
+        System.out.println(request.toJSONString());
         try{
             User user= userService.findUserById(id);
             if(token.equals(TokenService.getToken(user))) {
@@ -130,7 +131,7 @@ public class UserController {
         }catch (NullPointerException e)
         {
             res.put("code",0);
-            res.put("msg","用户不存在");
+            res.put("msg","用户信息——用户不存在");
 
         }
         return res;
@@ -167,12 +168,12 @@ public class UserController {
             res.put("msg","阿姨未审核");
          return res;
         }
-        List<String> specialities =personnelService.getSpeciality(personnel.getId());
+        List<String> specialities =personnelService.getSpecialityName(personnel.getId());
         if(specialities !=null)
         {
             personnel.setSpecialities(specialities);
         }
-        List<String> certificates =personnelService.getCertificate(personnel.getId());
+        List<String> certificates =personnelService.getCertificateName(personnel.getId());
         if(certificates !=null)
         {
             personnel.setCertificates(certificates);

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<!--
+	作者：github.com/WangEn
+	时间：2018-02-02
+	描述：添加文章类别
+-->
+	<head>
+		<meta charset="UTF-8">
+		<title>添加分类-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<link rel="stylesheet" type="text/css" href="../../lib/layui/css/layui.css" />
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-body">
+			<form class="layui-form" onsubmit="return false">
+				
+				<div class="layui-form-item">
+					<div class="layui-upload">
+						<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传图片</button>
+						<img class="layui-upload-img" id="demo1" width="50%" height="auto">
+						<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
+
+						<input type="hidden" id="img" name="img" required="" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">跳转路径</label>
+					<div class="layui-input-inline">
+						<input type="text" id="url" name="url" required="" lay-verify="urlqwe" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="radio" name="status" id="status" value="1" title="启用" checked="">
+						<input type="radio" name="status" id="status1" value="0" title="禁用">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">
+					</label>
+					<button class="layui-btn" onclick="add()">提交</button>
+				</div>
+
+			</form>
+		</div>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use(['form','layer','table','layedit','laydate','rate'], function () {
+				$ = layui.jquery;
+				var form = layui.form;
+				var layer = layui.layer;
+				var layedit = layui.layedit;
+				var laydate=layui.laydate;
+				var rate=layui.rate;
+				var table = layui.table //表格
+
+				//日期范围
+				laydate.render({
+					elem: '#test6',
+					range: true
+				});
+
+				laydate.render({
+					elem: '#test7',
+					range: true
+				});
+			});
+			function add(){
+				var img=$("#img").val();
+				var url=$("#url").val();
+				var status=$('input:radio:checked').val();
+				var obj = JSON.stringify({"img":img,"url":url,"status":status})
+
+				$.ajax({
+					type:"post",
+					url:"/banner/insert",
+					data:obj,
+					contentType: 'application/json;charset=utf-8',
+					success:function () {
+						$("#tijiao").addClass("layui-btn-disabled");
+						layer.msg("增加成功", {
+							icon: 6,
+							time: 1000
+						}, function() {
+							// 获得frame索引
+							var index = parent.layer.getFrameIndex(window.name);
+
+							alert(index)
+							//关闭当前frame
+							parent.layer.close(index);
+							window.parent.location.reload();
+						});
+					}
+				});
+			}
+			layui.use('upload', function() {
+				var $ = layui.jquery,
+						upload = layui.upload;
+
+				//普通图片上传
+				var uploadInst = upload.render({
+					elem: '#test1',
+					url: '/ar/uploadFile1',
+					before: function(obj) {
+						//预读本地文件示例，不支持ie8
+						obj.preview(function(index, file, result) {
+							$('#demo1').attr('src', result).src; //图片链接（base64）
+						});
+					},
+					done: function(res) {
+						//如果上传失败
+						if (res.code > 0) {
+							return layer.msg('上传失败');
+						}
+						//上传成功
+						$("#img").val(res.url)
+					},
+					error: function() {
+						//演示失败状态，并实现重传
+						var demoText = $('#demoText');
+						demoText.html(
+								'<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+						demoText.find('.demo-reload').on('click', function() {
+							uploadInst.upload();
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

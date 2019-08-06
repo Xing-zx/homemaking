@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<!--
+作者：github.com/WangEn
+时间：2018-02-02
+描述：添加文章类别
+-->
+<head>
+	<meta charset="UTF-8">
+	<title>添加分类-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../static/css/font.css">
+	<link rel="stylesheet" href="../../static/css/weadmin.css">
+	<link rel="stylesheet" type="text/css" href="../../lib/layui/css/layui.css" />
+	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+<div class="weadmin-body">
+	<form class="layui-form" onsubmit="return false">
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="we-red">*</span>管理员姓名</label>
+			<div class="layui-input-inline">
+				<input type="text" id="nikename" name="name" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="we-red">*</span>手机号</label>
+			<div class="layui-input-inline">
+				<input type="text" id="phones" name="phones" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="we-red">*</span>密码</label>
+			<div class="layui-input-inline">
+				<input type="password" id="pwds" name="pwds" autocomplete="off" class="layui-input">
+			</div>
+
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="we-red">*</span>确认密码</label>
+			<div class="layui-input-inline">
+				<input type="password" id="repwds" name="repwds" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="we-red">*</span>管理员角色</label>
+			<div class="layui-input-inline">
+				<select name="role" id="role">
+					<option value="">请选择角色</option>
+					<option value="超级管理员">超级管理员</option>
+					<option value="经纪人">经纪人</option>
+					<option value="门店">门店</option>`
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-block">
+				<input type="radio" name="status" class="status" value="1" title="启用" checked="">
+				<input type="radio" name="status" class="status" value="0" title="禁用">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">
+			</label>
+			<button class="layui-btn" id="tijiao"  onclick="adminadd()">提交</button>
+		</div>
+
+	</form>
+</div>
+<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../static/js/admin.js"></script>
+<script>
+	layui.use(['form', 'admin', 'jquery', 'table', 'layer'], function() {
+		var form = layui.form,
+				admin = layui.admin,
+				$ = layui.jquery,
+				table = layui.table,
+				layer = layui.layer;
+
+
+	});
+	form.verify({
+		nikename: function (value) {
+			if (value.length < 2) {
+				return '昵称必须大于两个字符'
+			}
+		},
+		pwds: [/(.+){6,12}$/, '密码必须6到12位'],
+		repwds: function(value) {
+			if ($('#pwds').val() != $('#repwds').val()) {
+				return '两次密码不一致';
+			}
+		}
+	});
+	function adminadd(){
+		var name=$("#nikename").val();
+		var phone=$("#phones").val();
+		var password=$("#pwds").val();
+		var repassword=$("#repwds").val();
+		var role=$("#role").val();
+		var status=$('input:radio:checked').val();
+		var obj = JSON.stringify({"name":name,"phone":phone,"role":role,"password":password,"status":status})
+
+		if(name!="" && phone!="" && password!="" && repassword!="" && role!="" && status!=""){
+			$.ajax({
+				type:"post",
+				url:"/admin/add",
+				data:obj,
+				contentType: 'application/json;charset=utf-8',
+				success:function () {
+					$("#tijiao").addClass("layui-btn-disabled");
+					layer.msg("增加成功", {
+						icon: 6,
+						time: 1000
+					}, function() {
+						// 获得frame索引
+						var index = parent.layer.getFrameIndex(window.name);
+						//关闭当前frame
+						parent.layer.close(index);
+						window.parent.location.reload();
+					});
+				}
+			});
+		}
+		else {
+			layer.msg('请填写完整！',{
+				icon: 2,
+				time: 1000
+			})
+		}
+	}
+
+</script>
+</body>
+
+</html>

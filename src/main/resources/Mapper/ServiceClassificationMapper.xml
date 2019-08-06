@@ -42,4 +42,55 @@
   select service_classification.*,frontend_page.url as url from service_classification left JOIN frontend_page on url_id =frontend_page.id and status=1
   </select>
 
+  <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer">
+    delete from service_classification
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
+    insert into service_classification (id, icon_url, name,
+      introduced, article_id)
+    values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey1" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
+    update service_classification
+    set icon_url = #{iconUrl,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      introduced = #{introduced,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, icon_url, name, introduced, article_id
+    from service_classification
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select *
+    from service_classification
+  </select>
+
+  <update id="updateStatus1" parameterType="java.lang.Integer">
+    update service_classification
+    set status = #{status}
+    where id=#{id}
+  </update>
+
+  <delete id="delete1">
+    delete from service_classification
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="selectPage1" resultMap="BaseResultMap">
+    select * from service_classification
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM service_classification
+  </select>
+
 </mapper>

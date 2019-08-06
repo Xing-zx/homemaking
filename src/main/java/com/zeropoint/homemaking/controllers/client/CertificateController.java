@@ -25,6 +25,7 @@ import java.util.UUID;
  * @author Administrator
  */
 @RestController
+@RequestMapping("/api")
 public class CertificateController {
     @Autowired
     PersonnelService personnelService;
@@ -39,7 +40,7 @@ public class CertificateController {
             res.put("msg","certificateList");
             Integer userId =request.getInteger("id");
             ServicePersonnel personnel = personnelService.findByUserId(userId);
-            res.put("data",personnelService.getCertificate(personnel.getId()));
+            res.put("data",personnelService.getCertificates(personnel.getId()));
 
         }catch (NullPointerException e)
         {

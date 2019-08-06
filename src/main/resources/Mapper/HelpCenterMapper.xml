@@ -35,4 +35,43 @@
     select * from help_center
     where name=#{name,jdbcType=VARCHAR}
   </select>
+
+  <select id="select1" resultMap="BaseResultMap">
+    select *
+    from help_center
+    where id=#{id}
+  </select>
+
+  <!--修改状态-->
+  <update id="update1" parameterType="com.zeropoint.homemaking.domain.HelpCenter">
+    update help_center
+    set text = #{text}
+    where id = #{id}
+  </update>
+
+  <select id="select2" resultMap="BaseResultMap">
+    select *
+    from help_center
+    where id=#{id}
+  </select>
+
+  <!--修改状态-->
+  <update id="update2" parameterType="com.zeropoint.homemaking.domain.HelpCenter">
+    update help_center
+    set text = #{text}
+    where id = #{id}
+  </update>
+
+  <select id="select3" resultMap="BaseResultMap">
+    select *
+    from help_center
+    where id=#{id}
+  </select>
+
+  <!--修改状态-->
+  <update id="update3" parameterType="com.zeropoint.homemaking.domain.HelpCenter">
+    update help_center
+    set text = #{text}
+    where id = #{id}
+  </update>
 </mapper>

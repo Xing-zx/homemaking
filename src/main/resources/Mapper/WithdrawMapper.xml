@@ -65,6 +65,58 @@
     and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59') and status=1
   </select>
 
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Withdraw">
+    insert into withdraw (id, name, type,
+      money, fee, bank_card,
+      create_time, final_money, alipay_account,
+      wechat_account, personnel_id, user_id,
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      #{money,jdbcType=DOUBLE}, #{fee,jdbcType=DOUBLE}, #{bankCard,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{finalMoney,jdbcType=DOUBLE}, #{alipayAccount,jdbcType=VARCHAR},
+      #{wechatAccount,jdbcType=VARCHAR}, #{personnelId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, name, type, money, fee, bank_card, create_time, final_money, alipay_account,
+    wechat_account, personnel_id, user_id, status
+    from withdraw
+  </select>
 
+  <select id="selectPage1" resultMap="BaseResultMap">
+    select * from withdraw
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        createTime between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM withdraw
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        createTime between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <!--修改状态-->
+  <update id="update1" parameterType="java.lang.Integer">
+    update withdraw
+    set status = #{status}
+    where id = #{id}
+  </update>
 
 </mapper>

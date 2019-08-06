@@ -74,6 +74,16 @@ public class ServicePersonnel {
 
     private List<String > certificates;
 
+    public String getStoresName() {
+        return storesName;
+    }
+
+    public void setStoresName(String storesName) {
+        this.storesName = storesName;
+    }
+
+    private String storesName;
+
 
     public List<String> getCertificates() { return certificates; }
 

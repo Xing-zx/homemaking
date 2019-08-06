@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单列表-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="">首页</a>
+				<a href="">其他管理</a>
+				<a href="">帮助中心</a>
+				<a><cite>关于平台</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
+			 title="刷新">
+				<i class="layui-icon" style="line-height:30px">ဂ</i></a>
+		</div>
+		<div class="weadmin-body">
+			
+			<form class="layui-form" onsubmit="return false">
+				<div class="layui-form-item" style="margin-top: 30px;">
+				
+					<textarea class="layui-textarea" id="LAY_demo1" style="display: none"></textarea>
+				
+					<div class="site-demo-button" style="margin-top: 20px;">
+						<button class="layui-btn site-demo-layedit" data-type="content">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script>
+			layui.extend({
+				admin: '{/}../../static/js/admin'
+			});
+			layui.use(['laydate', 'jquery', 'admin'], function() {
+				var laydate = layui.laydate,
+					$ = layui.jquery,
+					admin = layui.admin;
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#start' //指定元素
+				});
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#end' //指定元素
+				});
+			});
+			
+			layui.use('layedit', function() {
+				var layedit = layui.layedit,
+					$ = layui.jquery;
+
+				layedit.set({
+					uploadImage: {
+						url: '/ar/fileUpload1' //接口url
+						,type: 'post' //默认post
+						,headers: 'http:\\localhost:',
+						elem:'/upload/image/'
+					}
+				});
+			
+				//构建一个默认的编辑器
+				var index = layedit.build('LAY_demo1');
+			
+				//编辑器外部操作
+				var active = {
+					content: function() {
+						var text=layedit.getContent(index)
+
+						var obj = JSON.stringify({"text":text})
+
+						$.ajax({
+							type:"post",
+							url:"/helpCenter/update1",
+							data:obj,
+							contentType: 'application/json;charset=utf-8',
+							success:function () {
+								layer.msg("提交成功", {
+									icon: 6,
+									time: 1000
+								}, function() {
+
+								});
+							}
+						});
+					}
+
+				};
+
+				$(function () {
+					var id=1
+					$.ajax({
+						type:"post",
+						url:"/helpCenter/select1",
+						dataType:"json",
+						data:{"id":id},
+						success:function (data) {
+							layedit.setContent(index,data.text);
+						},
+						error:function () {
+							alert("error");
+						}
+					})
+				})
+				$('.site-demo-layedit').on('click', function() {
+					var type = $(this).data('type');
+					active[type] ? active[type].call(this) : '';
+				});
+			
+				//自定义工具栏
+				layedit.build('LAY_demo2', {
+					tool: ['face', 'link', 'unlink', '|', 'left', 'center', 'right'],
+					height: 100
+				})
+			});
+			
+
+
+		</script>
+	</body>
+
+</html>

@@ -11,6 +11,11 @@
     <result column="amount" jdbcType="DOUBLE" property="amount" />
     <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="username" jdbcType="VARCHAR" property="userName" />
+    <result column="lecturename" jdbcType="VARCHAR" property="lectureName" />
+    <result column="course_site" jdbcType="VARCHAR" property="courseSite" />
+    <result column="active_end" jdbcType="TIMESTAMP" property="activeEnd" />
+    <result column="active_start" jdbcType="TIMESTAMP" property="activeStart" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from lecture_orders
@@ -64,6 +69,78 @@
     select *from lecture_orders
     where order_number = #{orderNumber,jdbcType=VARCHAR}
   </select>
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.LectureOrders">
+    insert into lecture_orders (id, lecture_id, user_id,
+      create_time, status, order_number,
+      amount, prepay_id, pay_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{lectureId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR},
+      #{amount,jdbcType=DOUBLE}, #{prepayId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, lecture_id, user_id, create_time, status, order_number, amount, prepay_id,
+    pay_time
+    from lecture_orders
+  </select>
 
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select l.*,u.name as username,e.name as lecturename
+    from lecture_orders l
+    inner join  lecture e on l.lecture_id=e.id
+    inner join user u on u.id=l.user_id
+    <where>
+      <if test="name != null and name != ''">
+        u.name LIKE  '%${name}%'
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        l.status = #{status}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        l.createTime between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM lecture_orders l
+    inner join  lecture e on l.lecture_id=e.id
+    inner join user u on u.id=l.user_id
+    <where>
+      <if test="name != null and name != ''">
+        u.name LIKE  '%${name}%'
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        l.status = #{status}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        l.createTime between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <delete id="delete1">
+    delete from lecture_orders
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="selectKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select l.*,u.name as username,e.name as lecturename,e.active_start,e.active_end,e.course_site,e.amount
+    from lecture_orders l
+    inner join  lecture e on l.lecture_id=e.id
+    inner join user u on u.id=l.user_id
+    where l.id = #{id}
+  </select>
 
 </mapper>

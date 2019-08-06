@@ -20,13 +20,13 @@ import java.util.List;
 @Service
 public class HelpCenterServiceImpl implements HelpCenterService {
     @Autowired
-    HelpCenterMapper helpCenterMapper;
+    private HelpCenterMapper helpCenterMapper;
     @Autowired
-    FaqMapper faqMapper;
+    private FaqMapper faqMapper;
     @Autowired
-    ComplaintMapper complaintMapper;
+    private ComplaintMapper complaintMapper;
     @Autowired
-    CommentMapper commentMapper;
+    private CommentMapper commentMapper;
 
     @Override
     public int addComplaint(Complaint complaint) {
@@ -36,6 +36,36 @@ public class HelpCenterServiceImpl implements HelpCenterService {
     @Override
     public int addComment(Comment comment) {
         return commentMapper.insert(comment) ;
+    }
+
+    @Override
+    public int update1(HelpCenter helpCenter) {
+        return helpCenterMapper.update1(helpCenter);
+    }
+
+    @Override
+    public HelpCenter select1(Integer id) {
+        return helpCenterMapper.select1(id);
+    }
+
+    @Override
+    public int update2(HelpCenter helpCenter) {
+        return helpCenterMapper.update2(helpCenter);
+    }
+
+    @Override
+    public HelpCenter select2(Integer id) {
+        return helpCenterMapper.select2(id);
+    }
+
+    @Override
+    public int update3(HelpCenter helpCenter) {
+        return helpCenterMapper.update3(helpCenter);
+    }
+
+    @Override
+    public HelpCenter select3(Integer id) {
+        return helpCenterMapper.select3(id);
     }
 
     @Override

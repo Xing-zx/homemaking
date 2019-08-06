@@ -80,6 +80,61 @@ public class AdminServiceImpl implements AdminService {
         return  "fail";
     }
 
+    @Override
+    public int deleteByPrimaryKey1(Integer id) {
+        return adminMapper.deleteByPrimaryKey1(id);
+    }
+
+    @Override
+    public int insert1(Admin record) {
+        return adminMapper.insert1(record);
+    }
+
+    @Override
+    public Admin selectByPrimaryKey1(Integer id) {
+        return adminMapper.selectByPrimaryKey1(id);
+    }
+
+    @Override
+    public List<Admin> selectAll1() {
+        return adminMapper.selectAll1();
+    }
+
+    @Override
+    public int updateByPrimaryKey1(Admin record) {
+        return adminMapper.updateByPrimaryKey1(record);
+    }
+
+    @Override
+    public List<Admin> selectByCondition1(Integer page, Integer rows, String name, String role, String endTime, String startTime) {
+        return adminMapper.selectByCondition1(page, rows, name, role, endTime, startTime);
+    }
+
+    @Override
+    public int AdminCount1(String name, String role, String endTime, String startTime) {
+        return adminMapper.AdminCount1(name, role, endTime, startTime);
+    }
+
+    @Override
+    public void delete1(Integer[] ids) {
+        adminMapper.delete1(ids);
+    }
+
+    @Override
+    public Admin selectByName1(String name) {
+        return adminMapper.selectByName1(name);
+    }
+
+    @Override
+    public int updateStatus1(int id, int status) {
+        return adminMapper.updateStatus1(id, status);
+    }
+
+    @Override
+    public Admin login1(Admin admin) {
+        return adminMapper.login1(admin);
+    }
+
 
 }
 

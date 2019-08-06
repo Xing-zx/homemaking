@@ -33,6 +33,7 @@ import java.util.*;
  * @author Administrator
  */
 @RestController
+@RequestMapping("/api")
 public class PersonnelController {
 
     @Autowired
@@ -58,7 +59,7 @@ public class PersonnelController {
     /**
      *  筛选阿姨
      * @param cond 筛选条件
-     *             1 普通会员 2阿姨审核中 3阿姨审核通过 -1黑名单
+     *             0普通会员 1阿姨审核中 2阿姨审核通过  3审核失败 -1黑名单
      * @return 阿姨列表
      */
     @RequestMapping("/filterPersonnel")
@@ -109,14 +110,12 @@ public class PersonnelController {
         JSONObject res = new JSONObject();
         Integer userId=request.getInteger("user_id");
         String token =request.getString("token");
-
         try
         {
             ServicePersonnel personnel = personnelService.findByUserId(userId);
             List<String> specialities =personnelService.getSpecialityId(personnel.getId());
              if(specialities !=null)
              {
-
                 personnel.setSpecialities(specialities);
              }
             List<String> certificates =personnelService.getCertificateId(personnel.getId());
@@ -130,7 +129,7 @@ public class PersonnelController {
         }catch (NullPointerException e)
         {
             res.put("code",0);
-            res.put("msg","用户不存在");
+            res.put("msg","阿姨信息——用户不存在");
 
         }
         System.out.println(res.toJSONString());

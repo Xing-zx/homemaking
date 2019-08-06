@@ -19,7 +19,7 @@ import java.util.Map;
 @Service
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
-    ArticleMapper articleMapper;
+    private ArticleMapper articleMapper;
     @Override
     public List<Article> getList() {
 
@@ -36,6 +36,46 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int countAdd(Article record) {
         return articleMapper.updateByPrimaryKey(record) ;
+    }
+
+    @Override
+    public int delete1(Integer[] ids) {
+        return articleMapper.delete1(ids);
+    }
+
+    @Override
+    public int insert1(Article record) {
+        return articleMapper.insert1(record);
+    }
+
+    @Override
+    public Article selectKey1(Integer id) {
+        return articleMapper.selectKey1(id);
+    }
+
+    @Override
+    public List<Article> selectAll1() {
+        return articleMapper.selectAll1();
+    }
+
+    @Override
+    public int update1(Article record) {
+        return articleMapper.update1(record);
+    }
+
+    @Override
+    public List<Article> selectByCondition1(Integer page, Integer rows, String title, String author, Integer state, String startTime, String endTime) {
+        return articleMapper.selectByCondition1(page, rows, title, author, state, startTime, endTime);
+    }
+
+    @Override
+    public int count1(String title, String author, Integer state, String startTime, String endTime) {
+        return articleMapper.count1(title, author, state, startTime, endTime);
+    }
+
+    @Override
+    public int updatestate1(Integer id, Integer state) {
+        return articleMapper.updatestate1(id, state);
     }
 
 }

@@ -7,6 +7,7 @@ import com.zeropoint.homemaking.dao.SpecialityMapper;
 import com.zeropoint.homemaking.domain.Certificate;
 import com.zeropoint.homemaking.domain.ServicePersonnel;
 import com.zeropoint.homemaking.domain.Speciality;
+import com.zeropoint.homemaking.domain.Stores;
 import com.zeropoint.homemaking.services.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,15 +38,15 @@ public class PersonnelServiceImpl  implements PersonnelService {
         {
             return personnelMapper.selectAll();
         }
-         List<ServicePersonnel> list=personnelMapper.selectByCondition(condition);
+        List<ServicePersonnel> list=personnelMapper.selectByCondition(condition);
         if(list !=null) {
             try {
                 for (ServicePersonnel personnel : list) {
-                    List<String> specialities = getSpeciality(personnel.getId());
+                    List<String> specialities = getSpecialityName(personnel.getId());
                     if (specialities != null) {
                         personnel.setSpecialities(specialities);
                     }
-                    List<String> certificates = getCertificate(personnel.getId());
+                    List<String> certificates = getCertificateName(personnel.getId());
                     if (certificates != null) {
                         personnel.setCertificates(certificates);
                     }
@@ -60,7 +61,7 @@ public class PersonnelServiceImpl  implements PersonnelService {
     }
 
     @Override
-    public List<String > getSpeciality(Integer id) {
+    public List<String > getSpecialityName(Integer id) {
         List<Speciality> specialities=specialityMapper.selectByPersonnelId(id);
         List<String> list = new ArrayList<>();
         if (specialities != null) {
@@ -70,6 +71,11 @@ public class PersonnelServiceImpl  implements PersonnelService {
 
         }
         return list;
+    }
+
+    @Override
+    public List<Speciality> getSpecialities(Integer id) {
+        return specialityMapper.selectByPersonnelId(id);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class PersonnelServiceImpl  implements PersonnelService {
     }
 
     @Override
-    public List<String> getCertificate(Integer id) {
+    public List<String> getCertificateName(Integer id) {
         List<Certificate> certificates = certificateMapper.selectByPersonnelId(id);
         List<String > list = new ArrayList<>();
         if (certificates != null) {
@@ -109,6 +115,12 @@ public class PersonnelServiceImpl  implements PersonnelService {
         }
         return list ;
     }
+
+    @Override
+    public List<Certificate> getCertificates(Integer id) {
+        return certificateMapper.selectByPersonnelId(id);
+    }
+
     @Override
     public List<String> getChildList(String name) {
 
@@ -140,7 +152,7 @@ public class PersonnelServiceImpl  implements PersonnelService {
                 Speciality speciality=new Speciality();
                 speciality.setCategoryId(categorId);
                 speciality.setPersonnelId(personnelId);
-               count += specialityMapper.insert(speciality);
+                count += specialityMapper.insert(speciality);
             }
 
         }
@@ -161,7 +173,7 @@ public class PersonnelServiceImpl  implements PersonnelService {
         }
         else{
 
-           return 0;
+            return 0;
         }
 
     }
@@ -182,7 +194,7 @@ public class PersonnelServiceImpl  implements PersonnelService {
         for(String id:ids)
         {
             ServicePersonnel servicePersonnel=findById(Integer.parseInt(id));
-           if(servicePersonnel!=null) list.add(servicePersonnel);
+            if(servicePersonnel!=null) list.add(servicePersonnel);
         }
         return list;
     }
@@ -191,5 +203,61 @@ public class PersonnelServiceImpl  implements PersonnelService {
     public int getPersonCount(Integer personnelId) {
         return personnelMapper.getCountByUpline(personnelId);
     }
+
+    @Override
+    public void delete1(Integer[] ids) {
+        personnelMapper.delete1(ids);
+    }
+
+    @Override
+    public int insert1(ServicePersonnel record) {
+        return personnelMapper.insert1(record);
+    }
+
+    @Override
+    public ServicePersonnel selectByPrimaryKey1(Integer id) {
+        return personnelMapper.selectByPrimaryKey1(id);
+    }
+
+    @Override
+    public List<ServicePersonnel> selectAll1() {
+        return personnelMapper.selectAll1();
+    }
+
+    @Override
+    public List<ServicePersonnel> selectByCondition1(int page, int rows, String name, Integer storesId, Integer workType, String startTime, String endTime) {
+        return personnelMapper.selectByCondition1(page, rows, name, storesId, workType, startTime, endTime);
+    }
+
+    @Override
+    public int count1(String name, Integer storesId, Integer workType, String startTime, String endTime) {
+        return personnelMapper.count1(name, storesId, workType, startTime, endTime);
+    }
+
+    @Override
+    public List<ServicePersonnel> selectByConditions1(int page, int rows, String name, Integer workType, String startTime, String endTime) {
+        return personnelMapper.selectByConditions1(page, rows, name, workType, startTime, endTime);
+    }
+
+    @Override
+    public int counts1(String name, Integer workType, String startTime, String endTime) {
+        return personnelMapper.counts1(name, workType, startTime, endTime);
+    }
+
+    @Override
+    public int updateByPrimaryKey1(ServicePersonnel record) {
+        return personnelMapper.updateByPrimaryKey1(record);
+    }
+
+    @Override
+    public ServicePersonnel SelectIds1(Integer id) {
+        return personnelMapper.SelectIds1(id);
+    }
+
+    @Override
+    public List<Stores> selectStores1() {
+        return personnelMapper.selectStores1();
+    }
+
 
 }

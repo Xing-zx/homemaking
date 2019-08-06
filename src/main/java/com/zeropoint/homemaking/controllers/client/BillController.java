@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
-import java.util.jar.JarEntry;
 
 /**
  * @author chowhin
  */
 @RestController
-@RequestMapping("/bill")
+@RequestMapping("/api/bill")
 public class BillController {
     @Autowired
     PersonnelService personnelService;

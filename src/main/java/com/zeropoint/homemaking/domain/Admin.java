@@ -16,7 +16,7 @@ public class Admin implements UserDetails {
     private Integer id;
 
     private String name;
-    @JsonIgnore
+
     private String password;
 
     private String role;
@@ -40,7 +40,7 @@ public class Admin implements UserDetails {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_"+getRole()));
 
     }
-    @JsonIgnore
+
     @Override
     public String getPassword() {
         return password;

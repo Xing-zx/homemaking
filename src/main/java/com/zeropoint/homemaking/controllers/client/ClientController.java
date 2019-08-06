@@ -25,6 +25,7 @@ import java.util.*;
  * @author Administrator
  */
 @RestController
+@RequestMapping("/api")
 public class ClientController {
 
     @Autowired
@@ -51,8 +52,6 @@ public class ClientController {
     private String grantType="authorization_code";
 
 
-    private ThreadLocal<String> sessionKey=new ThreadLocal<>();
-    private ThreadLocal<String> code=new ThreadLocal<>();
 
     /** 主页信息填充和链接
      * @return
@@ -88,7 +87,8 @@ public class ClientController {
         JSONObject params=JSONObject.parseObject(data);
         String openId=params.getString("openid");
         Integer upline=request.getInteger("v_id");
-        sessionKey.set(params.getString("session_key"));
+        System.out.println(data);
+        session.setAttribute("sessionKey",params.getString("session_key"));
         res.put("code",1);
         res.put("msg","login");
         User user1=  userService.selectByOpenId(openId);
@@ -117,13 +117,12 @@ public class ClientController {
             personnel.setUserId(user.getId());
             personnel.setStatus(0);
            //阿姨头像
-
-
             personnelService.addPersonnel(personnel);
             request.put("id",user.getId());
             request.put("code",openId);
             request.put("phone","");
             String token=TokenService.getToken(userService.selectByOpenId(openId));
+            TokenService.sessionHashMap.put(token,session);
             request.put("token",token);
             request.put("stauts",0);
             res.put("data",request);
@@ -148,6 +147,7 @@ public class ClientController {
         System.out.println(user1.getToken());
         res.put("data",user1);
         System.out.println(res);
+        TokenService.sessionHashMap.put(user1.getToken(),session);
         return res;
     }
 
@@ -160,9 +160,24 @@ public class ClientController {
     public JSONObject getPhone(@RequestBody JSONObject request){
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
-        String phone= homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey.get()).getString("phoneNumber");
+        HttpSession session=TokenService.sessionHashMap.get(request.getString("token"));
+        String sessionKey;
+        if(session==null)
+        {
+            String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
+                    + grantType;
+            String data = HttpUtil.get(url);
+            sessionKey=JSONObject.parseObject(data).getString("session_key");
+
+
+        }
+        else
+        {
+            sessionKey= (String) session.getAttribute("sessionKey");
+        }
+        String phone= homeService.decryptData(request.getString("encryptedData"),request.getString("iv"),sessionKey).getString("phoneNumber");
         User user=userService.findUserById(request.getInteger("id"));
-        if( user.getPhone() ==null || user.getPhone() == "")
+        if( user.getPhone() ==null || user.getPhone().equals(""))
         {
             user.setPhone(phone);
             userService.update(user);
@@ -185,15 +200,18 @@ public class ClientController {
         System.out.println(request.toJSONString());
         HttpSession session =http.getSession();
         User user=userService.findUserByPhone(request.getString("phone"));
+        String code;
         if(user==null)
         {
-            code.set(HomeService.verifyCode());
+            code= HomeService.verifyCode();
             session.setAttribute("code",code);
-            session.setMaxInactiveInterval(300);
-            JSONObject respone=homeService.senSms(request.getString("phone"),code.get());
+            session.setMaxInactiveInterval(1200);
+            TokenService.sessionHashMap.put(session.getId(),session);
+            JSONObject respone=homeService.senSms(request.getString("phone"),code);
             System.out.println(respone.toJSONString());
             res.put("code",1);
             res.put("msg",respone.getString("Message"));
+            res.put("data",session.getId());
             return res;
         }
         res.put("code",0);
@@ -206,16 +224,24 @@ public class ClientController {
      * @return
      */
     @RequestMapping("/register")
-    public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http){
+    public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http) {
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                 + grantType;
-        if(request.getString("code").equals(code.get()))
+        String sessionId = request.getString("codeId");
+        try {
+            HttpSession session = TokenService.sessionHashMap.get(sessionId);
+        if (!request.getString("code").equals(session.getAttribute("code").toString())) {
+            res.put("code", 0);
+            res.put("msg", "验证码错误");
+            return res;
+        }
+        }catch (Exception e)
         {
-            res.put("code",0);
-            res.put("msg","验证码错误");
-            return  res;
+            res.put("code", 0);
+            res.put("msg", "验证码失效");
+            return res;
         }
         String data = HttpUtil.get(url);
         System.out.println("data"+data);
@@ -247,7 +273,6 @@ public class ClientController {
         personnel.setName(request.getString("nickName"));
         personnel.setGender(request.getInteger("gender"));
         personnel.setUserId(user.getId());
-      //  personnel.setPhotoUrl(request.getString("avatarUrl"));
         personnel.setStatus(0);
         personnelService.addPersonnel(personnel);
         Address address=new Address();
@@ -276,7 +301,6 @@ public class ClientController {
             {
                 res.put("code",1);
                 res.put("msg","success");
-                user.setStatus(personnelService.findByUserId(user.getId()).getStatus());
                 res.put("data",user);
                 return res;
             }

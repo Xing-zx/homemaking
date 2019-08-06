@@ -9,6 +9,9 @@ import com.zeropoint.homemaking.domain.User;
 import com.zeropoint.homemaking.utils.HttpUtil;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+
 
 /**
  * @author jinbin
@@ -16,6 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service("TokenService")
 public class TokenService {
+    public static HashMap<String, HttpSession> sessionHashMap=new HashMap<>();
+
     public  static String getToken(User user) {
         String token="";
         // 将 user id 保存到 token 里面

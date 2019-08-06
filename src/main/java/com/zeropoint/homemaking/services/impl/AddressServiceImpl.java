@@ -26,8 +26,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getList() {
-        return addressMapper.selectAll();
+    public List<Address> getList(Integer id) {
+        return addressMapper.selectByUserId(id);
     }
 
     @Override

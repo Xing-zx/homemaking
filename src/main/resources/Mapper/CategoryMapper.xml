@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent" jdbcType="INTEGER" property="parent" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <resultMap id="view" type="com.zeropoint.homemaking.domain.Category">
     <id column="category_id" jdbcType="INTEGER" property="categoryId" />
@@ -45,6 +46,59 @@
     where name = #{parentName,jdbcType=VARCHAR}
     )
   </select>
+  <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer">
+    delete from category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Category">
+    insert into category (id, name, parent,status
+      )
+    values (#{id}, #{name}, #{parent} ,#{status}
+      )
+  </insert>
+  <update id="updateByPrimaryKey1" parameterType="com.zeropoint.homemaking.domain.Category">
+    update category
+    set name = #{name},
+      parent = #{parent},
+      status = #{status}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
 
+  <select id="selectTree1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from category
+    where parent = #{parent}
+  </select>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select *
+    from category
+  </select>
+  <select id="getChildListByName1" parameterType="java.lang.String" resultMap="view">
+    select id,name from category
+    where parent in (
+    select id from category
+    where name = #{parentName,jdbcType=VARCHAR}
+    )
+  </select>
+
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select * from category
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM category
+  </select>
+
+  <!--修改状态-->
+  <update id="updateStatus1" parameterType="java.lang.Integer">
+    update category
+    set status = #{status}
+    where id = #{id}
+  </update>
 
 </mapper>

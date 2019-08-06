@@ -118,27 +118,27 @@
       SELECT last_insert_id()
     </selectKey>
     insert into `order` (id, title, type,
-      user_phone, user_id, personnel_id, 
-      order_number, requirement, hetong_imgsrc, 
-      status, address, remark, 
-      hascomment, create_time, money_hour, 
-      money_bargin, money_advance, money_final, 
-      money_total, user_name, personnel_name, 
-      require_age, require_expirence, work_start_time, 
-      work_end_time, pay_time, address_id, 
-      assign_ids, appiont_date, native_place, 
-      money_actual, comment_id)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{userPhone,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{personnelId,jdbcType=INTEGER}, 
-      #{orderNumber,jdbcType=VARCHAR}, #{requirement,jdbcType=VARCHAR}, #{hetongImgsrc,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{hascomment,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{moneyHour,jdbcType=INTEGER}, 
-      #{moneyBargin,jdbcType=DOUBLE}, #{moneyAdvance,jdbcType=DOUBLE}, #{moneyFinal,jdbcType=DOUBLE}, 
-      #{moneyTotal,jdbcType=DOUBLE}, #{userName,jdbcType=VARCHAR}, #{personnelName,jdbcType=VARCHAR}, 
-      #{requireAge,jdbcType=VARCHAR}, #{requireExpirence,jdbcType=VARCHAR}, #{workStartTime,jdbcType=TIMESTAMP}, 
-      #{workEndTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=INTEGER}, 
-      #{assignIds,jdbcType=VARCHAR}, #{appiontDate,jdbcType=TIMESTAMP}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{moneyActual,jdbcType=DOUBLE}, #{commentId,jdbcType=INTEGER})
+    user_phone, user_id, personnel_id,
+    order_number, requirement, hetong_imgsrc,
+    status, address, remark,
+    hascomment, create_time, money_hour,
+    money_bargin, money_advance, money_final,
+    money_total, user_name, personnel_name,
+    require_age, require_expirence, work_start_time,
+    work_end_time, pay_time, address_id,
+    assign_ids, appiont_date, native_place,
+    money_actual, comment_id)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+    #{userPhone,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{personnelId,jdbcType=INTEGER},
+    #{orderNumber,jdbcType=VARCHAR}, #{requirement,jdbcType=VARCHAR}, #{hetongImgsrc,jdbcType=VARCHAR},
+    #{status,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{hascomment,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{moneyHour,jdbcType=INTEGER},
+    #{moneyBargin,jdbcType=DOUBLE}, #{moneyAdvance,jdbcType=DOUBLE}, #{moneyFinal,jdbcType=DOUBLE},
+    #{moneyTotal,jdbcType=DOUBLE}, #{userName,jdbcType=VARCHAR}, #{personnelName,jdbcType=VARCHAR},
+    #{requireAge,jdbcType=VARCHAR}, #{requireExpirence,jdbcType=VARCHAR}, #{workStartTime,jdbcType=TIMESTAMP},
+    #{workEndTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=INTEGER},
+    #{assignIds,jdbcType=VARCHAR}, #{appiontDate,jdbcType=TIMESTAMP}, #{nativePlace,jdbcType=VARCHAR},
+    #{moneyActual,jdbcType=DOUBLE}, #{commentId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Order">
     update `order`
@@ -200,6 +200,200 @@
   <select id="selectByOrderNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
     select* from `order`
     where order_number=#{orderNumber,jdbcType=VARCHAR}
+  </select>
+
+  <resultMap id="ServiceMap" type="com.zeropoint.homemaking.domain.ServicePersonnel">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="work_experience" jdbcType="INTEGER" property="workExperience" />
+    <result column="work_content" jdbcType="VARCHAR" property="workContent" />
+    <result column="work_type" jdbcType="INTEGER" property="workType" />
+    <result column="work_city" jdbcType="VARCHAR" property="workCity" />
+    <result column="level" jdbcType="CHAR" property="level" />
+    <result column="charge_standard" jdbcType="INTEGER" property="chargeStandard" />
+    <result column="applause_rate" jdbcType="DOUBLE" property="applauseRate" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="program_code" jdbcType="VARCHAR" property="programCode" />
+    <result column="upline" jdbcType="INTEGER" property="upline" />
+    <result column="upupline" jdbcType="INTEGER" property="upupline" />
+    <result column="creat_times" jdbcType="TIMESTAMP" property="creatTimes" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
+    <result column="stores_name" jdbcType="LONGVARCHAR" property="storesName" />
+  </resultMap>
+
+  <resultMap id="PersonnelMap" type="com.zeropoint.homemaking.domain.ServicePersonnel">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="work_experience" jdbcType="INTEGER" property="workExperience" />
+    <result column="work_content" jdbcType="VARCHAR" property="workContent" />
+    <result column="work_type" jdbcType="INTEGER" property="workType" />
+    <result column="work_city" jdbcType="VARCHAR" property="workCity" />
+    <result column="level" jdbcType="CHAR" property="level" />
+    <result column="charge_standard" jdbcType="INTEGER" property="chargeStandard" />
+    <result column="applause_rate" jdbcType="DOUBLE" property="applauseRate" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="program_code" jdbcType="VARCHAR" property="programCode" />
+    <result column="upline" jdbcType="INTEGER" property="upline" />
+    <result column="upupline" jdbcType="INTEGER" property="upupline" />
+    <result column="creat_times" jdbcType="TIMESTAMP" property="creatTimes" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
+    <result column="stores_name" jdbcType="LONGVARCHAR" property="storesName" />
+  </resultMap>
+
+  <select id="selectAll1" resultMap="BaseResultMap">
+    SELECT r.*,u.*,a.*
+    FROM `order` r
+    INNER JOIN user u ON u.id=r.user_id
+    INNER JOIN address a ON a.id=r.address_id
+    <where>
+      r.status in (1,-1) and r.type in (1,2)
+      <if test="name != null and name != ''">
+        and user_name LIKE  '%${name}%'
+      </if>
+      <if test="type != null and type != '' ">
+        and
+        type = #{type}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="selectOrder1" resultMap="BaseResultMap">
+    SELECT r.*,u.*,a.*
+    FROM `order` r
+    INNER JOIN user u ON u.id=r.user_id
+    INNER JOIN address a ON a.id=r.address_id
+    <where>
+      r.status in (2,3,4,5,6)
+      <if test="name != null and name != ''">
+        and user_name LIKE  '%${name}%'
+      </if>
+      <if test="type != null and type != '' ">
+        and
+        type = #{type}
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        status = #{status}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="countOrder1" resultType="int">
+    SELECT count(1)
+    FROM `order`
+    <where>
+      status in (2,3,4,5,6)
+      <if test="name != null and name != ''">
+        and user_name LIKE  '%${name}%'
+      </if>
+      <if test="type != null and type != '' ">
+        and
+        type = #{type}
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        status = #{status}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="serviceSelect1" resultType="int" resultMap="ServiceMap">
+    SELECT *
+    FROM service_personnel
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+    limit #{page},#{rows}
+  </select>
+
+
+  <select id="count1" resultType="int">
+    SELECT count(1)
+    FROM `order`
+    <where>
+      status in (1,-1) and type in (1,2)
+      <if test="name != null and name != ''">
+        user_name LIKE  '%${name}%'
+      </if>
+      <if test="type != null and type != '' ">
+        and
+        type = #{type}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <delete id="delete1">
+    delete from `order`
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="selectKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select r.*,u.*,a.*
+    from `order` r
+    INNER JOIN user u ON u.id=r.user_id
+    INNER JOIN address a ON a.id=r.address_id
+    where r.id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="personnelView1" parameterType="java.lang.Integer" resultMap="PersonnelMap">
+    select s.*,c.*
+    from service_personnel s
+    inner join  stores c on  s.stores_id=c.stores_id
+    where s.id = #{id}
   </select>
 
 </mapper>

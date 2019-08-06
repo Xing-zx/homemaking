@@ -54,4 +54,98 @@
     content
     from article
   </select>
+
+
+  <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Article">
+    insert into article (id, title, author,
+      time, state, views,
+      cover_img1, cover_img2, cover_img3,
+      content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+      #{time,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
+      #{coverImg1,jdbcType=VARCHAR}, #{coverImg2,jdbcType=VARCHAR}, #{coverImg3,jdbcType=VARCHAR},
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="update1" parameterType="com.zeropoint.homemaking.domain.Article">
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from article
+    where id = #{id}
+  </select>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, title, author, time, state, views, cover_img1, cover_img2, cover_img3,
+    content
+    from article
+  </select>
+
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select * from article
+    <where>
+      <if test="title != null and title != ''">
+        title LIKE  '%${title}%'
+      </if>
+      <if test="author != null and author != '' ">
+        and
+        author = #{author}
+      </if>
+      <if test="state != null and state != '' ">
+        and
+        state = #{state}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    select count(1) from article
+    <where>
+      <if test="title != null and title != ''">
+        title LIKE  '%${title}%'
+      </if>
+      <if test="author != null and author != '' ">
+        and
+        author = #{author}
+      </if>
+      <if test="state != null and state != '' ">
+        and
+        state = #{state}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <delete id="delete1">
+    delete from article
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!--修改状态-->
+  <update id="updatestate1" parameterType="java.lang.Integer">
+    update article
+    set state = #{state}
+    where id = #{id}
+  </update>
 </mapper>

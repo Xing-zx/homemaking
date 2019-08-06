@@ -37,6 +37,7 @@ public class Lecture {
 
     private Integer erollStatus;
 
+
     public Integer getId() {
         return id;
     }

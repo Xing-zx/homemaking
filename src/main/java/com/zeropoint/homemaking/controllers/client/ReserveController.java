@@ -24,7 +24,7 @@ import java.util.List;
  * @author chowhin
  */
 @RestController
-@RequestMapping("/reserve")
+@RequestMapping("/api/reserve")
 public class ReserveController {
 
     @Autowired
@@ -107,12 +107,12 @@ public class ReserveController {
            List<ServicePersonnel> servicePersonnels = personnelService.findPersonnelByids(ids);
            if(servicePersonnels!=null) {
                for (ServicePersonnel personnel : servicePersonnels) {
-                   List<String> specialities =personnelService.getSpeciality(personnel.getId());
+                   List<String> specialities =personnelService.getSpecialityName(personnel.getId());
                    if(specialities !=null)
                    {
                        personnel.setSpecialities(specialities);
                    }
-                   List<String> certificates =personnelService.getCertificate(personnel.getId());
+                   List<String> certificates =personnelService.getCertificateName(personnel.getId());
                    if(certificates !=null)
                    {
                        personnel.setCertificates(certificates);

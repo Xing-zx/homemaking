@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>订单列表-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+				<a href="">首页</a>
+				<a href="">财务管理</a>
+				<a><cite>提现列表</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
+			 title="刷新">
+				<i class="layui-icon" style="line-height:30px">ဂ</i></a>
+		</div>
+		<div class="weadmin-body">
+			<div class="layui-row">
+				<form class="layui-form layui-col-md12 we-search" onsubmit="return false">
+					<div class="layui-inline">
+						<input type="text" name="username" id="username" placeholder="请输入申请人" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择提现时间">
+						</div>
+					</div>
+					<button class="layui-btn" onclick="loadlist()"><i class="layui-icon">&#xe615;</i></button>
+				</form>
+			</div>
+			<div class="weadmin-block">
+				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+			</div>
+
+			<table class="layui-table" id="test" lay-filter="test"></table>
+
+		</div>
+		<script type="text/html" id="barDemo">
+			{{#  if(d.status === 1){ }}
+			  <span class="layui-badge layui-bg-green td-status" lay-event="detail" >审核</span>
+			{{#  } else { }}
+			  <span class="layui-btn layui-btn-xs layui-btn-disabled">已审核</span>
+			{{#  } }}
+		</script>
+		<script>
+
+
+			layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider','form'], function(){
+				var laydate = layui.laydate //日期
+						,laypage = layui.laypage //分页
+						,layer = layui.layer //弹层
+						,form=layui.form
+						,table = layui.table //表格
+						,carousel = layui.carousel //轮播
+						,upload = layui.upload //上传
+						,element = layui.element //元素操作
+						,slider = layui.slider //滑块
+
+
+				//日期范围
+				laydate.render({
+					elem: '#test6',
+					range: true
+				});
+
+				//监听行工具事件
+				table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+					var data = obj.data //获得当前行数据
+							,layEvent = obj.event; //获得 lay-event 对应的值
+					var ids=data.id
+					if(layEvent === 'detail'){
+						var id=data.id;
+						var status=2;
+						var a=data.status
+						if (a==1) {
+							$.ajax({
+								type:"post",
+								url:"/withdraw/update",
+								dataType:"json",
+								data:{"id":id,"status":status},
+								success:function (data) {
+									layer.msg('审核成功!', {
+										icon: 6,
+										time: 1000
+									});
+									$(".layui-laypage-btn").click();
+								},
+								error:function () {
+									alert("error");
+								}
+							})
+						}
+					} else if(layEvent === 'del'){
+						layer.confirm('真的删除行么', function(index){
+							$.ajax({
+								type:"post",
+								url:"/admin/delete",
+								dataType:"text",
+								data:{"ids":ids},
+								traditional:true,
+								success:function (data) {
+									//捉到所有被选中的，发异步进行删除
+									layer.msg('删除成功', {
+										icon: 1
+									});
+									obj.del(); //删除对应行（tr）的DOM结构
+									layer.close(index);
+								},
+								error:function () {
+									alert("error");
+								}
+							})
+						});
+					} else if(layEvent === 'edit') {
+						WeAdminEdit('编辑', './adminedit.html?id=' + data.id, 470, 500);
+					}
+				});
+
+				table.on('checkbox(test)', function(obj){
+					console.log(obj)
+				});
+			});
+
+
+			$(function () {
+				loadlist()
+			})
+
+			function loadlist(){
+				var username=$("#username").val();
+				var startTime=$("#test6").val().substr(0,10);
+				var endTime=$("#test6").val().substr(12,19);
+
+				layui.use('table', function(){
+					var table = layui.table;
+					table.render({
+						elem: '#test'
+						,url:'/withdraw/list'
+						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,where: {name:username,startTime:startTime,endTime:endTime}
+						,cols: [[
+							{type:'checkbox',fixed: 'left'}
+							,{field:'id', title: '编号'}
+							,{field:'name',title: '姓名'}
+							,{field:'money',title: '总金额'}
+							,{field:'fee',  title: '手续费'}
+							,{field:'finalMoney',  title: '实际到账金额'}
+							,{field:'createTime',  title: '申请时间'}
+							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
+						]],
+						page:true,
+						limit:10,
+						request: {
+							pageName: 'curr', //页码的参数名称，默认：page
+							limitName: 'limit'//每页数据量的参数名，默认：limit
+						},
+					});
+				});
+			}
+		</script>
+	</body>
+
+</html>

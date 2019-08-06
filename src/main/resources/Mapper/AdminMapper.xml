@@ -75,4 +75,98 @@
     where name = #{name,jdbcType=VARCHAR}
     </select>
 
+
+  <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer">
+    delete from admin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="delete1">
+    delete from admin
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Admin">
+    insert into admin (id, name, password,
+      role, phone, register_time,
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{role,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey1" parameterType="com.zeropoint.homemaking.domain.Admin">
+    update admin
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from admin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, name, password, role, phone, register_time, status
+    from admin
+  </select>
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select * from admin
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+
+      </if>
+      <if test="role != null and role != '' ">
+        and
+        role = #{role}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        register_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="AdminCount1" resultType="int">
+    SELECT  COUNT(1) FROM admin
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+
+      </if>
+      <if test="role != null and role != '' ">
+        and
+        role = #{role}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        register_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByName1" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from admin
+    where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+  <!--修改状态-->
+  <update id="updateStatus1" parameterType="java.lang.Integer">
+    update admin
+    set status = #{status}
+    where id = #{id}
+  </update>
+
+  <select id="login1" parameterType="com.zeropoint.homemaking.domain.Admin" resultMap="BaseResultMap">
+    select * from admin
+    where name = #{name} and password = #{password}
+  </select>
 </mapper>

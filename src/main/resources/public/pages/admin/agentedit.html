@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<!--
+	作者：github.com/WangEn
+	时间：2018-02-02
+	描述：添加文章类别
+-->
+	<head>
+		<meta charset="UTF-8">
+		<title>添加分类-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<link rel="stylesheet" type="text/css" href="../../lib/layui/css/layui.css" />
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-body">
+
+			<form class="layui-form" onsubmit="return false">
+				<div class="layui-form-item">
+					<label class="layui-form-label">经纪人姓名</label>
+					<div class="layui-input-inline">
+						<input type="text" id="name" name="name" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">电话</label>
+					<div class="layui-input-inline">
+						<input type="text" id="phone" name="phone" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">管辖地区</label>
+					<div class="layui-input-inline">
+						<input type="text" id="address" name="address" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">密码</label>
+					<div class="layui-input-inline">
+						<input type="text" id="password" name="password" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">确认密码</label>
+					<div class="layui-input-inline">
+						<input type="text" id="repassword" name="repassword" autocomplete="off" class="layui-input">
+						<input type="hidden" id="id" name="id" autocomplete="off" class="layui-input">
+						<input type="hidden" id="time" name="time" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">权限描述</label>
+					<div class="layui-input-block">
+						<textarea class="layui-textarea" style="width: 600px;" name="content" id="content" >
+						</textarea>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="radio" name="status" id="status" value="1" title="启用" checked="">
+						<input type="radio" name="status" id="status1" value="0" title="禁用">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">
+					</label>
+					<button class="layui-btn" id="tijiao"  onclick="add()">提交</button>
+				</div>
+			</form>
+
+		</div>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+
+			layui.use(['form', 'admin', 'jquery', 'table', 'layer'], function() {
+				var form = layui.form,
+						admin = layui.admin,
+						$ = layui.jquery,
+						table = layui.table,
+						layer = layui.layer;
+
+
+			});
+
+			$(function () {
+				var result;
+				var url=window.location.search; //获取url中"?"符后的字串
+				result = url.substr(url.indexOf("=") + 1);
+				$.ajax({
+					type:"post",
+					url:"/broker/selectAll",
+					dataType:"json",
+					data:{"id":result},
+					success:function (data) {
+						$("#id").val(data.id);
+						$("#time").val(data.time)
+						$("#name").val(data.name)
+						$("#phone").val(data.phone)
+						$("#address").val(data.address)
+						$("#password").val(data.password)
+						$("#repassword").val(data.password)
+						$("#content").val(data.texts)
+						if(data.status==1){
+							alert(data.status)
+							$("#status").attr("checked", "checked");
+						}else{
+							$("#status1").attr("checked", "checked");
+						}
+
+
+						  layui.form.render("radio")
+
+					},
+					error:function () {
+						alert("error");
+					}
+				})
+			});
+
+			function add() {
+				var id=$("#id").val()
+				var name=$("#name").val();
+				var phone=$("#phone").val();
+				var password=$("#password").val();
+				var content=$("#content").val();
+				var address=$("#address").val();
+				var status=$('input:radio:checked').val();
+				var time=$("#time").val()
+				alert(name)
+				var obj = JSON.stringify({"id":id,"name":name,"phone":phone,"content":content,"address":address,"password":password,"status":status,"time":time})
+				$.ajax({
+					type:"post",
+					url:"/broker/updateAll",
+					data:obj,
+					contentType: 'application/json;charset=utf-8',
+					success:function () {
+						$("#tijiao").addClass("layui-btn-disabled");
+						layer.msg("增加成功", {
+							icon: 6,
+							time: 1000
+						}, function() {
+							// 获得frame索引
+							var index = parent.layer.getFrameIndex(window.name);
+							//关闭当前frame
+							parent.layer.close(index);
+							window.parent.location.reload();
+						});
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

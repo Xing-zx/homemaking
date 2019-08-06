@@ -1,10 +1,9 @@
 package com.zeropoint.homemaking.services;
 
-import com.zeropoint.homemaking.domain.LectureOrders;
-import com.zeropoint.homemaking.domain.Order;
-import com.zeropoint.homemaking.domain.OrderStatus;
-import com.zeropoint.homemaking.domain.UserRequirement;
+import com.zeropoint.homemaking.domain.*;
 import com.zeropoint.homemaking.vo.PersonnelOrder;
+import com.zeropoint.homemaking.vo.UserOder;
+import org.apache.ibatis.annotations.Param;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,12 +20,12 @@ public interface OrderService {
      * @param userId
      * @return
      */
-     LectureOrders generateLectureOrder(Integer id, Integer userId);
-     LectureOrders findLectureOrderById(Integer id);
-     LectureOrders findLectureOrderByOrderNumber(String orderNumber);
-     List<LectureOrders> findLectureOrderByUserId(Integer id);
-     LectureOrders findLectureOrderByOrderIdAndId(Integer id,Integer userId);
-     int updatLectureOrder(LectureOrders lectureOrders);
+    LectureOrders generateLectureOrder(Integer id, Integer userId);
+    LectureOrders findLectureOrderById(Integer id);
+    LectureOrders findLectureOrderByOrderNumber(String orderNumber);
+    List<LectureOrders> findLectureOrderByUserId(Integer id);
+    LectureOrders findLectureOrderByOrderIdAndId(Integer id,Integer userId);
+    int updatLectureOrder(LectureOrders lectureOrders);
 
     int addOrder(Order order);
     /**
@@ -35,31 +34,49 @@ public interface OrderService {
      * @param type
      * @return
      */
-     static String generateOrderNumber(String id,String type)
-     {
-         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
-         String newDate=sdf.format(new Date());
-         String result="";
-         Random random=new Random();
-         for(int i=0;i<6;i++){
-             result+=random.nextInt(10);
-         }
-         return newDate+result+type+id;
-     }
-     String lectureOrderCheck(Integer id, Integer userId);
-     String orderCheck(Integer personnelId,Date workStart, Date workEnd);
-     Order findOrderByOrderNumber(String orderNumber);
+    static String generateOrderNumber(String id,String type)
+    {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        String newDate=sdf.format(new Date());
+        String result="";
+        Random random=new Random();
+        for(int i=0;i<6;i++){
+            result+=random.nextInt(10);
+        }
+        return newDate+result+type+id;
+    }
+    String lectureOrderCheck(Integer id, Integer userId);
+    String orderCheck(Integer personnelId,Date workStart, Date workEnd);
+    Order findOrderByOrderNumber(String orderNumber);
 
-     int updateOrder(Order order);
+    int updateOrder(Order order);
 
-     Order findById(Integer orderId);
-     List<Order> findOrderByUserId(Integer userId);
-     List<Order> findOrderByPersonnelId(Integer personnelId);
-     List<PersonnelOrder> findPersonnelOrderByPersonnelId(Integer personnelId);
-     int addUserRequirement(UserRequirement userRequirement);
-     UserRequirement findUserRequirementById(Integer id);
+    Order findById(Integer orderId);
+    List<UserOder> findOrderByUserId(Integer userId);
+    List<Order> findOrderByPersonnelId(Integer personnelId);
+    List<PersonnelOrder> findPersonnelOrderByPersonnelId(Integer personnelId);
 
-     List<OrderStatus> getOrderStatus(Integer orderId);
-     int addOrderStatus(OrderStatus orderStatus);
+    List<OrderStatus> getOrderStatus(Integer orderId);
+    int addOrderStatus(OrderStatus orderStatus);
+
+    int insert1(Order record);
+
+    List<Order> selectAll1(Integer page,Integer rows,Integer type,String name,String endTime,String startTime);
+
+    int count1(Integer type,String name,String endTime,String startTime);
+
+    int delete1(Integer[] ids);
+
+    Order selectKey1(Integer id);
+
+    List<ServicePersonnel> serviceSelect1(Integer page,Integer rows,Integer[] ids);
+
+    int counts1(Integer[] ids);
+
+    List<Order> selectOrder1(Integer page,Integer rows,Integer type,String name,Integer status,String endTime,String startTime);
+
+    int countOrder1(Integer type,Integer status,String name,String endTime,String startTime);
+
+    ServicePersonnel personnelView1(Integer id);
 
 }

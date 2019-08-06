@@ -6,6 +6,11 @@
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="score" jdbcType="INTEGER" property="score" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="order_number" jdbcType="INTEGER" property="orderNumber" />
+    <result column="pay_time" jdbcType="INTEGER" property="payTime" />
+    <result column="user_name" jdbcType="INTEGER" property="userName" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="personnelname" jdbcType="INTEGER" property="personnelName" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from comment
@@ -36,5 +41,59 @@
     select id, order_id, score, content
     from comment
   </select>
+
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Comment">
+    insert into comment (id, order_id, score,
+      content)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{score,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, order_id, score, content
+    from comment
+  </select>
+
+  <select id="selectPage1" resultMap="BaseResultMap">
+    select c.*,p.name as personnelname,o.user_name,o.pay_time,o.order_number,o.type
+    from `comment` c
+    INNER JOIN `order` o ON o.id=c.order_id
+    INNER JOIN service_personnel p ON p.id=o.personnel_id
+    <where>
+      <if test="name != null and name != ''">
+        p.name LIKE  '%${name}%'
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        o.pay_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    select count(1)
+    from `comment` c
+    INNER JOIN `order` o ON o.id=c.order_id
+    INNER JOIN service_personnel p ON p.id=o.personnel_id
+    <where>
+      <if test="name != null and name != ''">
+        p.name LIKE  '%${name}%'
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        o.pay_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <delete id="delete1">
+    delete from comment
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
 
 </mapper>

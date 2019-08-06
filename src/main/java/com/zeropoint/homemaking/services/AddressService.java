@@ -7,7 +7,7 @@ import java.util.List;
 public interface AddressService {
     int add(Address address);
     int update(Address address);
-    List<Address> getList();
+    List<Address> getList(Integer id);
     int delete(Integer id );
     int getLast();
 }

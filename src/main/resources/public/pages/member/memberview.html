@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>添加订单-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-body">
+			<div class="layui-container">
+				<table width="100%">
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="3">
+								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<div class="layui-form-mid layui-word-aux" id="portraitUrl">
+
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<div class="layui-form-mid layui-word-aux" id="programCode">
+
+									</div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										客户姓名：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="name"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										微信昵称：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="nikename"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										性别：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="gender"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										年龄：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="age"></div>
+								</div>
+							</td>
+							<td colspan="3">
+								<div class="layui-form-mid layui-word-aux" id="programCode1">
+
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										手机号：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="phone"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										现居地：
+									</label>
+										<div class="layui-form-mid layui-word-aux" id="address"></div>
+								</div>
+							</td>
+							<td></td>
+						</tr>
+						
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										余额：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="balance"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										预产期：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="dueDate"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										孩子生日：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="childrenBirthday"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										宝妈姓名：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="motherName"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										宝妈年龄：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="motherAge"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
+			</div>
+
+		</div>
+
+		<script>
+			layui.extend({
+				admin: '{/}../../static/js/admin'
+			});
+
+			$(function () {
+				var result;
+				var url=window.location.search; //获取url中"?"符后的字串
+				result = url.substr(url.indexOf("=") + 1);
+				$.ajax({
+					type:"post",
+					url:"/member/selectkey",
+					dataType:"json",
+					data:{"id":result},
+					success:function (data) {
+						$("#nikename").html(data.nickName)
+						$("#name").html(data.name)
+						$("#phone").html(data.phone)
+						$("#gender").html(data.gender)
+						$("#address").html(data.address)
+						$("#motherAge").html(data.motherAge)
+						$("#dueDate").html(data.dueDate)
+						$("#childrenBirthday").html(data.childrenBirthday)
+						$("#motherName").html(data.motherName)
+						$("#balance").html(data.balance)
+						$("#age").html(data.age);
+						$("#portraitUrl").html("<img src='"+data.portraitUrl+"'/>")
+						$("#programCode").html("<img src='"+data.programCode+"'/>")
+					},
+					error:function () {
+						alert("error");
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

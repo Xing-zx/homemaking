@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.BrokerMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Broker">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="texts" jdbcType="VARCHAR" property="texts" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Broker">
+    insert into broker (id, name, phone, 
+      password, time, texts,address,
+      status)
+    values (#{id}, #{name}, #{phone}, #{password}, #{time}, #{texts},#{address},#{status})
+  </insert>
+
+  <update id="updateAll" parameterType="com.zeropoint.homemaking.domain.Broker">
+    update broker
+    set name = #{name},
+      phone = #{phone},
+      password = #{password},
+      time = #{time},
+      address = #{address},
+      texts = #{texts},
+      status = #{status}
+    where id = #{id}
+  </update>
+
+  <delete id="delete">
+    delete from broker
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="SelectKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from broker
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateStatus" parameterType="java.lang.Integer">
+    update broker
+    set status = #{status}
+    where id = #{id}
+  </update>
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select * from broker
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count" resultType="int">
+    SELECT  COUNT(1) FROM broker
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>

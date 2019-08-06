@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Banners">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="article_id" jdbcType="INTEGER" property="articleId" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="status" jdbcType="INTEGER" property="status" />
@@ -15,17 +14,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Banners">
-    insert into banners (id, name, url, 
+    insert into banners (id, name,
       article_id, picture_url, status, 
       url_id)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
       #{articleId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{urlId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.Banners">
     update banners
     set name = #{name,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
       article_id = #{articleId,jdbcType=INTEGER},
       picture_url = #{pictureUrl,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
@@ -33,12 +31,57 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, url, article_id, picture_url, status, url_id
+    select id, name,article_id, picture_url, status, url_id
     from banners
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
    select banners.*,frontend_page.url from banners left JOIN frontend_page on url_id =frontend_page.id and status=1
   </select>
+
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Banners">
+    insert into banners (id, name, article_id,
+      picture_url, status, url_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER},
+      #{pictureUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{urlId,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from banners
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select *
+    from banners
+  </select>
+
+  <select id="selectAllPage1" resultMap="BaseResultMap">
+    select *
+    from `banners`
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM `banners`
+  </select>
+
+  <delete id="delete1">
+    delete from banners
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!--修改状态-->
+  <update id="update1" parameterType="java.lang.Integer">
+    update banners
+    set status = #{status}
+    where id = #{id}
+  </update>
 
 </mapper>

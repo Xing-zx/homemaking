@@ -67,6 +67,86 @@ public class Order {
 
     private Integer commentId;
 
+    private String province;
+
+    private String city;
+
+    private String county;
+
+    private String street;
+
+    private String detail;
+
+    private String level;
+
+    private Integer storesId;
+
+    private String storesName;
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Integer getStoresId() {
+        return storesId;
+    }
+
+    public void setStoresId(Integer storesId) {
+        this.storesId = storesId;
+    }
+
+    public String getStoresName() {
+        return storesName;
+    }
+
+    public void setStoresName(String storesName) {
+        this.storesName = storesName;
+    }
+
+
     public Integer getId() {
         return id;
     }

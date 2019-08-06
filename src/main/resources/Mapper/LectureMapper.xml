@@ -70,4 +70,100 @@
     create_time
     from lecture
   </select>
+
+  <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Lecture">
+    insert into lecture (id, name, picture_url,
+      detail, amount, course_site,
+      register_rule, status, current_count,
+      max_count, register_start, register_end,
+      active_start, active_end, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pictureUrl,jdbcType=VARCHAR},
+      #{detail,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{courseSite,jdbcType=VARCHAR},
+      #{registerRule,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{currentCount,jdbcType=INTEGER},
+      #{maxCount,jdbcType=INTEGER}, #{registerStart,jdbcType=TIMESTAMP}, #{registerEnd,jdbcType=TIMESTAMP},
+      #{activeStart,jdbcType=TIMESTAMP}, #{activeEnd,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey1" parameterType="com.zeropoint.homemaking.domain.Lecture">
+    update lecture
+    set name = #{name,jdbcType=VARCHAR},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      course_site = #{courseSite,jdbcType=VARCHAR},
+      register_rule = #{registerRule,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      current_count = #{currentCount,jdbcType=INTEGER},
+      max_count = #{maxCount,jdbcType=INTEGER},
+      register_start = #{registerStart,jdbcType=TIMESTAMP},
+      register_end = #{registerEnd,jdbcType=TIMESTAMP},
+      active_start = #{activeStart,jdbcType=TIMESTAMP},
+      active_end = #{activeEnd,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, picture_url, detail, amount, course_site, register_rule, status,
+    current_count, max_count, register_start, register_end, active_start, active_end,
+    create_time
+    from lecture
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll1" resultMap="BaseResultMap">
+    select id, name, picture_url, detail, amount, course_site, register_rule, status,
+    current_count, max_count, register_start, register_end, active_start, active_end,
+    create_time
+    from lecture
+  </select>
+
+  <select id="selectByCondition1" resultMap="BaseResultMap">
+    select * from lecture
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        status = #{status}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        register_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    select count(1) from lecture
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        status = #{status}
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        register_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <delete id="delete1">
+    delete from lecture
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!--修改状态-->
+  <update id="updateStatus1" parameterType="java.lang.Integer">
+    update lecture
+    set status = #{status}
+    where id = #{id}
+  </update>
 </mapper>

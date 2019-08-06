@@ -33,6 +33,46 @@ public class LectureOrders {
 
     private String title;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getLectureName() {
+        return lectureName;
+    }
+
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
+
+    public String getCourseSite() {
+        return courseSite;
+    }
+
+    public void setCourseSite(String courseSite) {
+        this.courseSite = courseSite;
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
+    }
+
+    private String userName;
+
+    private String lectureName;
+
+    private String courseSite;
+
+    private Lecture lecture;
+
     public String getTitle() {
         return title;
     }

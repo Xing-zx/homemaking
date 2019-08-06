@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.CustomerServiceMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.CustomerService">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.CustomerService">
+    insert into customer_service (id, name, phone, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from customer_service
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count" resultType="int">
+    select count(1)
+    from customer_service
+  </select>
+
+
+
+
+  <delete id="delete">
+    delete from customer_service
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!--修改状态-->
+  <update id="update" parameterType="java.lang.Integer">
+    update customer_service
+    set status = #{status}
+    where id = #{id}
+  </update>
+</mapper>

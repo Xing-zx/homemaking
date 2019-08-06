@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>添加订单-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../static/css/font.css">
+		<link rel="stylesheet" href="../../static/css/weadmin.css">
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../../static/js/admin.js"></script>
+
+		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+		<!--[if lt IE 9]>
+	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	</head>
+
+	<body>
+		<div class="weadmin-body">
+
+
+			<div class="layui-container">
+				<table width="100%">
+					<thead>
+						<tr>
+							<th width="30%"></th>
+							<th width="30%"></th>
+							<th width="30%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="3">
+								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										订单编号：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="orderNumber"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										客户姓名：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="username"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										联系方式：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="userPhone"></div>
+								</div>
+							</td>
+                            <td rowspan="7">
+                                <div class="layui-inline">
+                                    <label for="username" class="layui-form-label">
+                                        合同：
+                                    </label>
+                                    <div class="layui-form-mid" id="hetongImgsrc">
+
+                                    </div>
+                                </div>
+                            </td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										服务类型：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="type"></div>
+								</div>
+							</td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										服务地址：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="address"></div>
+								</div>
+							</td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										服务时长：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="times"></div>
+								</div>
+							</td>
+							<td></td>
+							<td>
+                            </td>
+						</tr>
+
+						<tr>
+							<td colspan="3">
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										备注：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="remark"></div>
+								</div>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td colspan="3">
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										要求：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="requirement"></div>
+								</div>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">总金额：</label>
+									<div class="layui-form-mid layui-word-aux" id="moneyTotal"></div>
+								</div>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">定金：</label>
+									<div class="layui-form-mid layui-word-aux" id="moneyBargin"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										预付款：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="moneyAdvance"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										尾款：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="moneyFinal"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
+							</td>
+							<td>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										员工姓名：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="personnelName">翠花</div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										级别：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="level"></div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										所属门店：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="storesId"></div>
+								</div>
+							</td>
+							<td>
+								<div class="layui-inline">
+									<label for="username" class="layui-form-label">
+										所得工资：
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="moneyActual">
+                                    </div>
+								</div>
+							</td>
+							<td>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+
+			</div>
+
+		</div>
+
+		<script>
+			layui.extend({
+				admin: '{/}../../static/js/admin'
+			});
+			layui.use(['form', 'admin', 'jquery', 'table', 'layer'], function() {
+				var form = layui.form,
+						admin = layui.admin,
+						$ = layui.jquery,
+						table = layui.table,
+						layer = layui.layer;
+
+				//自定义验证规则
+				form.verify({
+					nikename: function (value) {
+						if (value.length < 5) {
+							return '昵称至少得5个字符啊';
+						}
+					},
+					pass: [/(.+){6,12}$/, '密码必须6到12位'],
+					repass: function (value) {
+						if ($('#L_pass').val() != $('#L_repass').val()) {
+							return '两次密码不一致';
+						}
+					}
+				});
+
+
+				$(function () {
+					var result;
+					var url=window.location.search; //获取url中"?"符后的字串
+					result = url.substr(url.indexOf("=") + 1);
+					$.ajax({
+						type:"post",
+						url:"/order/listkey",
+						dataType:"json",
+						data:{"id":result},
+						success:function (data) {
+							$("#orderNumber").html(data.orderNumber)
+							$("#username").html(data.userName)
+							$("#moneyActual").html(data.moneyActual);
+							$("#hetongImgsrc").html("<img src="+data.hetongImgsrc+" width=\"50%\" height=\"auto\">")
+							if(data.type==1){
+								data.type="月嫂"
+							}
+							if(data.type==2){
+								data.type="保姆"
+							}
+							$("#type").html(data.type)
+							$("#userPhone").html(data.userPhone)
+							$("#createTime").html(data.createTime)
+
+							if(data.workStartTime==null && data.workEndTime==null){
+								$("#times").html("无数据")
+							}
+							else{
+                                $("#times").html(data.workStartTime+" 至 "+data.workEndTime)
+                            }
+
+							$("#remark").html(data.remark)
+
+							$("#moneyTotal").html(data.moneyTotal)
+							$("#moneyFinal").html(data.moneyFinal)
+							$("#moneyAdvance").html(data.moneyAdvance)
+							$("#moneyBargin").html(data.moneyBargin)
+							$("#moneyHour").html(data.moneyHour)
+							if(data.province==null){
+								data.province="";
+							}
+							if(data.city==null){
+								data.city="";
+							}
+							if(data.county==null){
+								data.county="";
+							}
+							if(data.street==null){
+								data.street="";
+							}
+							if(data.detail==null){
+								data.detail="";
+							}
+							$("#address").html(data.province+data.city+data.county+data.street+data.detail)
+
+							var splitArray = new Array();
+							var requirement=data.requirement;
+							var regex = /,/;
+							splitArray=requirement.split(regex);
+
+							for(var i=0; i < splitArray.length; i++){
+								if(splitArray[i]!=""){
+									$("#requirement").append("<span class='layui-btn layui-btn-normal layui-btn-xs'>"+splitArray[i] +"</span>")
+								}
+							}
+							if (data.personnelId!=null && data.personnelId!="") {
+								var id=parseInt(data.personnelId);
+								$.ajax({
+									type:"post",
+									url:"/order/personnelView",
+									dataType:"json",
+									data:{"id":id},
+									success:function (res) {
+										$("#personnelName").html(res.name)
+										$("#level").html(res.level)
+										$("#storesId").html(res.storesName)
+									},
+									error:function () {
+										alert("error");
+									}
+								})
+							}
+
+						},
+						error:function () {
+							alert("error");
+						}
+					})
+				})
+			});
+		</script>
+	</body>
+
+</html>

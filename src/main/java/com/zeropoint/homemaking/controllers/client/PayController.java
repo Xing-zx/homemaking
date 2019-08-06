@@ -20,7 +20,7 @@ import java.util.Date;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/pay")
+@RequestMapping("/api/pay")
 public class PayController {
 
     @Autowired

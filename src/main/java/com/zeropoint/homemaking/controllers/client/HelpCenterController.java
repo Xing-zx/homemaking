@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/helpCenter")
+@RequestMapping("/api/helpCenter")
 public class HelpCenterController {
     @Autowired
     ComplaintService complaintService;

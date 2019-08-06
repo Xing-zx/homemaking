@@ -8,6 +8,7 @@ import com.zeropoint.homemaking.domain.Order;
 import com.zeropoint.homemaking.domain.User;
 import com.zeropoint.homemaking.services.*;
 import com.zeropoint.homemaking.vo.PersonnelOrder;
+import com.zeropoint.homemaking.vo.UserOder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/order")
 public class OrderController {
     @Autowired
     LectureService lectureService;
@@ -56,7 +57,7 @@ public class OrderController {
                 list.get(i).setRegisterStart(lecture.getRegisterStart());
                 list.get(i).setActiveStart(lecture.getActiveStart());
                 list.get(i).setActiveEnd(lecture.getActiveEnd());
-                list.get(i).setTitle(lecture.getDetail());
+                list.get(i).setTitle(lecture.getName());
                 list.get(i).setPictureUrl(lecture.getPictureUrl());
             }
             res.put("data",list);
@@ -91,16 +92,17 @@ public class OrderController {
         JSONObject res =new JSONObject();
         String token =request.getString("token");
         Integer userId= request.getInteger("id");
-        try{
-            List<Order> orders=orderService.findOrderByUserId(userId);
-            res.put("code",1);
-            res.put("msg","user orderList");
-            res.put("data",orders);
-        }catch (NullPointerException e)
-        {
-            res.put("code",0);
-            res.put("msg","无订单");
-        }
+
+            List<UserOder> orders=orderService.findOrderByUserId(userId);
+            if(orders !=null) {
+                res.put("code", 1);
+                res.put("msg", "user orderList");
+                res.put("data", orders);
+            }
+            else {
+                res.put("code", 0);
+                res.put("msg", "无订单");
+            }
         System.out.println(res);
         return res;
     }
@@ -108,10 +110,10 @@ public class OrderController {
     JSONObject personnelOrderList(@RequestBody JSONObject request){
         System.out.println(request);
         JSONObject res= new JSONObject();
-        Integer personnelId= personnelService.findByUserId(request.getInteger("id")).getId();
         String token=request.getString("token");
         try
         {
+            Integer personnelId= personnelService.findByUserId(request.getInteger("id")).getId();
             List<PersonnelOrder> orders=orderService.findPersonnelOrderByPersonnelId(personnelId);
             res.put("code",1);
             res.put("msg","personnel orderList");

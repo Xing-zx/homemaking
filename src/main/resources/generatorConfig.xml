@@ -9,7 +9,7 @@
         targetRuntime：MyBatis3Simple 只生成提供简单增删改查的代码
     -->
     <!-- 数据库connector的jar包所在位置，一般应该在你的repo文件夹下-->
-    <classPathEntry  location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar"/>
+    <classPathEntry  location="C:\Users\cx\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar"/>
     <context id="testTables" targetRuntime="MyBatis3Simple">
 
         <commentGenerator>
@@ -66,35 +66,33 @@
             tableName：指定表名
             domainObjectName：指定生成的 POJO 的类名
          -->
-<!--        <table tableName="comment" domainObjectName=""/>-->
-<!--            <table tableName="income" domainObjectName=""/>-->
-<!--            <table tableName="withdraw" domainObjectName=""/>-->
-<!--        <table tableName="complaint" domainObjectName=""/>-->
-<!--            <table tableName="address" domainObjectName=""/>-->
-<!--        <table tableName="article" domainObjectName=""/>-->
-<!--        <table tableName="admin" domainObjectName=""/>-->
-<!--        <table tableName="banners" domainObjectName=""/>-->
-            <table tableName="frontend_page" domainObjectName=""/>
-<!--        <table tableName="category" domainObjectName=""/>-->
-<!--        <table tableName="commission" domainObjectName=""/>-->
-<!--        <table tableName="help_center" domainObjectName=""/>-->
-<!--        <table tableName="faq" domainObjectName=""/>-->
-<!--        <table tableName="lecture" domainObjectName=""/>-->
-<!--        <table tableName="lecture_orders" domainObjectName=""/>-->
-<!--        <table tableName="native_places" domainObjectName=""/>-->
-<!--            <table tableName="order" domainObjectName=""/>-->
-<!--            <table tableName="order_status" domainObjectName=""/>-->
-<!--        <table tableName="permissions" domainObjectName=""/>-->
-<!--        <table tableName="service_classification" domainObjectName=""/>-->
-<!--          <table tableName="service_personnel" domainObjectName=""/>-->
-
-<!--        <table tableName="order" domainObjectName=""/>-->
-<!--        <table tableName="user_requirement" domainObjectName=""/>-->
-<!--        <table tableName="speciality" domainObjectName=""/>-->
-<!--        <table tableName="certificate" domainObjectName=""/>-->
-<!--        <table tableName="stores" domainObjectName=""/>-->
-<!--        <table tableName="user" domainObjectName=""/>-->
-<!--        <table tableName="usercitys" domainObjectName=""/>-->
+<!--        <table tableName="comment" domainObjectName="comments"/>
+            <table tableName="income" domainObjectName="incomes"/>
+            <table tableName="withdraw" domainObjectName="withdraws"/>
+        <table tableName="complaint" domainObjectName="complaints"/>
+            <table tableName="address" domainObjectName="addressa"/>
+        <table tableName="article" domainObjectName="articles"/>
+        <table tableName="admin" domainObjectName="admins"/>
+        <table tableName="banners" domainObjectName="bannersa"/>
+            <table tableName="frontend_page" domainObjectName="frontendPages"/>
+        <table tableName="category" domainObjectName="categorys"/>
+        <table tableName="commission" domainObjectName="commissions"/>
+        <table tableName="help_center" domainObjectName="helpCenters"/>
+        <table tableName="faq" domainObjectName="faqs"/>
+        <table tableName="lecture" domainObjectName="lectures"/>
+        <table tableName="lecture_orders" domainObjectName="lectureOrdersa"/>
+        <table tableName="native_places" domainObjectName="nativePlacesa"/>
+            <table tableName="order" domainObjectName="orders"/>
+            <table tableName="order_status" domainObjectName="orderStatusa"/>
+        <table tableName="permissions" domainObjectName="permissionsa"/>
+        <table tableName="service_classification" domainObjectName="serviceClassifications"/>
+          <table tableName="service_personnel" domainObjectName="servicePersonnels"/>
+        <table tableName="user_requirement" domainObjectName="userRequirements"/>
+        <table tableName="speciality" domainObjectName="specialitys"/>
+        <table tableName="certificate" domainObjectName="certificate"/>-->
+        <table tableName="financial" domainObjectName=""/>
+        <table tableName="user" domainObjectName="users"/>
+        <table tableName="usercitys" domainObjectName=""/>
 
 
 

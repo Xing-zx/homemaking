@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -191,6 +193,7 @@ public class PersonnelController {
 
         Integer userId= Integer.parseInt(req.getParameter("id"));
         String token =req.getParameter("token");
+        System.out.println(userId);
         ServicePersonnel personnel= personnelService.findByUserId(userId);
         SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/");
         String format = sdf.format(new Date());
@@ -248,6 +251,20 @@ public class PersonnelController {
         return  res;
     }
 
+    @RequestMapping("/uploadSelf")
+    public JSONObject uploadSelf(@RequestBody JSONObject request){
+        Integer userId= Integer.parseInt(request.getString("user_id"));
+        String token =request.getString("token");
+        String profile =request.getString("selfIntro");
+        ServicePersonnel personnel= personnelService.findByUserId(userId);
+        personnel.setProfile(profile);
+        personnelService.update(personnel);
+        JSONObject res =new JSONObject();
+        res.put("code",1);
+        res.put("msg","uploadVideo");
+        res.put("data",personnel);
+        return res;
+    }
     @RequestMapping("/submitAudit")
     public JSONObject submitAudit(@RequestBody JSONObject request){
         JSONObject res=new JSONObject();

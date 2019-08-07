@@ -2,11 +2,14 @@ package com.zeropoint.homemaking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Administrator
+ */
 public class Category {
     private Integer id;
 
     private String name;
-    @JsonIgnore
+
     private Integer parent;
 
     public Integer getStatus() {

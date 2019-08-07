@@ -257,7 +257,8 @@ public class ClientController {
         res.put("msg","register");
         System.out.println(openId);
         User user=new User();
-        user.setNickName(request.getString("phone"));
+        user.setName(request.getString("nickName"));
+        user.setNickName(request.getString("nickName"));
         user.setPhone(request.getString("phone"));
         user.setPassword(request.getString("password"));
         user.setCreateTime(new Date());

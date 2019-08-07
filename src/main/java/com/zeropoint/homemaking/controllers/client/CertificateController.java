@@ -35,6 +35,7 @@ public class CertificateController {
     @RequestMapping("/certificateList")
     public JSONObject certificateList(@RequestBody JSONObject request){
         JSONObject res =new JSONObject();
+        System.out.println(request.toJSONString());
         try{
             res.put("code",1);
             res.put("msg","certificateList");
@@ -74,7 +75,7 @@ public class CertificateController {
         }
 
         System.out.println(expireTime.toString());
-        if(personnelService.addCheck(Integer.parseInt(idStr),Integer.parseInt(categoryId))==null)
+        if(personnelService.addCheck(userId,Integer.parseInt(categoryId))!=null)
         {
             res.put("code",0);
             res.put("msg","已上传");

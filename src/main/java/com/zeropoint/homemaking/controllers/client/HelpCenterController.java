@@ -109,10 +109,11 @@ public class HelpCenterController {
         String content=request.getString("content");
         System.out.println(request);
         Order order =orderService.findById(orderId);
-        if(order.getHascomment())
+        if(order.getHascomment()!=null &&order.getHascomment() )
         {
             res.put("code",0);
             res.put("msg","已评论");
+            order.setHascomment(true);
             return res;
         }
         Comment comment= new Comment();

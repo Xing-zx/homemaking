@@ -98,7 +98,10 @@ public class PersonnelServiceImpl  implements PersonnelService {
         List<String > list = new ArrayList<>();
         if (certificates != null) {
             for (Certificate certificate : certificates) {
-                list.add(certificate.getName());
+                if(certificate.getStatus()>0){
+                    list.add(certificate.getName());
+                }
+
             }
         }
         return list ;
@@ -110,7 +113,9 @@ public class PersonnelServiceImpl  implements PersonnelService {
         List<String > list = new ArrayList<>();
         if (certificates != null) {
             for (Certificate certificate : certificates) {
-                list.add(certificate.getCategoryId().toString());
+                if(certificate.getStatus()>0) {
+                    list.add(certificate.getCategoryId().toString());
+                }
             }
         }
         return list ;

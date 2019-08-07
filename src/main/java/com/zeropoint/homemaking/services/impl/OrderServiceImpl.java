@@ -103,19 +103,23 @@ public class OrderServiceImpl implements OrderService {
         {
             for(Order order:hourlyworkerOrders)
             {
-                System.out.println(workEnd+""+order.getWorkStartTime());
-                if(order.getWorkStartTime().before(workEnd) && order.getWorkStartTime().after(workStart))
+                if(order.getType()==3)
                 {
-                    return  "时间冲突";
+                    System.out.println(workEnd+""+order.getWorkStartTime());
+                    if(order.getWorkStartTime().before(workEnd) && order.getWorkStartTime().after(workStart))
+                    {
+                        return  "时间冲突";
+                    }
+                    if(order.getWorkEndTime().after(workStart) && order.getWorkEndTime().before(workEnd))
+                    {
+                        return  "时间冲突";
+                    }
+                    if(order.getWorkEndTime().equals(workEnd)&& order.getWorkStartTime().equals(workStart))
+                    {
+                        return  "时间冲突";
+                    }
                 }
-                if(order.getWorkEndTime().after(workStart) && order.getWorkEndTime().before(workEnd))
-                {
-                    return  "时间冲突";
-                }
-                if(order.getWorkEndTime().equals(workEnd)&& order.getWorkStartTime().equals(workStart))
-                {
-                    return  "时间冲突";
-                }
+
             }
         }
         return "ok";

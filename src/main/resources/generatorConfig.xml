@@ -9,7 +9,7 @@
         targetRuntime：MyBatis3Simple 只生成提供简单增删改查的代码
     -->
     <!-- 数据库connector的jar包所在位置，一般应该在你的repo文件夹下-->
-    <classPathEntry  location="C:\Users\cx\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar"/>
+    <classPathEntry  location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
     <context id="testTables" targetRuntime="MyBatis3Simple">
 
         <commentGenerator>
@@ -90,9 +90,9 @@
         <table tableName="user_requirement" domainObjectName="userRequirements"/>
         <table tableName="speciality" domainObjectName="specialitys"/>
         <table tableName="certificate" domainObjectName="certificate"/>-->
-        <table tableName="financial" domainObjectName=""/>
-        <table tableName="user" domainObjectName="users"/>
-        <table tableName="usercitys" domainObjectName=""/>
+<!--        <table tableName="financial" domainObjectName=""/>-->
+        <table tableName="user" domainObjectName="UsersInfo"/>
+<!--        <table tableName="usercitys" domainObjectName=""/>-->
 
 
 

@@ -84,6 +84,13 @@ public class ServicePersonnel {
 
     private String storesName;
 
+    public ServicePersonnel() {
+        this.name = "";
+        this.balance = 0.0;
+        this.currentBrokerage = 0.0;
+        this.allBrokerage = 0.0;
+        this.withdrawalBrokerage = 0.0;
+    }
 
     public List<String> getCertificates() { return certificates; }
 

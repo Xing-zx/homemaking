@@ -10,6 +10,7 @@
     <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from admin
     where id = #{id,jdbcType=INTEGER}

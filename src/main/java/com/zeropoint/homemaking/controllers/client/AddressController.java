@@ -52,7 +52,7 @@ public class AddressController {
         JSONObject res = new JSONObject();
         res.put("code",1);
         res.put("msg","addressList");
-        res.put("data",addressService.getList());
+        res.put("data",addressService.getList(id));
         return res;
     }
     @RequestMapping("/editAddress")

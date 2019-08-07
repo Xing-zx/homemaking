@@ -184,6 +184,11 @@ public class PersonnelServiceImpl  implements PersonnelService {
     }
 
     @Override
+    public Certificate addCheck(Integer personnelId, Integer categoryId) {
+        return certificateMapper.selectByCategoryAndPersonnel(personnelId,categoryId);
+    }
+
+    @Override
     public Certificate findCertificatByid(Integer id) {
         return certificateMapper.selectByPrimaryKey(id);
     }

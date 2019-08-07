@@ -72,7 +72,15 @@ public class CertificateController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         System.out.println(expireTime.toString());
+        if(personnelService.addCheck(Integer.parseInt(idStr),Integer.parseInt(categoryId))==null)
+        {
+            res.put("code",0);
+            res.put("msg","已上传");
+            System.out.println(res.toJSONString());
+            return res;
+        }
         Certificate certificate =new Certificate();
         System.out.println(idStr);
         if (!("".equals(idStr)))

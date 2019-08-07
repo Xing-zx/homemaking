@@ -49,6 +49,8 @@ public interface PersonnelService {
 
     int addPersonnel(ServicePersonnel personnel);
 
+    Certificate addCheck(Integer personnelId,Integer categoryId);
+
     Certificate findCertificatByid(Integer id);
 
     List<ServicePersonnel> findPersonnelByids(String[] ids);

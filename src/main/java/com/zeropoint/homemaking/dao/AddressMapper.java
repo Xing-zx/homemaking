@@ -15,7 +15,7 @@ public interface AddressMapper {
     List<Address> selectAll();
 
     int updateByPrimaryKey(Address record);
+    List<Address> selectByUserId(Integer userId);
 
     int getLast();
-    List<Address> selectByUserId(Integer id);
 }

@@ -41,6 +41,11 @@ public class AdminController {
         return principal.getName();
     }
 
+    public String pulltest2(){
+        return "pull";
+    }
+
+
     /** 管理员列表/查询
      * @return   the list
      */

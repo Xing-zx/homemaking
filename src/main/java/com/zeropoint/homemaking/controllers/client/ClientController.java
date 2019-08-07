@@ -96,6 +96,7 @@ public class ClientController {
         {
             User user =new User();
             user.setNickName(request.getString("nickName"));
+            user.setName(request.getString("nickName"));
             user.setAddress(request.getString("country")+request.getString("province")+request.getString("city"));
             user.setPortraitUrl(request.getString("avatarUrl"));
             user.setGender(request.getInteger("gender"));
@@ -116,6 +117,10 @@ public class ClientController {
             personnel.setGender(request.getInteger("gender"));
             personnel.setUserId(user.getId());
             personnel.setStatus(0);
+            personnel.setWithdrawalBrokerage(0.0);
+            personnel.setBalance(0.0);
+            personnel.setCurrentBrokerage(0.0);
+            personnel.setAllBrokerage(0.0);
            //阿姨头像
             personnelService.addPersonnel(personnel);
             request.put("id",user.getId());

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.FinancialMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Financial">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="order_type" jdbcType="VARCHAR" property="orderType" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Financial">
+    insert into financial (id, id_card, creat_time, 
+      order_type, user_name, money, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{idCard,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{orderType,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+
+  <delete id="delete">
+    delete from financial
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="selectKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from financial
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--  <select id="selectByCondition" parameterType="Map" resultMap="BaseResultMap">
+      select * from financial
+      <where>
+        <if test="name != null and name != ''">
+          name LIKE  '%${name}%'
+
+        </if>
+        <if test="role != null and role != '' ">
+          and
+          role = #{role}
+
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+          and
+          register_time between #{startTime} and #{endTime}
+        </if>
+
+      </where>
+    </select>-->
+
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select * from financial
+    <where>
+      <if test="name != null and name != ''">
+        user_name LIKE  '%${name}%'
+
+      </if>
+      <if test="orderType != null and orderType != '' ">
+        and
+        order_type = #{orderType}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        creat_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count" resultType="int">
+    SELECT  COUNT(1) FROM financial
+    <where>
+      <if test="name != null and name != ''">
+        user_name LIKE  '%${name}%'
+
+      </if>
+      <if test="orderType != null and orderType != '' ">
+        and
+        order_type = #{orderType}
+
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        creat_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>

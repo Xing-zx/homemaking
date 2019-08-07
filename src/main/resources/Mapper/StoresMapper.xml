@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeropoint.homemaking.dao.StoresMapper">
+  <resultMap id="BaseResultMap" type="com.zeropoint.homemaking.domain.Stores">
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="stores_password" jdbcType="VARCHAR" property="storesPassword" />
+    <result column="stores_name" jdbcType="VARCHAR" property="storesName" />
+    <result column="stores_address" jdbcType="VARCHAR" property="storesAddress" />
+    <result column="stores_introduced" jdbcType="VARCHAR" property="storesIntroduced" />
+    <result column="sions_id" jdbcType="INTEGER" property="sionsId" />
+    <result column="broker_id" jdbcType="INTEGER" property="brokerId" />
+    <result column="creat_time" jdbcType="INTEGER" property="creatTime" />
+    <result column="name" jdbcType="INTEGER" property="name" />
+  </resultMap>
+  <resultMap id="BrokerMap" type="com.zeropoint.homemaking.domain.Broker">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="texts" jdbcType="VARCHAR" property="texts" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Stores">
+    insert into stores (stores_id, stores_password, stores_name,
+      stores_address, stores_introduced, sions_id, creat_time,
+      broker_id)
+    values (#{storesId}, #{storesPassword}, #{storesName},
+      #{storesAddress}, #{storesIntroduced}, #{sionsId}, #{creatTime},
+      #{brokerId})
+  </insert>
+  <update id="updateAll" parameterType="com.zeropoint.homemaking.domain.Stores">
+    update stores
+    set stores_name = #{storesName},
+      stores_password = #{storesPassword},
+      stores_address = #{storesAddress},
+      stores_introduced = #{storesIntroduced},
+      sions_id = #{sionsId},
+      broker_id = #{brokerId},
+      creat_time = #{creatTime}
+    where stores_id = #{storesId}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select stores_id, stores_password, stores_name, stores_address, stores_introduced,
+    sions_id, broker_id
+    from stores
+  </select>
+
+  <delete id="delete">
+    delete from stores
+    where stores_id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <select id="SelectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from stores
+    where stores_id = #{storesId}
+  </select>
+
+  <!--修改状态-->
+  <update id="updateStatus" parameterType="java.lang.Integer">
+    update stores
+    set status = #{status}
+    where stores_id = #{storesId}
+  </update>
+
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select s.*,b.name from stores s inner join  broker b on s.broker_id = b.id
+    <where>
+      <if test="name != null and name != ''">
+        stores_name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        creat_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count" resultType="int">
+    SELECT  COUNT(1) FROM stores s
+    inner join  broker b on s.broker_id = b.id
+    <where>
+      <if test="name != null and name != ''">
+        stores_name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        creat_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBroker" parameterType="Map" resultMap="BrokerMap">
+    select *  from broker
+    where status='1'
+  </select>
+</mapper>

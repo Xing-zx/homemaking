@@ -46,6 +46,7 @@ public class LectureController {
         Integer userId =request.getInteger("user_id");
         User user = userService.findUserById(userId);
         String token =request.getString("token");
+
         if( userId != null && token !="")
         {
 
@@ -55,7 +56,7 @@ public class LectureController {
                 {
                     lecture.setErollStatus(1);
                 }
-                else{
+                else {
                     lecture.setErollStatus(0);
                 }
                 res.put("code",1);
@@ -63,11 +64,20 @@ public class LectureController {
                 res.put("data",lecture);
                 return res;
             }
-
+        }
+        if(lecture!=null)
+        {
+            res.put("code",1);
+            res.put("msg","lectureInfo");
+            lecture.setErollStatus(2);
+            res.put("data",lecture);
+        }
+        else {
+            res.put("code",0);
+            res.put("msg","线下课程不存在");
         }
 
-        res.put("code",0);
-        res.put("msg","线下课程不存在");
+        System.out.println(res.toJSONString());
         return res;
 
     }

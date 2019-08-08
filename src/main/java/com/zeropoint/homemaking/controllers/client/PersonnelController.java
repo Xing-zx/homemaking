@@ -110,6 +110,7 @@ public class PersonnelController {
     @RequestMapping("/personnelInfo")
     public JSONObject personnelInfo(@RequestBody JSONObject request){
         JSONObject res = new JSONObject();
+        System.out.println(request.toJSONString());
         Integer userId=request.getInteger("user_id");
         String token =request.getString("token");
         try
@@ -130,8 +131,9 @@ public class PersonnelController {
             res.put("msg","personnelInfo");
         }catch (NullPointerException e)
         {
-            res.put("code",0);
-            res.put("msg","阿姨信息——用户不存在");
+            res.put("code",1);
+            res.put("msg","阿姨——用户不存在");
+            res.put("data","");
 
         }
         System.out.println(res.toJSONString());
@@ -156,6 +158,7 @@ public class PersonnelController {
         JSONObject res =new JSONObject();
         Integer userId=request.getInteger("user_id");
         String token =request.getString("token");
+        System.out.println(request.toJSONString());
         try
         {
             ServicePersonnel personnel = personnelService.findByUserId(userId);
@@ -165,9 +168,14 @@ public class PersonnelController {
             personnel.setWorkExperience(request.getInteger("workExperience"));
             personnel.setGender(request.getInteger("gender"));
             personnel.setWorkType(request.getInteger("workType"));
-            if( personnel.getWorkType()==1)
+            String  chargeStandard=request.getString("chargeStandard");
+            if( personnel.getWorkType()==3)
             {
                 personnel.setSchedule(request.getInteger("schedule"));
+                if(!("".equals(chargeStandard)||chargeStandard==null))
+                {
+                  personnel.setChargeStandard(Integer.parseInt(chargeStandard));
+                }
             }
             personnelService.update(personnel);
             Integer personnelId=personnel.getId();

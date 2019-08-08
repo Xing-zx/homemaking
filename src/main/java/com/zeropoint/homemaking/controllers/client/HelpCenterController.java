@@ -27,6 +27,8 @@ public class HelpCenterController {
     PersonnelService personnelService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    CustomersServices customersServices;
     /** 投诉反馈
      * @param request
      *  id,token,
@@ -85,7 +87,7 @@ public class HelpCenterController {
         JSONObject res =new JSONObject();
         JSONObject wrap =new JSONObject();
         wrap.put("aboutUsId",helpCenterService.findByName("关于平台").getId());
-        wrap.put("aboutUsPhone",helpCenterService.findByName("平台服务电话").getText());
+        wrap.put("aboutUsPhone",customersServices.selectAll(1,10).get(0).getPhone());
         wrap.put("securityId",helpCenterService.findByName("安全隐私说明").getId());
         res.put("code",1);
         res.put("msg","baseInfo");

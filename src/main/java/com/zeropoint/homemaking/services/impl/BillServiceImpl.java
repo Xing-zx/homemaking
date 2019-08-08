@@ -5,9 +5,11 @@ import com.zeropoint.homemaking.dao.WithdrawMapper;
 import com.zeropoint.homemaking.domain.Income;
 
 import com.zeropoint.homemaking.domain.Order;
+import com.zeropoint.homemaking.domain.ServicePersonnel;
 import com.zeropoint.homemaking.domain.Withdraw;
 import com.zeropoint.homemaking.services.BillService;
 import com.zeropoint.homemaking.services.OrderService;
+import com.zeropoint.homemaking.services.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ public class BillServiceImpl implements BillService {
     WithdrawMapper withdrawMapper;
     @Autowired
     OrderService orderService;
+    @Autowired
+    PersonnelService personnelService;
     @Override
     public List<Income> findByPersonnelId(Integer personnelId) {
         return incomeMapper.selectByPersonnelId(personnelId);
@@ -43,9 +47,9 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Double getOutput(String date,Integer personnelId) {
+    public Double getOutput(String date,Integer userId) {
         Double output=0.0;
-        List<Withdraw> list=withdrawMapper.selectByPersonnelAndDate(personnelId,date);
+        List<Withdraw> list=withdrawMapper.selectByUserIdAndDate(userId,date);
         if(list !=null) {
             for (Withdraw withdraw : list) {
                 output += withdraw.getMoney();
@@ -65,19 +69,33 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public List<Income> findByUserIdAndDate(Integer userId, String date) {
+        return incomeMapper.selectByUserIdAndDate(userId,date);
+    }
+
+    @Override
+    public List<Withdraw> withdrawlistByUserIdAndDate(Integer userId, String date) {
+        return withdrawMapper.selectByUserIdAndDate(userId,date);
+    }
+
+    @Override
     public int addWithdraw(Withdraw withdraw) {
         return withdrawMapper.insert(withdraw);
     }
 
     @Override
     public int orderCheckout(Integer personnelId, Integer orderId) {
+        ServicePersonnel personnel=personnelService.findById(personnelId);
         Income income=new Income();
         Order order=orderService.findById(orderId);
         income.setPersonnelId(personnelId);
+        income.setUserId(personnel.getUserId());
         income.setMoney(order.getMoneyActual());
         income.setCreateTime(new Date());
         income.setType(order.getType());
         income.setTitle("服务费结算");
+        personnel.setBalance(personnel.getBalance()+order.getMoneyActual());
+        personnelService.update(personnel);
         return incomeMapper.insert(income);
     }
 }

@@ -52,6 +52,10 @@
     where personnel_id =#{personnelId} and create_time between DATE_FORMAT(#{date},'%Y-%m-01 00:00:00')
     and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59')
   </select>
-
+  <select id="selectByUserIdAndDate" resultMap="BaseResultMap">
+    select * from income
+    where user_id =#{userId} and create_time between DATE_FORMAT(#{date},'%Y-%m-01 00:00:00')
+    and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59')
+  </select>
 
 </mapper>

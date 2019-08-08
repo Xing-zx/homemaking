@@ -90,6 +90,8 @@ public class ServicePersonnel {
         this.currentBrokerage = 0.0;
         this.allBrokerage = 0.0;
         this.withdrawalBrokerage = 0.0;
+        this.chargeStandard=0;
+        this.creatTimes=new Date();
     }
 
     public List<String> getCertificates() { return certificates; }

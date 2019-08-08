@@ -84,7 +84,7 @@ public class CertificateController {
         }
         Certificate certificate =new Certificate();
         System.out.println(idStr);
-        if (!("".equals(idStr)))
+        if (!("".equals(idStr)||idStr==null))
         {
            certificate.setId(Integer.parseInt(idStr));
         }

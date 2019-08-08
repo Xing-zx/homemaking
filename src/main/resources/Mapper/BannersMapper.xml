@@ -8,6 +8,7 @@
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="url_id" jdbcType="INTEGER" property="urlId" />
+    <result column="url" jdbcType="VARCHAR" property="url"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from banners
@@ -36,7 +37,9 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-   select banners.*,frontend_page.url from banners left JOIN frontend_page on url_id =frontend_page.id and status=1
+--    select banners.*,frontend_page.url from banners left JOIN frontend_page on url_id =frontend_page.id and status=1
+    select * from banners
+    where status=1
   </select>
 
   <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Banners">

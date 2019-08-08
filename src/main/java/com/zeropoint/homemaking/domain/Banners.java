@@ -15,6 +15,7 @@ public class Banners {
 
     private Integer urlId;
 
+
     public Integer getId() {
         return id;
     }

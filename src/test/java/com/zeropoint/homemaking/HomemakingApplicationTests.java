@@ -5,6 +5,7 @@ import com.zeropoint.homemaking.dao.LectureOrdersMapper;
 import com.zeropoint.homemaking.domain.LectureOrders;
 import com.zeropoint.homemaking.services.LectureService;
 import com.zeropoint.homemaking.services.PayService;
+import com.zeropoint.homemaking.utils.ConvertUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,7 @@ public class HomemakingApplicationTests {
     @Test
     public void stringConvert()
     {
-        String place ="湖南省郴州市北湖区";
-        place= place.replaceAll("省","省/");
-        place=place.replaceAll("市","市/");
-        place=place.replaceAll("区","区/");
-        if(place.charAt(place.length()-1)=='/')
-        {
-            place=place.substring(0,place.length()-1);
-        }
-        System.out.println(place);
+
+        System.out.println(ConvertUtil.getImgStr("<img src=\"https://jz.dian0.top:443/2019/08//20190808140941.jpg\" alt=\"20190808140941.jpg\">11111111222222222222222"));
     }
 }

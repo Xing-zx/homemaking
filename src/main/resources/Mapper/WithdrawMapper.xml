@@ -62,7 +62,12 @@
   <select id="selectByPersonnelAndDate" resultMap="BaseResultMap">
     select * from withdraw
     where personnel_id =#{personnelId} and create_time between DATE_FORMAT(#{date},'%Y-%m-01 00:00:00')
-    and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59') and status=1
+    and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59') and status>1
+  </select>
+  <select id="selectByUserIdAndDate" resultMap="BaseResultMap">
+    select * from withdraw
+    where user_id =#{userId} and create_time between DATE_FORMAT(#{date},'%Y-%m-01 00:00:00')
+    and DATE_FORMAT(#{date},'%Y-%m-31 23:59:59')
   </select>
 
   <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Withdraw">

@@ -1,8 +1,10 @@
 package com.zeropoint.homemaking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zeropoint.homemaking.utils.ConvertUtil;
 
 import java.util.Date;
+import java.util.List;
 
 public class Article {
     private Integer id;
@@ -105,8 +107,11 @@ public class Article {
         this.content = content;
     }
 
-    public String[] getCoverImgs(){
-        String[] imgs = {coverImg1,coverImg2,coverImg3};
-        return imgs;
+    public List<String> getCoverImgs(){
+        if(content!=null&&!"".equals(content))
+        {
+            return ConvertUtil.getImgStr(content);
+        }
+       return null;
     }
 }

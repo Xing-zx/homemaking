@@ -204,6 +204,7 @@ public class ClientController {
         JSONObject res =new JSONObject();
         System.out.println(request.toJSONString());
         HttpSession session =http.getSession();
+        System.out.println(session.getId());
         User user=userService.findUserByPhone(request.getString("phone"));
         String code;
         if(user==null)
@@ -232,6 +233,13 @@ public class ClientController {
     public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http) {
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
+        if(userService.findUserByPhone(request.getString("phone"))!=null)
+        {
+           res.put("code",1);
+           res.put("msg","已注册");
+           res.put("data","");
+            return res;
+        }
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                 + grantType;
         String sessionId = request.getString("codeId");

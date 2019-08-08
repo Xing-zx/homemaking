@@ -94,7 +94,13 @@ public class BillServiceImpl implements BillService {
         income.setCreateTime(new Date());
         income.setType(order.getType());
         income.setTitle("服务费结算");
-        personnel.setBalance(personnel.getBalance()+order.getMoneyActual());
+        if(order.getType()<3)
+        {
+            personnel.setBalance(personnel.getBalance()+order.getMoneyActual());
+        }
+        else {
+            personnel.setBalance(personnel.getBalance()+order.getMoneyTotal());
+        }
         personnelService.update(personnel);
         return incomeMapper.insert(income);
     }

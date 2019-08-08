@@ -62,10 +62,11 @@ public class LectureController {
                 res.put("code",1);
                 res.put("msg","lectureInfo");
                 res.put("data",lecture);
+                System.out.println(res.toJSONString());
                 return res;
             }
         }
-        if(lecture!=null)
+        else if(lecture!=null)
         {
             res.put("code",1);
             res.put("msg","lectureInfo");

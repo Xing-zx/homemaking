@@ -75,4 +75,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.updatestate1(id, state);
     }
 
+    @Override
+    public Article findByTitle(String title) {
+        return articleMapper.findByTitle(title);
+    }
+
 }

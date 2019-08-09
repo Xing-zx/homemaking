@@ -148,4 +148,8 @@
     set state = #{state}
     where id = #{id}
   </update>
+  <select id="findByTitle" >
+    select * from article
+    where title=#{title}
+  </select>
 </mapper>

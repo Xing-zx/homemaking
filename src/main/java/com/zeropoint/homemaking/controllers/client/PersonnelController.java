@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -108,6 +110,7 @@ public class PersonnelController {
     @RequestMapping("/personnelInfo")
     public JSONObject personnelInfo(@RequestBody JSONObject request){
         JSONObject res = new JSONObject();
+        System.out.println(request.toJSONString());
         Integer userId=request.getInteger("user_id");
         String token =request.getString("token");
         try
@@ -128,8 +131,9 @@ public class PersonnelController {
             res.put("msg","personnelInfo");
         }catch (NullPointerException e)
         {
-            res.put("code",0);
-            res.put("msg","阿姨信息——用户不存在");
+            res.put("code",1);
+            res.put("msg","阿姨——用户不存在");
+            res.put("data","");
 
         }
         System.out.println(res.toJSONString());
@@ -154,6 +158,7 @@ public class PersonnelController {
         JSONObject res =new JSONObject();
         Integer userId=request.getInteger("user_id");
         String token =request.getString("token");
+        System.out.println(request.toJSONString());
         try
         {
             ServicePersonnel personnel = personnelService.findByUserId(userId);
@@ -163,9 +168,14 @@ public class PersonnelController {
             personnel.setWorkExperience(request.getInteger("workExperience"));
             personnel.setGender(request.getInteger("gender"));
             personnel.setWorkType(request.getInteger("workType"));
-            if( personnel.getWorkType()==1)
+            String  chargeStandard=request.getString("chargeStandard");
+            if( personnel.getWorkType()==3)
             {
                 personnel.setSchedule(request.getInteger("schedule"));
+                if(!("".equals(chargeStandard)||chargeStandard==null))
+                {
+                  personnel.setChargeStandard(Integer.parseInt(chargeStandard));
+                }
             }
             personnelService.update(personnel);
             Integer personnelId=personnel.getId();
@@ -191,6 +201,7 @@ public class PersonnelController {
 
         Integer userId= Integer.parseInt(req.getParameter("id"));
         String token =req.getParameter("token");
+        System.out.println(userId);
         ServicePersonnel personnel= personnelService.findByUserId(userId);
         SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/");
         String format = sdf.format(new Date());
@@ -248,6 +259,20 @@ public class PersonnelController {
         return  res;
     }
 
+    @RequestMapping("/uploadSelf")
+    public JSONObject uploadSelf(@RequestBody JSONObject request){
+        Integer userId= Integer.parseInt(request.getString("user_id"));
+        String token =request.getString("token");
+        String profile =request.getString("selfIntro");
+        ServicePersonnel personnel= personnelService.findByUserId(userId);
+        personnel.setProfile(profile);
+        personnelService.update(personnel);
+        JSONObject res =new JSONObject();
+        res.put("code",1);
+        res.put("msg","uploadVideo");
+        res.put("data",personnel);
+        return res;
+    }
     @RequestMapping("/submitAudit")
     public JSONObject submitAudit(@RequestBody JSONObject request){
         JSONObject res=new JSONObject();

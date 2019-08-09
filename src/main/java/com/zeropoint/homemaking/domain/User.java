@@ -48,8 +48,17 @@ public class User {
 
     private int Status;
 
+
     public int getStatus() {
         return Status;
+    }
+
+    public User() {
+        this.name = "";
+        this.nickName = "";
+        this.balance = 0;
+        this.brokerage = 0;
+        this.Status = 0;
     }
 
     public void setStatus(int status) {

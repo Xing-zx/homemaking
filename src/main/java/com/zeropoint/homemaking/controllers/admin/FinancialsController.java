@@ -25,11 +25,11 @@ public class FinancialsController {
     @ResponseBody
     public Map<String,Object> selectByCondition(@RequestParam("curr")Integer curr, @RequestParam("limit") Integer limit, @Param("name")String name, @Param("orderType")Integer orderType,
                                                 @Param("startTime") String startTime, @Param("endTime") String endTime) {
+
         System.out.println(limit);
         int page=(curr-1)*limit;
         System.out.println(page);
         List<Financial> adminlist=financialService.selectByCondition(page, limit, name, orderType, startTime, endTime);
-
         int count=financialService.count(name,orderType,endTime,startTime);
         Map<String,Object> tableData =new HashMap<String,Object>();
         //这是layui要求返回的json数据格式
@@ -40,7 +40,6 @@ public class FinancialsController {
         //将分页后的数据返回（每页要显示的数据）
         tableData.put("data", adminlist);
         //返回给前端
-
         String json=JSONObject.toJSONString(tableData);
         System.out.println(json);
         return tableData;

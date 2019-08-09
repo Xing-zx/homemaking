@@ -48,12 +48,13 @@ public class AddressController {
     }
 
     @RequestMapping("/addressList")
-    public JSONObject addressList(@RequestBody JSONObject resquest){
-        Integer id =resquest.getInteger("id");
+    public JSONObject addressList(@RequestBody JSONObject request){
+        Integer id =request.getInteger("id");
         JSONObject res = new JSONObject();
         res.put("code",1);
         res.put("msg","addressList");
         res.put("data",addressService.getList(id));
+        System.out.println(res);
         return res;
     }
     @RequestMapping("/editAddress")

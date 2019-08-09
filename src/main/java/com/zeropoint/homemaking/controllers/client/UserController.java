@@ -130,8 +130,9 @@ public class UserController {
 
         }catch (NullPointerException e)
         {
-            res.put("code",0);
+            res.put("code",1);
             res.put("msg","用户信息——用户不存在");
+            res.put("data","");
 
         }
         return res;

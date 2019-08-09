@@ -96,6 +96,7 @@ public class ClientController {
         {
             User user =new User();
             user.setNickName(request.getString("nickName"));
+            user.setName(request.getString("nickName"));
             user.setAddress(request.getString("country")+request.getString("province")+request.getString("city"));
             user.setPortraitUrl(request.getString("avatarUrl"));
             user.setGender(request.getInteger("gender"));
@@ -116,7 +117,11 @@ public class ClientController {
             personnel.setGender(request.getInteger("gender"));
             personnel.setUserId(user.getId());
             personnel.setStatus(0);
-           //阿姨头像
+            personnel.setWithdrawalBrokerage(0.0);
+            personnel.setBalance(0.0);
+            personnel.setCurrentBrokerage(0.0);
+            personnel.setAllBrokerage(0.0);
+            personnel.setPhotoUrl(request.getString("avatarUrl"));
             personnelService.addPersonnel(personnel);
             request.put("id",user.getId());
             request.put("code",openId);
@@ -134,7 +139,7 @@ public class ClientController {
         }
         if (user1.getProgramCode() == null || user1.getProgramCode() =="")
         {
-            System.out.println("programcode");
+            System.out.println("programCode");
             String accessToken=TokenService.getAccessToken();
             System.out.println(accessToken);
            String filename= QRcodeUtil.getminiqrQr(user1.getId().toString(),accessToken,uploadFolder);
@@ -252,7 +257,8 @@ public class ClientController {
         res.put("msg","register");
         System.out.println(openId);
         User user=new User();
-        user.setNickName(request.getString("phone"));
+        user.setName(request.getString("nickName"));
+        user.setNickName(request.getString("nickName"));
         user.setPhone(request.getString("phone"));
         user.setPassword(request.getString("password"));
         user.setCreateTime(new Date());
@@ -273,6 +279,7 @@ public class ClientController {
         personnel.setName(request.getString("nickName"));
         personnel.setGender(request.getInteger("gender"));
         personnel.setUserId(user.getId());
+        personnel.setPhotoUrl(request.getString("avatarUrl"));
         personnel.setStatus(0);
         personnelService.addPersonnel(personnel);
         Address address=new Address();

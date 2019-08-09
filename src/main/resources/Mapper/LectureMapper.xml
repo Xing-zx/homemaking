@@ -69,6 +69,7 @@
     current_count, max_count, register_start, register_end, active_start, active_end, 
     create_time
     from lecture
+    where status>1
   </select>
 
   <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Lecture">

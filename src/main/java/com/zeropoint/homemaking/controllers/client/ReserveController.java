@@ -127,8 +127,9 @@ public class ReserveController {
        }catch (NullPointerException e)
        {
            e.printStackTrace();
-           res.put("code",0);
-           res.put("msg","");
+           res.put("code",1);
+           res.put("msg","未分配阿姨");
+           res.put("data","");
        }
         System.out.println(res);
         return res;

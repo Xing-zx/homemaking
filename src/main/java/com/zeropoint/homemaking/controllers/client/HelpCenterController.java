@@ -27,6 +27,8 @@ public class HelpCenterController {
     PersonnelService personnelService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    CustomersServices customersServices;
     /** 投诉反馈
      * @param request
      *  id,token,
@@ -85,7 +87,7 @@ public class HelpCenterController {
         JSONObject res =new JSONObject();
         JSONObject wrap =new JSONObject();
         wrap.put("aboutUsId",helpCenterService.findByName("关于平台").getId());
-        wrap.put("aboutUsPhone",helpCenterService.findByName("平台服务电话").getText());
+        wrap.put("aboutUsPhone",customersServices.selectAll(1,10).get(0).getPhone());
         wrap.put("securityId",helpCenterService.findByName("安全隐私说明").getId());
         res.put("code",1);
         res.put("msg","baseInfo");
@@ -109,10 +111,11 @@ public class HelpCenterController {
         String content=request.getString("content");
         System.out.println(request);
         Order order =orderService.findById(orderId);
-        if(order.getHascomment())
+        if(order.getHascomment()!=null &&order.getHascomment() )
         {
             res.put("code",0);
             res.put("msg","已评论");
+            order.setHascomment(true);
             return res;
         }
         Comment comment= new Comment();

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,10 +34,13 @@ public class BillController {
         String date=request.getString("date")+"-0";
         ServicePersonnel personnel =personnelService.findByUserId(id);
         Double balance=personnel.getBalance();
-        List<Income> list=billService.findByPersonnelIdAndDate(personnel.getId(),date);
-        List<Withdraw> list2=billService.withdrawlistByPersonnelAndDate(personnel.getId(),date);
+        List<Income> list1=billService.findByPersonnelIdAndDate(personnel.getId(),date);
+        List<Withdraw> list2=billService.withdrawlistByUserIdAndDate(id,date);
         Double input=billService.getInput(date,personnel.getId());
-        Double output=billService.getOutput(date,personnel.getId());
+        Double output=billService.getOutput(date,id);
+        List<Object>list=new ArrayList<>();
+        list.addAll(list1);
+        list.addAll(list2);
         JSONObject data= new JSONObject();
         data.put("output",output);
         data.put("input",input);
@@ -95,8 +99,10 @@ public class BillController {
         withdraw.setCreateTime(new Date());
         withdraw.setName(name);
         withdraw.setUserId(id);
-        withdraw.setMoney(money);
+        withdraw.setPersonnelId(personnel.getId());
+        withdraw.setMoney(-money);
         withdraw.setType(type);
+        withdraw.setStatus(1);
         billService.addWithdraw(withdraw);
         personnelService.update(personnel);
         res.put("code",1);

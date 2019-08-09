@@ -35,6 +35,7 @@ public class CertificateController {
     @RequestMapping("/certificateList")
     public JSONObject certificateList(@RequestBody JSONObject request){
         JSONObject res =new JSONObject();
+        System.out.println(request.toJSONString());
         try{
             res.put("code",1);
             res.put("msg","certificateList");
@@ -72,10 +73,18 @@ public class CertificateController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         System.out.println(expireTime.toString());
+        if(personnelService.addCheck(userId,Integer.parseInt(categoryId))!=null)
+        {
+            res.put("code",0);
+            res.put("msg","已上传");
+            System.out.println(res.toJSONString());
+            return res;
+        }
         Certificate certificate =new Certificate();
         System.out.println(idStr);
-        if (!("".equals(idStr)))
+        if (!("".equals(idStr)||idStr==null))
         {
            certificate.setId(Integer.parseInt(idStr));
         }

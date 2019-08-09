@@ -39,9 +39,9 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-  select service_classification.*,frontend_page.url as url from service_classification left JOIN frontend_page on url_id =frontend_page.id and status=1
+--     select s.*,frontend_page.url as url from (select * from service_classification where service_classification.`status`=1)as s  left OUTER join frontend_page on s.url_id =frontend_page.id
+    select * from service_classification where status =1
   </select>
-
   <delete id="deleteByPrimaryKey1" parameterType="java.lang.Integer">
     delete from service_classification
     where id = #{id,jdbcType=INTEGER}

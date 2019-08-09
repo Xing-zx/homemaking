@@ -22,4 +22,6 @@ public interface IncomeMapper {
 
     List<Income> selectByPersonnelId(Integer personnelId);
     List<Income> selectByPersonnelIdAndDate(Integer personnelId, String date);
+
+    List<Income> selectByUserIdAndDate(Integer userId, String date);
 }

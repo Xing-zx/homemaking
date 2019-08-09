@@ -147,7 +147,7 @@ public class PayController {
             order.setUserPhone(phone);
             ServicePersonnel personnel=personnelService.findById(personnelId);
             order.setMoneyTotal(personnel.getChargeStandard()*(double)hours);
-            order.setTitle("测试");
+           // order.setTitle("测试");
             order.setMoneyHour(personnel.getChargeStandard());
             orderService.addOrder(order);
             PayOrder payOrder=new PayOrder(order);
@@ -290,6 +290,14 @@ public class PayController {
                     LectureOrders lectureOrders = orderService.findLectureOrderByOrderNumber(orderNumber);
                     lectureOrders.setStatus(2);
                     lectureOrders.setPayTime(new Date());
+                    Lecture lecture=lectureService.findLectureById(lectureOrders.getLectureId());
+                    lecture.setCurrentCount(lecture.getCurrentCount()+1);
+                    if(lecture.getCurrentCount()>=lecture.getMaxCount())
+                    {
+                        //状态5，已报满
+                        lecture.setStatus(5);
+                    }
+                    lectureService.updateByPrimaryKey1(lecture);
                     orderService.updatLectureOrder(lectureOrders);
                     res.put("code",1);
                     res.put("msg","完成支付");

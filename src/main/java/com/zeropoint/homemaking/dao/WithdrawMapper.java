@@ -19,6 +19,8 @@ public interface WithdrawMapper {
 
     List<Withdraw> selectByPersonnelAndDate(Integer personnelId,String date);
 
+    List<Withdraw> selectByUserIdAndDate(Integer userId,String date);
+
     int insert1(Withdraw record);
 
     List<Withdraw> selectAll1();

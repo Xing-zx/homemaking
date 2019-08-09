@@ -51,7 +51,7 @@
   </select>
   <select id="selectByPersonnelId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select certificate.*,category.name as name1 from certificate,category
-    where personnel_id = #{personnelId,jdbcType=INTEGER} and certificate.status =1 and category.id=certificate.category_id
+    where personnel_id = #{personnelId,jdbcType=INTEGER} and category.id=certificate.category_id
   </select>
   <select id="selectByCategoryAndPersonnel" resultMap="BaseResultMap">
     select * from certificate

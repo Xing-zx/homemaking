@@ -86,6 +86,10 @@ public class Order {
         return province;
     }
 
+    public Order() {
+        this.hascomment = false;
+    }
+
     public void setProvince(String province) {
         this.province = province;
     }

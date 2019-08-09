@@ -28,7 +28,7 @@ public interface ArticleMapper {
 
     int update1(Article record);
 
-   
+
     List<Article> selectByCondition1(@Param("page")Integer page, @Param("rows")Integer rows, @Param("title")String title, @Param("author")String author,
                                      @Param("state")Integer state,@Param("startTime") String startTime,@Param("endTime") String endTime);
 

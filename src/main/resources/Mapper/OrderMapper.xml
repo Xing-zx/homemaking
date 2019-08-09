@@ -34,6 +34,11 @@
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="money_actual" jdbcType="DOUBLE" property="moneyActual" />
     <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
   </resultMap>
   <resultMap id="PersonneOrder" type="com.zeropoint.homemaking.vo.PersonnelOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -176,13 +181,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, title, type, user_phone, user_id, personnel_id, order_number, requirement, 
-    hetong_imgsrc, status, address, remark, hascomment, create_time, money_hour, money_bargin, 
-    money_advance, money_final, money_total, user_name, personnel_name, require_age, 
-    require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
-    appiont_date, native_place, money_actual, comment_id
-    from `order`
-    where id = #{id,jdbcType=INTEGER}
+    select `order`.*,address.province,address.city,address.county,address.detail
+    from `order`,address
+    where `order`.id = #{id,jdbcType=INTEGER} and address.id =address_id
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, title, type, user_phone, user_id, personnel_id, order_number, requirement, 

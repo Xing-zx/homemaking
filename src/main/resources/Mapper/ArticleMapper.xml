@@ -148,7 +148,7 @@
     set state = #{state}
     where id = #{id}
   </update>
-  <select id="findByTitle" >
+  <select id="findByTitle" resultMap="BaseResultMap">
     select * from article
     where title=#{title}
   </select>

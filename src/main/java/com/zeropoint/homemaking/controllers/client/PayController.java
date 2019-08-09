@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.util.Date;
 
 /**
@@ -35,6 +36,8 @@ public class PayController {
     PersonnelService personnelService;
     @Autowired
     BillService billService;
+    @Autowired
+    PackageService packageService;
 
     @RequestMapping(value = "/lecture", method = RequestMethod.POST)
     public JSONObject lecturePay(@RequestBody JSONObject request,HttpServletRequest requestHeader) {
@@ -247,6 +250,57 @@ public class PayController {
         return res;
     }
     /**
+     *  套餐卡购买
+     * @param request
+     * @return status
+     *
+     */
+    @RequestMapping("/package")
+    public JSONObject payPackage(@RequestBody JSONObject request,HttpServletRequest requestHeader){
+        JSONObject res= new JSONObject();
+        System.out.println(request.toJSONString());
+        Integer userId= request.getInteger("id");
+        String token =request.getString("token");
+        Integer packageId=request.getInteger("packageId");
+        try{
+            ServicePackage servicePackage=packageService.packageInfo(packageId);
+            if(servicePackage==null)
+            {
+                res.put("code",1);
+                res.put("msg","套餐卡不存在");
+                return res;
+            }
+            User user = userService.findUserById(request.getInteger("id"));
+            String openId = user.getOpenId();
+            String spbill_create_ip = getIpAddr(requestHeader);
+            Order order=new Order();
+            order.setType(4);
+            order.setUserId(userId);
+            order.setStatus(1);
+            order.setMoneyTotal(servicePackage.getPrice());
+            order.setRemark(servicePackage.getId()+servicePackage.getName());
+            order.setOrderNumber(OrderService.generateOrderNumber(userId.toString(),"4"));
+            PayOrder payOrder=new PayOrder(order);
+            payOrder.setGoodName(servicePackage.getName());
+            payOrder.setAmount(servicePackage.getPrice());
+            JSONObject payResult=payService.wxPay(spbill_create_ip,openId,payOrder);
+            res.put("code",1);
+            res.put("msg",payResult.getString("result"));
+            res.put("data",payResult);
+        }catch (NullPointerException e)
+        {
+
+        }catch (Exception e)
+        {
+            res.put("code",0);
+            res.put("msg","pay fail");
+
+        }
+        System.out.println(res.toJSONString());
+        return res;
+
+    }
+    /**
      * 获取IP地址
      * @param request
      * @return
@@ -270,6 +324,7 @@ public class PayController {
     }
 
     /**
+     *  支付确认
      * //1待签约 2待服务 (3待付定金 4待付预付款 5待付尾款)==服务中 6完成 -1取消
      * @param request
      * @return

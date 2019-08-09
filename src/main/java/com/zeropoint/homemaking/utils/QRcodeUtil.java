@@ -1,5 +1,6 @@
 package com.zeropoint.homemaking.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -26,7 +27,7 @@ public class QRcodeUtil {
             String url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token="+accessToken;
             Map<String,Object> param = new HashMap<>();
             param.put("scene", sceneStr);
-            param.put("page", "pages/index/index");
+           // param.put("page", "pages/index/index");
             param.put("width", 430);
             param.put("auto_color", false);
             Map<String,Object> line_color = new HashMap<>();
@@ -34,14 +35,12 @@ public class QRcodeUtil {
             line_color.put("g", 0);
             line_color.put("b", 0);
             param.put("line_color", line_color);
-           // LOG.info("调用生成微信URL接口传参:" + param);
             System.out.println("LOG.info(\"调用生成微信URL接口传参:\" + param);");
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             HttpEntity requestEntity = new HttpEntity(param, headers);
             ResponseEntity<byte[]> entity = rest.exchange(url, HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
-           // LOG.info("调用小程序生成微信永久小程序码URL接口返回结果:" + entity.getBody());
             byte[] result = entity.getBody();
-            //LOG.info(Base64.encodeBase64String(result));
+            System.out.println(result.toString());
             inputStream = new ByteArrayInputStream(result);
             String realPath = uploadFolder + "/QR/";
             File folder = new File(realPath);
@@ -49,7 +48,7 @@ public class QRcodeUtil {
                 folder.mkdirs();
             }
             String newName = UUID.randomUUID().toString() + ".jpg";
-            System.out.println(newName);
+
             File file = new File(folder,newName);
             if (!file.exists()){
                 file.createNewFile();
@@ -82,7 +81,7 @@ public class QRcodeUtil {
                 }
             }
         }
-
+        System.out.println(res);
         return res;
     }
 }

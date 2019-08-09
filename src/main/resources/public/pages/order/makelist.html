@@ -61,8 +61,8 @@
 		<script type="text/html" id="status">
 			{{#  if(d.status === 1){ }}
 			  <span class="layui-badge layui-bg-gray td-status">待签约</span>
-			{{#  } else { }}
-			  <span class="layui-badge layui-bg-gray td-status">未分配</span>
+            {{#  } else if(d.status === 2 ){ }}
+			  <span class="layui-badge td-status">待服务</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="workType">
@@ -97,7 +97,7 @@
 							,layEvent = obj.event; //获得 lay-event 对应的值
 					var ids=data.id
 					if(layEvent === 'detail'){
-						WeAdminEdit('查看详情', './makeadd.html?id=' + data.id);
+							WeAdminEdit('查看详情', './makeadd.html?id=' + data.id);
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({
@@ -153,7 +153,7 @@
 							,{field:'city',  title: '服务地址',templet:function (res) {
 									return '<span>'+res.province+res.city+res.county+res.street+res.detail+'</span>'
 								}}
-							,{field:'appointDate',  title: '预约时间',width:120}
+							,{field:'appiontDate',  title: '预约时间',width:120}
 							,{field:'status', title: '状态',templet: '#status',width:80}
 							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 						]],

@@ -119,11 +119,15 @@
 					uploadImage: {
 						url: '/ar/uploadFile1' //接口url
 						,type: 'post' //默认post
+						,headers: 'http:\\localhost:',
+						elem:'/upload/image/'
 					}
 				});
 
 				//构建一个默认的编辑器
 				var index = layedit.build('LAY_demo1');
+
+
 				//编辑器外部操作
 				var active = {
 					content: function() {
@@ -261,7 +265,7 @@
 							return layer.msg('上传失败');
 						}
 						//上传成功
-						$("#img").val(res.data.src+"\\"+res.data.title)
+						$("#img").val(res.url)
 					},
 					error: function() {
 						//演示失败状态，并实现重传

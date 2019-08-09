@@ -84,6 +84,55 @@ public class ServicePersonnel {
 
     private String storesName;
 
+    private String certificateName;
+
+    private String pictureUrl;
+
+    private Integer personnelId;
+
+    private Date createTime;
+
+    private Date expirationTime;
+
+    public String getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(String certificateName) {
+        this.certificateName = certificateName;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+    public Integer getPersonnelId() {
+        return personnelId;
+    }
+
+    public void setPersonnelId(Integer personnelId) {
+        this.personnelId = personnelId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Date expirationTime) {
+        this.expirationTime = expirationTime;
+    }
 
     public List<String> getCertificates() { return certificates; }
 

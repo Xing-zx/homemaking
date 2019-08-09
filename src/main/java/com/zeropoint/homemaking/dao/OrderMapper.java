@@ -1,6 +1,5 @@
 package com.zeropoint.homemaking.dao;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import com.zeropoint.homemaking.domain.Order;
 import com.zeropoint.homemaking.domain.ServicePersonnel;
 import com.zeropoint.homemaking.vo.PersonnelOrder;
@@ -41,7 +40,7 @@ public interface OrderMapper {
 
     Order selectKey1(@Param("id")Integer id);
 
-    List<ServicePersonnel> serviceSelect1(@Param("page")Integer page, @Param("rows")Integer rows, @Param("ids")Integer[] ids);
+    List<ServicePersonnel> serviceSelect1(@Param("maxage")Integer maxage,@Param("minage")Integer minage,@Param("workType")Integer workType);
 
     int counts1(@Param("ids")Integer[] ids);
 
@@ -51,4 +50,9 @@ public interface OrderMapper {
     int countOrder1(@Param("type")Integer type,@Param("status")Integer status,@Param("name")String name,@Param("endTime")String endTime,@Param("startTime")String startTime);
 
     ServicePersonnel personnelView1(@Param("id")Integer id);
+
+    int updatemoneyTotal(Integer id,String hetongImgsrc,Double moneyTotal,Integer status,
+                         @Param("endTime")String endTime,
+                         @Param("startTime")String startTime,String assignIds,
+                         Double moneyBargin,Double moneyAdvance,Double moneyFinal,Double moneyActual);
 }

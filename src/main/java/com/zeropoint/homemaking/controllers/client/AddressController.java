@@ -20,6 +20,7 @@ import java.util.Map;
  * @author Administrator
  */
 @RestController
+@RequestMapping("/api")
 public class AddressController {
 
     @Autowired

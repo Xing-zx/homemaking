@@ -69,13 +69,23 @@ public class OrdersController {
 
     @RequestMapping("servicelist")
     @ResponseBody
-    public Map<String,Object> SelectService(@Param("curr")Integer curr, @Param("limit")Integer limit,@RequestParam("ids")Integer[] ids){
-        System.out.println(ids.length);
+    public Map<String,Object> SelectService(@Param("maxage")Integer maxage,@Param("minage")Integer minage,@Param("workType")Integer workType){
+      /*  System.out.println(ids.toString()+"----------------------------");
 
+        Integer[] id=new Integer[ids.length];*/
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", orderservice.serviceSelect1(maxage, minage, workType));
+        return tableData;
+
+/*
         System.out.println(limit);
         int page=(curr-1)*limit;
         System.out.println(page);
-        List<ServicePersonnel> list=orderservice.serviceSelect1(page,limit,ids);
+        List<ServicePersonnel> list=orderservice.serviceSelect1(page,limit,id);
 
         System.out.println(ids+"--------999999999 99999999999999");
 
@@ -91,7 +101,7 @@ public class OrdersController {
 
         String json= JSONObject.toJSONString(tableData);
         System.out.println(json);
-        return tableData;
+        return tableData;*/
     }
 
     @RequestMapping("selectOrder")
@@ -116,5 +126,13 @@ public class OrdersController {
         String json= JSONObject.toJSONString(tableData);
         System.out.println(json);
         return tableData;
+    }
+    @RequestMapping("/update3")
+    public int updatemoneyTotal(@RequestParam("id") Integer id,@RequestParam("hetongImgsrc") String hetongImgsrc,
+                                @RequestParam("moneyTotal") Double moneyTotal,@RequestParam("status")Integer status,
+                                @Param("endTime")String endTime, @Param("startTime")String startTime,@RequestParam("assignIds")String assignIds,
+                                @Param("moneyBargin")Double moneyBargin,@Param("moneyAdvance")Double moneyAdvance,@Param("moneyFinal")Double moneyFinal,
+                                @Param("moneyActual")Double moneyActual){
+        return orderservice.updatemoneyTotal(id, hetongImgsrc, moneyTotal,status,endTime,startTime,assignIds,moneyBargin,moneyAdvance,moneyFinal,moneyActual);
     }
 }

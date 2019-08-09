@@ -6,7 +6,7 @@ public class Category {
     private Integer id;
 
     private String name;
-    @JsonIgnore
+
     private Integer parent;
 
     public Integer getStatus() {

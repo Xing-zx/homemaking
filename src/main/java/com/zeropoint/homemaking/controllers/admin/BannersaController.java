@@ -48,8 +48,8 @@ public class BannersaController {
         Banners banners=new Banners();
         banners.setName(json.getString("name"));
         banners.setPictureUrl(json.getString("img"));
-        banners.setUrlId(json.getInteger("url"));
-        banners.setArticleId(json.getInteger("articleId"));
+        banners.setUrl(json.getString("url"));
+        banners.setArticleId(0);
         banners.setStatus(json.getInteger("status"));
         return bannerservice.insert(banners);
     }
@@ -78,8 +78,8 @@ public class BannersaController {
         banners.setId(json.getInteger("id"));
         banners.setName(json.getString("name"));
         banners.setPictureUrl(json.getString("img"));
-        banners.setUrlId(json.getInteger("url"));
-        banners.setArticleId(json.getInteger("url"));
+        banners.setUrl(json.getString("url"));
+        banners.setArticleId(0);
         banners.setStatus(json.getInteger("status"));
         return bannerservice.updateByPrimaryKey(banners);
     }

@@ -81,12 +81,8 @@
 		<script type="text/html" id="status1">
 			{{#  if(d.status === 2){ }}
 			  <span>待服务</span>
-			{{#  } else if(d.status === 3){ }}
-			  <span>待付定金</span>
-			{{#  } else if(d.status === 4){ }}
-			  <span>待付预付款</span>
-			{{#  } else if(d.status === 5){ }}
-			  <span>待付尾款</span>
+			{{#  } else if(d.status === 3 || d.status === 4 || d.status === 5){ }}
+			  <span>服务中</span>
 			{{#  } else if(d.status === 6){ }}
 			  <span>已完成</span>
 			{{#  } }}

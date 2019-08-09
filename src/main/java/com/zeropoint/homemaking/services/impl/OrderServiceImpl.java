@@ -192,8 +192,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<ServicePersonnel> serviceSelect1(Integer page, Integer rows, Integer[] ids) {
-        return orderMapper.serviceSelect1(page, rows, ids);
+    public List<ServicePersonnel> serviceSelect1(Integer maxage,Integer minage,Integer workType) {
+
+        System.out.println(maxage+"---------------"+minage+"-------------------"+workType);
+        return orderMapper.serviceSelect1(maxage, minage, workType);
     }
 
     @Override
@@ -214,6 +216,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ServicePersonnel personnelView1(Integer id) {
         return orderMapper.personnelView1(id);
+    }
+
+
+    @Override
+    public int updatemoneyTotal(Integer id, String hetongImgsrc, Double moneyTotal,Integer status,
+                                String endTime,String startTime,String assignIds,
+                                Double moneyBargin,Double moneyAdvance,Double moneyFinal,Double moneyActual) {
+        return orderMapper.updatemoneyTotal(id, hetongImgsrc, moneyTotal,status,endTime,startTime,assignIds,moneyBargin,moneyAdvance,moneyFinal,moneyActual);
     }
 
 

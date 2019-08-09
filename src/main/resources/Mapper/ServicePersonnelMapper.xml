@@ -36,6 +36,22 @@
     <result column="withdrawal_brokerage" jdbcType="DOUBLE" property="withdrawalBrokerage" />
     <result column="myself" jdbcType="LONGVARCHAR" property="myself" />
     <result column="stores_name" jdbcType="LONGVARCHAR" property="storesName" />
+    <result column="name" jdbcType="VARCHAR" property="certificateName" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+  </resultMap>
+
+  <resultMap id="StoresResultMap" type="com.zeropoint.homemaking.domain.Stores">
+    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
+    <result column="stores_password" jdbcType="VARCHAR" property="storesPassword" />
+    <result column="stores_name" jdbcType="VARCHAR" property="storesName" />
+    <result column="stores_address" jdbcType="VARCHAR" property="storesAddress" />
+    <result column="stores_introduced" jdbcType="VARCHAR" property="storesIntroduced" />
+    <result column="sions_id" jdbcType="INTEGER" property="sionsId" />
+    <result column="broker_id" jdbcType="INTEGER" property="brokerId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_personnel
@@ -210,22 +226,11 @@
     where upline=#{upline} or upupline=#{upline}
   </select>
 
-  <resultMap id="StoresResultMap" type="com.zeropoint.homemaking.domain.Stores">
-    <result column="stores_id" jdbcType="INTEGER" property="storesId" />
-    <result column="stores_password" jdbcType="VARCHAR" property="storesPassword" />
-    <result column="stores_name" jdbcType="VARCHAR" property="storesName" />
-    <result column="stores_address" jdbcType="VARCHAR" property="storesAddress" />
-    <result column="stores_introduced" jdbcType="VARCHAR" property="storesIntroduced" />
-    <result column="sions_id" jdbcType="INTEGER" property="sionsId" />
-    <result column="broker_id" jdbcType="INTEGER" property="brokerId" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-
   <select id="selectByCondition1" resultMap="BaseResultMap">
     select s.*,o.stores_name
     from service_personnel s INNER JOIN stores o on o.stores_id=s.stores_id
     <where>
-      s.status='1'
+      s.status='2'
       <if test="name != null and name != ''">
         and s.name LIKE  '%${name}%'
       </if>
@@ -246,9 +251,10 @@
   </select>
 
   <select id="count1" resultType="int">
-    SELECT  COUNT(1) FROM service_personnel  s INNER JOIN stores o on o.stores_id=s.stores_id
+    SELECT  COUNT(1) FROM service_personnel s
+    INNER JOIN stores o on o.stores_id=s.stores_id
     <where>
-      s.status='1'
+      s.status='2'
       <if test="name != null and name != ''">
         and s.name LIKE  '%${name}%'
       </if>
@@ -267,47 +273,47 @@
     </where>
   </select>
 
-  <select id="selectByConditions1" parameterType="Map" resultMap="BaseResultMap">
-    select s.*,o.*
-    from service_personnel s INNER JOIN stores o ON s.stores_id=o.stores_id
+  <select id="selectByConditions2" parameterType="Map" resultMap="BaseResultMap">
+    select *
+    from service_personnel
     <where>
-      s.status in(2,3)
+      status in(0,1,3)
       <if test="name != null and name != ''">
-        and s.name LIKE  '%${name}%'
+        and name LIKE  '%${name}%'
       </if>
       <if test="workType != null and workType != '' ">
         and
-        s.work_type = #{workType}
+        work_type = #{workType}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        s.creat_times between #{startTime} and #{endTime}
+        creat_times between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
 
-  <select id="counts1" resultType="int">
-    SELECT  COUNT(1) FROM service_personnel s
-    INNER JOIN stores o on o.stores_id=s.stores_id
+  <select id="counts2" resultType="int">
+    SELECT  COUNT(1) FROM service_personnel
     <where>
-      s.status in(2,3)
+      status in(0,1,3)
       <if test="name != null and name != ''">
-        and s.name LIKE  '%${name}%'
+        and name LIKE  '%${name}%'
       </if>
       <if test="workType != null and workType != '' ">
         and
-        s.work_type = #{workType}
+        work_type = #{workType}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        s.creat_times between #{startTime} and #{endTime}
+        creat_times between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
 
   <select id="SelectIds1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select s.*,c.*
-    from service_personnel s,certificate c
+    from service_personnel s
+    INNER JOIN certificate c ON s.id=c.personnel_id
     where s.id = #{id}
   </select>
 
@@ -322,6 +328,15 @@
       #{item}
     </foreach>
   </delete>
+
+
+  <update id="updateStatus" parameterType="com.zeropoint.homemaking.domain.ServicePersonnel">
+    update service_personnel
+    set status = #{status,jdbcType=INTEGER},
+     stores_id=#{storesId},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 
 
 

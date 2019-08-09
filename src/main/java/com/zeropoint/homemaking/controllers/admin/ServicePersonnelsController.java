@@ -19,15 +19,14 @@ public class ServicePersonnelsController {
     @Autowired
     private PersonnelService personnel;
 
-
     /** 列表/查询
      * @return   the list
      */
     @RequestMapping("/list")
     @ResponseBody
     public Map<String,Object> listService(@RequestParam("curr")Integer curr, @RequestParam("limit") Integer limit,
-                                              @Param("name")String name, @Param("storesId")Integer storesId, @Param("workType")Integer workType,
-                                              @Param("endTime")String endTime, @Param("startTime")String startTime){
+                                          @Param("name")String name, @Param("storesId")Integer storesId, @Param("workType")Integer workType,
+                                          @Param("endTime")String endTime, @Param("startTime")String startTime){
         System.out.println(name+"----------------------"+storesId+"----------------"+endTime+"---------------"+startTime);
         int page=(curr-1)*limit;
 
@@ -55,15 +54,15 @@ public class ServicePersonnelsController {
     @RequestMapping("/lists")
     @ResponseBody
     public Map<String,Object> listServices(@RequestParam("curr")Integer curr, @RequestParam("limit") Integer limit,
-                                               @Param("name")String name,@Param("workType")Integer workType,
-                                               @Param("endTime")String endTime, @Param("startTime")String startTime){
+                                           @Param("name")String name,@Param("workType")Integer workType,
+                                           @Param("endTime")String endTime, @Param("startTime")String startTime){
         System.out.println(name+"----------------------------------"+endTime+"---------------"+startTime);
         System.out.println(limit);
         int page=(curr-1)*limit;
         System.out.println(page);
-        List<ServicePersonnel> personnellist=personnel.selectByConditions1(page,limit,name,workType,startTime,endTime);
+        List<ServicePersonnel> personnellist=personnel.selectByConditions2(page,limit,name,workType,startTime,endTime);
 
-        int count=personnel.counts1(name,workType,startTime,endTime);
+        int count=personnel.counts2(name,workType,startTime,endTime);
         Map<String,Object> tableData =new HashMap<String,Object>();
         //这是layui要求返回的json数据格式
         tableData.put("code", 0);
@@ -84,7 +83,7 @@ public class ServicePersonnelsController {
      * @return   the list
      */
     @RequestMapping("/selectid")
-    public ServicePersonnel selectID(@RequestParam(value = "id")Integer id){
+    public ServicePersonnel selectID(@RequestParam("id")Integer id){
         System.out.println(id+"-----------------------------");
         return personnel.SelectIds1(id);
     }
@@ -108,6 +107,11 @@ public class ServicePersonnelsController {
     public void delete(@RequestParam(value="ids")Integer[] ids){
         System.out.println(ids+"------------------------------------");
         personnel.delete1(ids);
+    }
+
+    @RequestMapping("/update")
+    public int updateStatus(@RequestParam("id")Integer id,@RequestParam("status")Integer status,@RequestParam("storesId")Integer storesId){
+        return personnel.updateStatus(id, status,storesId);
     }
 }
 

@@ -26,7 +26,7 @@
 
 	<body>
 		<div class="weadmin-body">
-			<form class="layui-form">
+			<form class="layui-form" onsubmit="return false">
 				<div class="layui-container">
 					<table width="100%">
 						<thead>
@@ -70,7 +70,7 @@
 										<div class="layui-form-mid layui-word-aux" id="type"></div>
 									</div>
 								</td>
-								<td>
+								<td colspan="2">
 									<div class="layui-inline">
 										<label class="layui-form-label">
 											预约时间：
@@ -78,26 +78,20 @@
 										<div class="layui-form-mid layui-word-aux" id="createTime"></div>
 									</div>
 								</td>
-								<td></td>
 							</tr>
 
-							<tr>
-								<td>
+							<!--<tr>
+								<td colspan="3">
 									<div class="layui-inline">
 										<label class="layui-form-label">
 											服务时间：
 										</label>
 										<div class="layui-form-mid layui-word-aux" id="time"></div>
 									</div>
-								</td>
-								<td>
-								</td>
-								<td>
-								</td>
-							</tr>
+							</tr>-->
 
 							<tr>
-								<td>
+								<td colspan="3">
 									<div class="layui-inline">
 										<label class="layui-form-label">
 											服务地址：
@@ -105,8 +99,6 @@
 										<div class="layui-form-mid layui-word-aux" id="address"></div>
 									</div>
 								</td>
-								<td></td>
-								<td></td>
 							</tr>
 
 							<tr>
@@ -130,6 +122,8 @@
 										<textarea class="layui-textarea" style="width: 600px;height: 200px;" name="remark" lay-verify="remark" id="remark"
 										 disabled="">
 									</textarea>
+
+										<input type="hidden" id="id">
 									</div>
 								</td>
 							</tr>
@@ -145,110 +139,94 @@
 									<table class="layui-table" id="test"></table>
 								</td>
 							</tr>
-							
+
+
 							<tr>
 								<td colspan="3">
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											工号：
-										</label>
-										<div class="layui-form-mid layui-word-aux">0735</div>
-									</div>
+									<fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"></fieldset>
 								</td>
 							</tr>
-							
+
+
+							<tr>
+								<td colspan="2">
+									<div class="layui-form-item">
+										<div class="layui-upload" style="margin-left: 20px;">
+											<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传合同</button>
+											<img class="layui-upload-img" id="demo1" width="100px" height="100px">
+											<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
+											<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
+										</div>
+									</div>
+								</td>
+
+								<td>
+								</td>
+							</tr>
+
+							<tr>
+								<td id="dinjin">
+
+								</td>
+
+								<td>
+									<div class="layui-form-item">
+										<label class="layui-form-label">预付款：</label>
+										<div class="layui-input-inline">
+											<input type="text" id="moneyAdvance" name="title" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+								</td>
+
+								<td>
+									<div class="layui-form-item">
+										<label class="layui-form-label">尾款：</label>
+										<div class="layui-input-inline">
+											<input type="text" id="moneyFinal" name="title" autocomplete="off" class="layui-input">
+										</div>
+									</div>
+								</td>
+
 							<tr>
 								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											员工姓名：
-										</label>
-										<div class="layui-form-mid layui-word-aux">李四</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">员工工资：</label>
+										<div class="layui-input-inline">
+											<input type="text" id="moneyActual" name="title" autocomplete="off" class="layui-input">
+										</div>
 									</div>
 								</td>
+
 								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											职位：
-										</label>
-										<div class="layui-form-mid layui-word-aux">月嫂</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">服务时间：</label>
+										<div class="layui-input-inline">
+											<input type="text" id="test6" name="categoryName" autocomplete="off" class="layui-input">
+										</div>
 									</div>
 								</td>
+
 								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											级别：
-										</label>
-										<div class="layui-form-mid layui-word-aux">金牌月嫂</div>
-									</div>
+
+									<input type="hidden" id="maxage"/>
+
+									<input type="hidden" id="minage"/>
+
+									<input type="hidden" id="types">
 								</td>
 							</tr>
-							
-							<tr>
-								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											工作经验：
-										</label>
-										<div class="layui-form-mid layui-word-aux">2年</div>
-									</div>
-								</td>
-								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											薪资：
-										</label>
-										<div class="layui-form-mid layui-word-aux">8000元/月</div>
-									</div>
-								</td>
-							</tr>
-							
-							<tr>
-								<td colspan="3">
-									<fieldset class="layui-elem-field layui-field-title" style="margin: 40px 0 40px 0;"></fieldset>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											总金额：
-										</label>
-										<div class="layui-form-mid layui-word-aux">20000</div>
-									</div>
-								</td>
-							</tr>
-							
-							<tr>
-								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											公司所得：
-										</label>
-										<div class="layui-form-mid layui-word-aux">4000</div>
-									</div>
-								</td>
-								<td>
-									<div class="layui-inline">
-										<label for="username" class="layui-form-label">
-											员工所得：
-										</label>
-										<div class="layui-form-mid layui-word-aux">16000</div>
-									</div>
-								</td>
-							</tr>
-							
+
+
 							<tr>
 								<td colspan="3">
-									<fieldset class="layui-elem-field layui-field-title" style="margin: 40px 0 40px 0;"></fieldset>
+									<fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"></fieldset>
 								</td>
 							</tr>
 
 
 							<tr>
 								<td>
-									<button class="layui-btn" lay-filter="add" lay-submit="">生成订单</button>
+									<button class="layui-btn" id="fenpei">提交</button>
 								</td>
 							</tr>
 						</tbody>
@@ -264,28 +242,106 @@
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
-			layui.use(['form', 'admin', 'jquery', 'table', 'layer'], function() {
+
+			layui.use('upload', function() {
+				var $ = layui.jquery,
+						upload = layui.upload;
+
+
+				//普通图片上传
+				var uploadInst = upload.render({
+					elem: '#test1',
+					url: '/ar/uploadFile1',
+					before: function(obj) {
+						//预读本地文件示例，不支持ie8
+						obj.preview(function(index, file, result) {
+							$('#demo1').attr('src', result).src; //图片链接（base64）
+						});
+					},
+					done: function(res) {
+						//如果上传失败
+						if (res.code > 0) {
+							return layer.msg('上传失败');
+						}
+						//上传成功
+						$("#img").val(res.url)
+					},
+					error: function() {
+						//演示失败状态，并实现重传
+						var demoText = $('#demoText');
+						demoText.html(
+								'<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+						demoText.find('.demo-reload').on('click', function() {
+							uploadInst.upload();
+						});
+					}
+				});
+			});
+
+
+			layui.use(['form', 'admin', 'jquery', 'table','laydate', 'layer'], function() {
 				var form = layui.form,
 						admin = layui.admin,
+						laydate=layui.laydate,
 						$ = layui.jquery,
 						table = layui.table,
 						layer = layui.layer;
-
-				//自定义验证规则
-				form.verify({
-					nikename: function (value) {
-						if (value.length < 5) {
-							return '昵称至少得5个字符啊';
-						}
-					},
-					pass: [/(.+){6,12}$/, '密码必须6到12位'],
-					repass: function (value) {
-						if ($('#L_pass').val() != $('#L_repass').val()) {
-							return '两次密码不一致';
-						}
-					}
+				//日期范围
+				laydate.render({
+					elem: '#test6',
+					range: true
 				});
+				$(function () {
+					$("#fenpei").click(function () {
+						var total=$("#total").val();
+						var img=$("#img").val();
+						var status=2;
+						var id=$("#id").val();
+						var startTime=$("#test6").val().substr(0,10);
+						var endTime=$("#test6").val().substr(12,19);
+						var checkStatus = table.checkStatus('idTest')
+								,data = checkStatus.data;
+						var id_str="";
+						if (data.length > 0) {
 
+							for (var i = 0; i < data.length; i++) {
+								id_str +=data[i].id + ',';
+							}
+							id_str = id_str.substr(0,id_str.length - 1);
+						}
+
+						var moneyBargin=$("#moneyBargin").val()
+						var  moneyAdvance=$("#moneyAdvance").val()
+						var moneyFinal=$("#moneyFinal").val()
+						var	moneyActual=$("#moneyActual").val()
+						var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
+						console.log(total)
+						$.ajax({
+							type:"post",
+							url:"/order/update3",
+							dataType:"json",
+							data:{"id":parseInt(id),"hetongImgsrc":img,"moneyTotal":total,
+								"status":status,"startTime":startTime,"endTime":endTime,
+								"assignIds":id_str.toString(),"moneyBargin":moneyBargin,
+							"moneyAdvance":moneyAdvance,"moneyFinal":moneyFinal,"moneyActual":moneyActual},
+							success:function () {
+								layer.msg("签约成功", {
+									icon: 6,
+									time: 1000
+								}, function() {
+									// 获得frame索引
+									var index = parent.layer.getFrameIndex(window.name);
+									//关闭当前frame
+									parent.layer.close(index);
+									window.parent.location.reload();
+								});
+							},
+							error:function () {
+								alert("error");
+							}
+						})
+					})
+				})
 
 				$(function () {
 					var result;
@@ -300,15 +356,38 @@
 							$("#name").html(data.userName)
 							if(data.type==1){
 								data.type="月嫂"
+								$("#dinjin").append("<div class=\"layui-form-item\"><label class=\"layui-form-label\">定金：</label><div class=\"layui-input-inline\"><input type=\"text\" id=\"moneyBargin\" name=\"title\" autocomplete=\"off\" class=\"layui-input\" value='0' disabled=\"\"></div></div>")
 							}
 							if(data.type==2){
 								data.type="保姆"
+								$("#dinjin").append("<div class=\"layui-form-item\"><label class=\"layui-form-label\">定金：</label><div class=\"layui-input-inline\"><input type=\"text\" id=\"moneyBargin\" name=\"title\" autocomplete=\"off\" class=\"layui-input\"></div></div>")
 							}
+							$("#id").val(data.id)
 							$("#type").html(data.type)
 							$("#phone").html(data.userPhone)
 							$("#createTime").html(data.createTime)
 							$("#time").html(data.workStartTime+" 至 "+data.workEndTime)
 							$("#remark").html(data.remark)
+
+
+							var age=data.requireAge;
+							var splitArray = new Array();
+							splitArray=age.split("~");
+							for(var i=0; i < splitArray.length; i++){
+								splitArray[i]
+							}
+							$("#maxage").val(splitArray[1])
+							$("#minage").val(splitArray[0])
+
+
+
+							if(data.type=="月嫂"){
+								$("#types").val(1)
+							}
+							else if(data.type=="保姆"){
+								$("#types").val(2)
+							}
+
 							if(data.province==null){
 								data.province="";
 							}
@@ -338,25 +417,15 @@
 							}
 
 							if(data.assignIds!=null || data.assignIds!=""){
-								var ids=[]
-
-								var liArray = new Array();
-								var idss=data.assignIds;
-								var sp = /,/;
-								liArray=idss.split(sp);
-								var ida=[]
-
-								for(var i=0; i < liArray.length; i++){
-									if(liArray[i]!=""){
-										ida=ids.push(liArray[i]);
-									}
-								}
-								alert(ida)
+								var maxage=$("#maxage").val()
+								var minage=$("#minage").val()
+								var type=$("#types").val()
 									table.render({
 										elem: '#test'
 										,url:'/order/servicelist'
 										,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-										,where: {ids:parseInt(ida)}
+										,where: {status:status,maxage:parseInt(maxage),minage:parseInt(minage),workType:parseInt(type)}
+										,id:'idTest'
 										,cols: [[
 											{type:'checkbox',fixed: 'left'}
 											,{field:'name', title: '阿姨姓名',width:220}
@@ -373,8 +442,6 @@
 										},
 									});
 							}
-
-
 						},
 						error:function () {
 							alert("error");

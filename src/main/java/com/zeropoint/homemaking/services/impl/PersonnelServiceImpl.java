@@ -24,13 +24,13 @@ import java.util.Map;
 public class PersonnelServiceImpl  implements PersonnelService {
 
     @Autowired
-    ServicePersonnelMapper personnelMapper;
+    private ServicePersonnelMapper personnelMapper;
     @Autowired
-    SpecialityMapper specialityMapper;
+    private SpecialityMapper specialityMapper;
     @Autowired
-    CertificateMapper certificateMapper;
+    private CertificateMapper certificateMapper;
     @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryMapper categoryMapper;
 
     @Override
     public List<ServicePersonnel> getList(Map<String, Object> condition) {
@@ -204,49 +204,41 @@ public class PersonnelServiceImpl  implements PersonnelService {
         return personnelMapper.getCountByUpline(personnelId);
     }
 
-    @Override
-    public void delete1(Integer[] ids) {
-        personnelMapper.delete1(ids);
-    }
-
-    @Override
-    public int insert1(ServicePersonnel record) {
-        return personnelMapper.insert1(record);
-    }
-
-    @Override
-    public ServicePersonnel selectByPrimaryKey1(Integer id) {
-        return personnelMapper.selectByPrimaryKey1(id);
-    }
-
-    @Override
-    public List<ServicePersonnel> selectAll1() {
-        return personnelMapper.selectAll1();
-    }
 
     @Override
     public List<ServicePersonnel> selectByCondition1(int page, int rows, String name, Integer storesId, Integer workType, String startTime, String endTime) {
-        return personnelMapper.selectByCondition1(page, rows, name, storesId, workType, startTime, endTime);
+        return personnelMapper.selectByCondition1(page,rows,name,storesId,workType,startTime,endTime);
     }
 
     @Override
-    public int count1(String name, Integer storesId, Integer workType, String startTime, String endTime) {
-        return personnelMapper.count1(name, storesId, workType, startTime, endTime);
+    public int count1(String name,Integer storesId, Integer workType, String startTime, String endTime) {
+        return personnelMapper.count1(name,storesId,workType,startTime,endTime);
     }
 
     @Override
-    public List<ServicePersonnel> selectByConditions1(int page, int rows, String name, Integer workType, String startTime, String endTime) {
-        return personnelMapper.selectByConditions1(page, rows, name, workType, startTime, endTime);
+    public List<ServicePersonnel> selectByConditions2(int page, int rows,String name, Integer workType, String startTime, String endTime) {
+        return personnelMapper.selectByConditions2(page,rows,name,workType,startTime,endTime);
     }
 
     @Override
-    public int counts1(String name, Integer workType, String startTime, String endTime) {
-        return personnelMapper.counts1(name, workType, startTime, endTime);
+    public int counts2(String name, Integer workType, String startTime, String endTime) {
+        return personnelMapper.counts2(name,workType,startTime,endTime);
     }
 
     @Override
-    public int updateByPrimaryKey1(ServicePersonnel record) {
-        return personnelMapper.updateByPrimaryKey1(record);
+    public List<Speciality> getSpeciality1(Integer id) {
+        return specialityMapper.selectByPersonnelId(id);
+    }
+
+    @Override
+    public List<Certificate> getCertificate1(Integer id) {
+        return certificateMapper.selectByPersonnelId(id);
+    }
+
+    @Override
+    public List<String> getChildList1(String name) {
+
+        return categoryMapper.getChildListByName1(name);
     }
 
     @Override
@@ -257,6 +249,21 @@ public class PersonnelServiceImpl  implements PersonnelService {
     @Override
     public List<Stores> selectStores1() {
         return personnelMapper.selectStores1();
+    }
+
+    @Override
+    public void delete1(Integer[] ids){
+        personnelMapper.delete1(ids);
+    }
+
+    @Override
+    public int updateByPrimaryKey(ServicePersonnel record) {
+        return personnelMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int updateStatus(Integer id, Integer status,Integer storesId) {
+        return personnelMapper.updateStatus(id,status,storesId);
     }
 
 

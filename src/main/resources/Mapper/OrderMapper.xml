@@ -278,7 +278,7 @@
     INNER JOIN user u ON u.id=r.user_id
     INNER JOIN address a ON a.id=r.address_id
     <where>
-      r.status in (1,-1) and r.type in (1,2)
+      r.status in (1,2) and r.type in (1,2)
       <if test="name != null and name != ''">
         and user_name LIKE  '%${name}%'
       </if>
@@ -300,7 +300,7 @@
     INNER JOIN user u ON u.id=r.user_id
     INNER JOIN address a ON a.id=r.address_id
     <where>
-      r.status in (2,3,4,5,6)
+      r.status in (3,4,5,6)
       <if test="name != null and name != ''">
         and user_name LIKE  '%${name}%'
       </if>
@@ -324,7 +324,7 @@
     SELECT count(1)
     FROM `order`
     <where>
-      status in (2,3,4,5,6)
+      status in (3,4,5,6)
       <if test="name != null and name != ''">
         and user_name LIKE  '%${name}%'
       </if>
@@ -346,19 +346,18 @@
   <select id="serviceSelect1" resultType="int" resultMap="ServiceMap">
     SELECT *
     FROM service_personnel
-    where id in
-    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
-      #{item}
-    </foreach>
-    limit #{page},#{rows}
+    where status = '2'
+    and work_type =#{workType}
   </select>
 
 
   <select id="count1" resultType="int">
     SELECT count(1)
-    FROM `order`
+    FROM `order` r
+    INNER JOIN user u ON u.id=r.user_id
+    INNER JOIN address a ON a.id=r.address_id
     <where>
-      status in (1,-1) and type in (1,2)
+      r.status in (1,2) and type in (1,2)
       <if test="name != null and name != ''">
         user_name LIKE  '%${name}%'
       </if>
@@ -395,5 +394,22 @@
     inner join  stores c on  s.stores_id=c.stores_id
     where s.id = #{id}
   </select>
+
+
+  <!--修改状态-->
+  <update id="updatemoneyTotal">
+    update `order`
+    set hetong_imgsrc = #{hetongImgsrc},
+        money_total = #{moneyTotal},
+        status= #{status},
+        work_start_time=#{startTime},
+        assign_ids = #{assignIds},
+        work_end_time=#{endTime},
+        money_bargin=#{moneyBargin},
+        money_advance=#{moneyAdvance},
+        money_final=#{moneyFinal},
+        money_actual=#{moneyActual}
+    where id = #{id}
+  </update>
 
 </mapper>

@@ -310,11 +310,21 @@
 							id_str = id_str.substr(0,id_str.length - 1);
 						}
 
-						var moneyBargin=$("#moneyBargin").val()
-						var  moneyAdvance=$("#moneyAdvance").val()
-						var moneyFinal=$("#moneyFinal").val()
-						var	moneyActual=$("#moneyActual").val()
-						var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
+						var worktype=$("#types").val()
+						if(worktype=="2"){
+							var  moneyAdvance=$("#moneyAdvance").val()
+							var moneyFinal=$("#moneyFinal").val()
+							var	moneyActual=$("#moneyActual").val()
+							var total=0+parseInt(moneyAdvance)+parseInt(moneyFinal);
+
+						}else if(worktype=="1"){
+							var moneyBargin=$("#moneyBargin").val()
+							var  moneyAdvance=$("#moneyAdvance").val()
+							var moneyFinal=$("#moneyFinal").val()
+							var	moneyActual=$("#moneyActual").val()
+							var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
+						}
+
 						console.log(total)
 						$.ajax({
 							type:"post",
@@ -356,11 +366,10 @@
 							$("#name").html(data.userName)
 							if(data.type==1){
 								data.type="月嫂"
-								$("#dinjin").append("<div class=\"layui-form-item\"><label class=\"layui-form-label\">定金：</label><div class=\"layui-input-inline\"><input type=\"text\" id=\"moneyBargin\" name=\"title\" autocomplete=\"off\" class=\"layui-input\" value='0' disabled=\"\"></div></div>")
+								$("#dinjin").append("<div class=\"layui-form-item\"><label class=\"layui-form-label\">定金：</label><div class=\"layui-input-inline\"><input type=\"text\" id=\"moneyBargin\" name=\"title\" autocomplete=\"off\" class=\"layui-input\"></div></div>")
 							}
 							if(data.type==2){
 								data.type="保姆"
-								$("#dinjin").append("<div class=\"layui-form-item\"><label class=\"layui-form-label\">定金：</label><div class=\"layui-input-inline\"><input type=\"text\" id=\"moneyBargin\" name=\"title\" autocomplete=\"off\" class=\"layui-input\"></div></div>")
 							}
 							$("#id").val(data.id)
 							$("#type").html(data.type)
@@ -368,6 +377,8 @@
 							$("#createTime").html(data.createTime)
 							$("#time").html(data.workStartTime+" 至 "+data.workEndTime)
 							$("#remark").html(data.remark)
+
+
 
 
 							var age=data.requireAge;

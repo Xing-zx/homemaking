@@ -82,6 +82,8 @@ public class Order {
     private Integer storesId;
 
     private String storesName;
+
+
     public String getProvince() {
         return province;
     }
@@ -232,7 +234,9 @@ public class Order {
     }
 
     public String getAddress() {
-        return address;
+
+        return (province!=null?province:"")+" "+(city!=null?city:"")+" "+(county!=null?county:"")+" "+(detail!=null?detail:"");
+
     }
 
     public void setAddress(String address) {

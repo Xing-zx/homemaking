@@ -20,162 +20,105 @@
 
 	<body>
 		<div class="weadmin-body">
-			<form class="layui-form">
+			<form class="layui-form" onsubmit="return false">
 				<div class="layui-form-item">
-					<label for="L_username" class="layui-form-label">
+					<label class="layui-form-label">
 						头像：
 					</label>
 					<div class="layui-input-inline">
-						<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						<img id="photoUrl" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="500px" height="500px">
 					</div>
+					<input type="text" id="id">
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							姓名：
 						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_name" name="name" lay-verify="name" autocomplete="off" class="layui-input" value="王阿姨"
-							 disabled="">
-						</div>
+						<div class="layui-form-mid layui-word-aux" id="realName"></div>
 					</div>
 
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							身份证号：
 						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_userid" name="userid" lay-verify="userid" autocomplete="off" class="layui-input" value="431002199710082990"
-							 disabled="">
-						</div>
+						<div class="layui-form-mid layui-word-aux" id="idcard"></div>
 					</div>
 
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							年龄：
 						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_agee="age" lay-verify="age" style="width:50%" autocomplete="off" class="layui-input" value="50岁" 
-							 disabled="">
-						</div>
+						<div class="layui-form-mid layui-word-aux" id="age"></div>
 					</div>
 				</div>
-				
+
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							性别：
 						</label>
-						<div class="layui-input-inline">
-							<input type="radio" name="sex" value="男" title="男" checked disabled="">
-							<input type="radio" name="sex" value="女" title="女" disabled="">
-						</div>
+						<div class="layui-form-mid layui-word-aux" id="gender"></div>
 					</div>
 				</div>
-				
+
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
-							意向工作：
+						<label class="layui-form-label">
+							职位：
 						</label>
-						<div class="layui-input-inline">
-							<select name="province" disabled="">
-								<option value="">请选择意向工作</option>
-								<option value="浙江">月嫂</option>
-								<option value="江西">育儿嫂</option>
-								<option value="福建">保姆</option>
-							</select>
-						</div>
-						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+						<div class="layui-form-mid layui-word-aux" id="workType"></div>
 					</div>
 
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
-							工作类型：
+						<label class="layui-form-label">
+							余额：
 						</label>
-						<div class="layui-input-inline">
-							<select name="province" disabled="">
-								<option value="">请选择工作类型</option>
-								<option value="浙江">住家</option>
-								<option value="江西">钟点工</option>
-								<option value="福建">白班</option>
-							</select>
-						</div>
-						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+						<div class="layui-form-mid layui-word-aux" id="balance"></div>
 					</div>
 
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							工作年限：
 						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input" value="2年"
-							 disabled="">
-						</div>
-						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+						<div class="layui-form-mid layui-word-aux" id="workExperience"></div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							特长：
 						</label>
-						<div class="layui-input-block" style="width: 1500px; position: relative;top: 10px;">
-							<span class="layui-btn layui-btn-normal layui-btn-xs">洗衣服</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">打扫卫生</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾3岁以上小孩</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾自理老人</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾宠物</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">照顾病人</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">做饭</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">负责接送小孩</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">给客户家开车</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">手洗衣物</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-							<span class="layui-btn layui-btn-normal layui-btn-xs">已启用</span>
-						</div>
-						<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
+						<div class="layui-form-mid layui-word-aux" id="speciality"></div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
-							期望薪资：
+						<label class="layui-form-label">
+							所属门店：
 						</label>
-						<div class="layui-input-inline">
-							<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="431002199710082990"
-							 disabled="">
-						</div>
-						<div class="layui-form-mid layui-word-aux">元/月</div>
+						<div class="layui-form-mid layui-word-aux" id="stores"></div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
-					<label for="L_username" class="layui-form-label">
+					<label class="layui-form-label">
 						工作地点：
 					</label>
-					<div class="layui-input-inline">
-						<input type="text" id="L_mo" name="mo" lay-verify="mo" autocomplete="off" class="layui-input" value="431002199710082990"
-						 disabled="">
-					</div>
+					<div class="layui-form-mid layui-word-aux" id="address"></div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							自我介绍：
 						</label>
 						<div class="layui-input-block">
-							<textarea class="layui-textarea" style="width: 600px;" name="content" lay-verify="content" id="LAY_demo_editor"
-							 disabled="">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试
+							<textarea class="layui-textarea" style="width: 600px;" name="content" id="content" disabled="">
 							</textarea>
 						</div>
 					</div>
@@ -183,55 +126,55 @@
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							视频介绍：
 						</label>
 						<div class="layui-input-inline">
-							<video src="/i/movie.ogg" controls="controls" style="width: 500px; height: 350px;"></video>
+							<video id="videoUrl" src="/i/movie.ogg" controls="controls" style="width: 500px; height: 350px;"></video>
 						</div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							学历证：
 						</label>
 						<div class="layui-input-inline">
-							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+							<img id="xueli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
 						</div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							培训证：
 						</label>
 						<div class="layui-input-inline">
-							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+							<img id="peixun" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
 						</div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							健康证：
 						</label>
 						<div class="layui-input-inline">
-							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+							<img id="jiankang" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
 						</div>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label for="L_username" class="layui-form-label">
+						<label class="layui-form-label">
 							奖励证：
 						</label>
 						<div class="layui-input-inline">
-							<img id="img" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+							<img id="jiangli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
 						</div>
 					</div>
 				</div>
@@ -242,19 +185,19 @@
 						<legend>门店分配与工资设置</legend>
 						<div class="layui-field-box">
 							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
-									意向工作：
+								<label class="layui-form-label">
+									分配门店：
 								</label>
 								<div class="layui-input-inline">
 									<select name="storesId" id="storesId">
-										<option value="">请选择所属门店</option>
+										<option value="0">请选择所属门店</option>
 									</select>
 								</div>
 								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
 							</div>
 							
 							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
+								<label class="layui-form-label">
 									时薪：
 								</label>
 								<div class="layui-input-inline">
@@ -264,7 +207,7 @@
 							</div>
 							
 							<div class="layui-inline">
-								<label for="L_username" class="layui-form-label">
+								<label class="layui-form-label">
 									月薪：
 								</label>
 								<div class="layui-input-inline">
@@ -278,99 +221,130 @@
 
 
 				<div class="layui-form-item">
-					<label for="L_repass" class="layui-form-label">
+					<label class="layui-form-label">
 					</label>
-					<button class="layui-btn" lay-filter="add" lay-submit="">通过</button>
+					<button class="layui-btn" id="yes" onclick="update1()">通过</button>
 
-					<button class="layui-btn" lay-filter="noadd" lay-submit="">不通过</button>
+					<button class="layui-btn" id="no" onclick="update2()">不通过</button>
 					<input type="hidden" name="dataId" id="dataId" value="" />
 				</div>
 			</form>
 		</div>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript">
-			layui.extend({
-				admin: '{/}../../static/js/admin'
-			});
-			layui.use(['form', 'jquery', 'admin', 'layer'], function() {
-				var form = layui.form,
-					$ = layui.jquery,
-					admin = layui.admin,
-					layer = layui.layer;
 
-				//自定义验证规则
-				form.verify({
-					nikename: function(value) {
-						if (value.length < 5) {
-							return '昵称至少得5个字符啊';
-						}
+			layui.use(['form','layer','table','layedit','laydate','rate'], function () {
+				$ = layui.jquery;
+				var form = layui.form;
+				var layer = layui.layer;
+				var layedit = layui.layedit;
+				var laydate=layui.laydate;
+				var rate=layui.rate;
+				var table = layui.table //表格
+
+				//日期范围
+				laydate.render({
+					elem: '#test6',
+					range: true
+				});
+
+				laydate.render({
+					elem: '#test7',
+					range: true
+				});
+			});
+			$(function () {
+				var result;
+				var url=window.location.search; //获取url中"?"符后的字串
+				result = url.substr(url.indexOf("=") + 1);
+				$.ajax({
+					type:"post",
+					url:"/servicepe/selectid",
+					dataType:"json",
+					data:{"id":result},
+					success:function (data) {
+						$("#realName").html(data.realName)
+						$('#photoUrl').attr('src', data.photoUrl).src;
+						$("#idcard").html(data.idcard)
+						$("#age").html(data.age)
+						$("#gender").html(data.gender)
+						$("#workType").html(data.workType)
+						$("#workExperience").html(data.workExperience)
+						$("#balance").html(data.balance)
+						$("#stores").html(data.storesName)
+						$("#content").html(data.myself)
+						$('#videoUrl').attr('src', data.videoUrl).src;
+						$("#address").html(data.workCity)
+						$("#id").val(data.id);
+					},
+					error:function () {
+						alert("error");
 					}
-				});
-				//页面初始化加载
-				$(function() {
-					setTimeout(function() {
-						frameVal();
-					}, 100);
-				});
-
-				function frameVal() {
-					var dataId = $('input[name="dataId"]').val();
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.layui.jquery("#memberList tr").each(function() {
-						if ($(this).attr('data-id') == dataId) {
-							console.log($(this));
-							var tdArr = $(this).children('td');
-							var username = tdArr.eq(2).text(); //姓名
-							var sex = tdArr.eq(3).text(); //性别
-							var phone = tdArr.eq(4).text(); //电话
-							var email = tdArr.eq(5).text(); //邮箱
-							var address = tdArr.eq(6).text(); //地址
-
-							$('input[name="username"]').val(username);
-							console.log("sex:" + sex);
-							$('input[name="sex"][value="' + sex + '"]').attr("checked", true);
-							$('input[name="phone"]').val(phone);
-							$('input[name="email"]').val(email);
-							$('input[name="address"]').val(address);
-							form.render();
-						}
-					});
-				}
-				//监听提交
-				/* 审核通过 */
-				form.on('submit(add)', function(data) {
-					console.log(data);
-					//发异步，把数据提交给php
-					layer.msg("审核通过", {
-						icon: 6,
-						time: 1000
-					}, function() {
-						// 获得frame索引
-						var index = parent.layer.getFrameIndex(window.name);
-						//关闭当前frame
-						parent.layer.close(index);
-					});
-					return false;
-				});
-
-				/* 审核不通过 */
-				form.on('submit(noadd)', function(data) {
-					console.log(data);
-					//发异步，把数据提交给php
-					layer.msg("审核不通过", {
-
-						icon: 5,
-						time: 1000
-					}, function() {
-						// 获得frame索引
-						var index = parent.layer.getFrameIndex(window.name);
-						//关闭当前frame
-						parent.layer.close(index);
-					});
-					return false;
-				});
-
+				})
 			});
+
+			function update1(){
+				var id=$("#id").val()
+				var status=2
+				var stores=$("#storesId").val();
+				if(stores==0){
+					layer.msg("请选择门店",{
+						icon:6,
+						time:1000
+					})
+				}else{
+					console.log(stores);
+					$.ajax({
+						type:"post",
+						url:"/servicepe/update",
+						dataType:"json",
+						data:{"id":id,"status":status,"storesId":stores},
+						success:function () {
+							layer.msg("操作成功", {
+								icon: 6,
+								time: 1000
+							}, function() {
+								// 获得frame索引
+								var index = parent.layer.getFrameIndex(window.name);
+								//关闭当前frame
+								parent.layer.close(index);
+								window.parent.location.reload();
+							});
+						},
+						error:function () {
+							alert("error");
+						}
+					})
+				}
+
+			}
+
+			function update2(){
+				var id=$("#id").val()
+				var status=3
+				var stores=0;
+				$.ajax({
+					type:"post",
+					url:"/servicepe/update",
+					dataType:"json",
+					data:{"id":id,"status":status,"storesId":stores},
+					success:function () {
+						layer.msg("操作成功", {
+							icon: 6,
+							time: 1000
+						}, function() {
+							// 获得frame索引
+							var index = parent.layer.getFrameIndex(window.name);
+							//关闭当前frame
+							parent.layer.close(index);
+							window.parent.location.reload();
+						});
+					},
+					error:function () {
+						alert("error");
+					}
+				})
+			}
 
 			$(function () {
 				$.ajax({

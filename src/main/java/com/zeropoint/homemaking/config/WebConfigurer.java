@@ -31,6 +31,6 @@ public class WebConfigurer implements WebMvcConfigurer {
        /* registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/register");
         WebMvcConfigurer.super.addInterceptors(registry);   */ //较新Spring Boot的版本中这里可以直接去掉，否则会报错
         System.out.println("进入config");
-      registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/admin/**","/index.html").excludePathPatterns("/login.html");
+      registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/emp/**","/index.html").excludePathPatterns("/login.html");
     }
 }

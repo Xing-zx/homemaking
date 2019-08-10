@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class OrderController {
             res.put("code",1);
             res.put("msg","orderlist");
             List<LectureOrders> list =orderService.findLectureOrderByUserId(id);
+
             for (int i=0; i< list.size(); i++)
             {   LectureOrders lectureOrders=list.get(i);
                 Lecture lecture= lectureService.findLectureById(lectureOrders.getLectureId());
@@ -65,8 +67,9 @@ public class OrderController {
         }catch (NullPointerException e)
         {
             e.printStackTrace();
-            res.put("code",0);
+            res.put("code",1);
             res.put("msg","无订单");
+            res.put("data",new ArrayList<Integer>());
 
         }
        return res;

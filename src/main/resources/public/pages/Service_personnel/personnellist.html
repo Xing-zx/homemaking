@@ -76,7 +76,7 @@
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="../../static/js/admin.js"></script>
 <script type="text/html" id="status">
-	{{#  if(d.status === 1){ }}
+	{{#  if(d.status === 2){ }}
 	  <span class="layui-badge layui-bg-green td-status">已认证</span>
 	{{#  } else { }}
 	  <span class="layui-badge td-status">禁用</span>
@@ -85,11 +85,11 @@
 
 <script type="text/html" id="workType">
 	{{#  if(d.workType === 1){ }}
-	  <span class="layui-badge layui-bg-cyan td-status" style="width: 50px">月嫂</span>
+	  <span>月嫂</span>
 	{{#  } else if(d.workType === 2){ }}
-	  <span class="layui-badge layui-bg-orange td-status" style="width: 50px">保姆</span>
+	  <span>保姆</span>
 	{{#  } else if(d.workType === 3){ }}
-	  <span class="layui-badge layui-bg-blue td-status" style="width: 50px">钟点工</span>
+	  <span>钟点工</span>
 	{{#  } }}
 </script>
 <script type="text/html" id="barDemo">
@@ -209,115 +209,7 @@
 		loadlist()
 	})
 
-/*
-	function loadlist() {
 
-		var name=$("#username").val();
-		var storesId=$("#storesId").val();
-		var position=$("#position").val();
-		var startTime=$("#test6").val().substr(0,10);
-		var endTime=$("#test6").val().substr(12,19);
-		var obj = JSON.stringify({"name":name,"storesId":storesId,"position":position,"startTime":startTime,"endTime":endTime});
-		$.ajax({
-			type:"post",
-			url:"/servicepe/list",
-			dataType:"json",
-			contentType: 'application/json;charset=utf-8',
-			data:obj,
-			success:function (data) {
-				var count=data.length;
-				$("#list").empty();
-				$(data).each(
-						function (i, values) {
-							if(values.applauseRate==null){
-								values.applauseRate=""
-							}else{
-								values.applauseRate=values.applauseRate+"%"
-							}
-
-							if(values.level==null){
-								values.level=values.level;
-							}
-
-							if(values.chargeStandard==null){
-								values.chargeStandard="";
-							}
-							else if(values.position==3){
-								values.chargeStandard=values.chargeStandard+"/小时"
-							}
-							else{
-								values.chargeStandard=values.chargeStandard+"/月"
-							}
-
-							if(values.phone==null){
-								values.phone="";
-							}
-
-							if(values.position==null){
-								values.position="";
-							}
-							else if(values.position==1){
-								values.position="月嫂"
-							}
-							else if(values.position==2){
-								values.position="保姆"
-							}
-							else if(values.position==3){
-								values.position="钟点工"
-							}
-
-							if(values.worktype==null){
-								values.worktype=""
-							}else if(values.worktype==1){
-								values.worktype="住家"
-							}
-							else if(values.worktype=2){
-								values.worktype="白班"
-							}
-							else if(values.worktype==3){
-								values.worktype="钟点工"
-							}
-
-							if(values.stores==null){
-								values.stores=""
-							}
-							if(values.level==null){
-								values.level=""
-							}
-							if(values.count==null){
-								values.count=""
-							}
-							if(values.creattimes==null){
-								values.creattimes=""
-							}
-							var str = "";
-							str += "<tr><td><div class='layui-unselect layui-form-checkbox' lay-skin='primary' data-id='"+values.id+"'>"
-							str += "<i class='layui-icon'>&#xe605;</i></div></td><td>"+values.id+"</td>"
-							str += "<td><a class='views' onclick='WeAdminEdit(&apos;编辑管理员信息&apos;,&apos;.	/personneledit.html?id="+values.id+"&apos;,"+values.id+")' href='javascript:;'>"+values.name+"</a></td>"
-							str += "<td>"+values.position+"</td><td>"+values.worktype+"</td><td>"+values.storesName+"</td><td>"+values.phone+"</td><td>"+values.level+"</td><td>"+values.count+"</td>"
-							str += "<td>"+values.creattimes+"</td><td>"+values.chargeStandard+"</td><td>"+values.applauseRate+"</td>"
-							if(values.stauts==1){
-								values.stauts="已认证"
-								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: green'>"+values.stauts+"</span></td></tr>"
-							}
-							else if(values.stauts==2){
-								values.stauts="未认证"
-								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: gray'>"+values.stauts+"</span></td></tr>"
-							}
-							else if(values.stauts=3){
-								values.stauts="认证失败"
-								str += "<td><span class='layui-btn layui-btn-xs' style='background-color: black'>"+values.stauts+"</span></td></tr>"
-							}
-							$('#list').append(str)
-						}
-				);
-				$("#count").html(count)
-			},
-			error:function () {
-				alert("error");
-			}
-		})
-	}*/
 </script>
 </body>
 </html>

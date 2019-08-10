@@ -69,7 +69,7 @@
 <!--        <table tableName="comment" domainObjectName="comments"/>
             <table tableName="income" domainObjectName="incomes"/>
             <table tableName="withdraw" domainObjectName="withdraws"/>
-        <table tableName="complaint" domainObjectName="complaints"/>
+            <table tableName="complaint" domainObjectName="complaints"/>
             <table tableName="address" domainObjectName="addressa"/>
         <table tableName="article" domainObjectName="articles"/>
         <table tableName="admin" domainObjectName="admins"/>
@@ -90,9 +90,12 @@
         <table tableName="user_requirement" domainObjectName="userRequirements"/>
         <table tableName="speciality" domainObjectName="specialitys"/>
         <table tableName="certificate" domainObjectName="certificate"/>-->
-<!--        <table tableName="financial" domainObjectName=""/>-->
-        <table tableName="user" domainObjectName="UsersInfo"/>
+<!--      <table tableName="financial" domainObjectName=""/>-->
+<!--        <table tableName="user" domainObjectName="UsersInfo"/>-->
 <!--        <table tableName="usercitys" domainObjectName=""/>-->
+        <table tableName="service_order" domainObjectName=""/>
+        <table tableName="service_package" domainObjectName=""/>
+        <table tableName="user_package" domainObjectName=""/>
 
 
 

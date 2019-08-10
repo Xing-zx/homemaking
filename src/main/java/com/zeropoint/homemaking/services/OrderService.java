@@ -69,7 +69,7 @@ public interface OrderService {
 
     Order selectKey1(Integer id);
 
-    List<ServicePersonnel> serviceSelect1(Integer page,Integer rows,Integer[] ids);
+    List<ServicePersonnel> serviceSelect1(Integer maxage,Integer minage,Integer workType);
 
     int counts1(Integer[] ids);
 
@@ -78,5 +78,9 @@ public interface OrderService {
     int countOrder1(Integer type,Integer status,String name,String endTime,String startTime);
 
     ServicePersonnel personnelView1(Integer id);
+
+    int updatemoneyTotal(Integer id,String hetongImgsrc,Double moneyTotal,Integer status,
+                         String endTime,String startTime,String assignIds,
+                         Double moneyBargin,Double moneyAdvance,Double moneyFinal,Double moneyActual);
 
 }

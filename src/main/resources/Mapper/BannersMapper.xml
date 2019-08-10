@@ -15,10 +15,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.Banners">
-    insert into banners (id, name,
+    insert into banners (id, name,url,
       article_id, picture_url, status, 
       url_id)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},#{url},
       #{articleId,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{urlId,jdbcType=INTEGER})
   </insert>
@@ -28,7 +28,8 @@
       article_id = #{articleId,jdbcType=INTEGER},
       picture_url = #{pictureUrl,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      url_id = #{urlId,jdbcType=INTEGER}
+      url_id = #{urlId,jdbcType=INTEGER},
+      url=#{url}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -43,10 +44,10 @@
   </select>
 
   <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.Banners">
-    insert into banners (id, name, article_id,
+    insert into banners (id, name, article_id,url,
       picture_url, status, url_id
       )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER},#{url},
       #{pictureUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{urlId,jdbcType=INTEGER}
       )
   </insert>

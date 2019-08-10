@@ -224,7 +224,8 @@ private Integer id;
     }
 
     public String getAddress() {
-        return province+" "+city+" "+county+" "+detail;
+        return (province!=null?province:"")+" "+(city!=null?city:"")+" "+(county!=null?county:"")+" "+(detail!=null?detail:"");
+
     }
 
     public void setAddress(String address) {

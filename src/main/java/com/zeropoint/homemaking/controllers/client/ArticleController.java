@@ -51,6 +51,12 @@ public class ArticleController {
         Article article = articleService.getInfo(id);
         res.put("data", article);
         System.out.println(res.toJSONString());
+       if(article==null)
+       {
+           res.put("code",0);
+           res.put("msg","文章不存在");
+           return res;
+       }
         Integer views = article.getViews();
         int count = views.intValue() + 1;
         article.setViews(count);

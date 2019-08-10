@@ -36,7 +36,7 @@ public class AddressController {
         address.setCity(params.getString("city"));
         address.setCounty(params.getString("county"));
         address.setDetail(params.getString("detail"));
-        address.setUserId(params.getInteger("user_id"));
+        address.setUserId(params.getInteger("id"));
         JSONObject res=new JSONObject();
         Map<String,Integer> idMap= new HashMap<>(2);
         addressService.add(address);

@@ -92,7 +92,78 @@ public class ServicePersonnel {
         this.withdrawalBrokerage = 0.0;
         this.chargeStandard=0;
         this.applauseRate=5.0;
+        this.workType=3;
         this.creatTimes=new Date();
+    }
+
+    public ServicePersonnel(User user) {
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.age = user.getAge();
+        this.gender = user.getGender();
+        this.phone = user.getPhone();
+        this.workType = 3;
+        this.status = 0;
+        this.workCity=user.getAddress();
+        this.userId = user.getId();
+        this.allBrokerage = 0.0;
+        this.withdrawalBrokerage = 0.0;
+        this.balance = 0.0;
+        this.currentBrokerage = 0.0;
+        this.chargeStandard=0;
+        this.applauseRate=5.0;
+        this.photoUrl = user.getPortraitUrl();
+        this.createTime = new Date();
+    }
+
+    private String certificateName;
+
+    private String pictureUrl;
+
+    private Integer personnelId;
+
+    private Date createTime;
+
+    private Date expirationTime;
+
+    public String getCertificateName() {
+        return certificateName;
+    }
+
+    public void setCertificateName(String certificateName) {
+        this.certificateName = certificateName;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+    public Integer getPersonnelId() {
+        return personnelId;
+    }
+
+    public void setPersonnelId(Integer personnelId) {
+        this.personnelId = personnelId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Date expirationTime) {
+        this.expirationTime = expirationTime;
     }
 
     public List<String> getCertificates() { return certificates; }

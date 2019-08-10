@@ -38,5 +38,11 @@ public interface PackageService {
      */
     UserPackage myPackageInfo(Integer userId,Integer packageId);
 
+    /**
+     *  添加用户套餐卡
+     * @param userPackage
+     * @return
+     */
+    int addUserPackage(UserPackage userPackage);
 
 }

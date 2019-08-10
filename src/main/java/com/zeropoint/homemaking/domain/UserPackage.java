@@ -1,7 +1,12 @@
 package com.zeropoint.homemaking.domain;
 
+import com.zeropoint.homemaking.services.PackageService;
+
 import java.util.Date;
 
+/**
+ * @author Administrator
+ */
 public class UserPackage {
     private Integer id;
 
@@ -16,6 +21,15 @@ public class UserPackage {
     private Integer currentCount;
 
     private Integer totalCount;
+
+    public UserPackage(ServicePackage servicePackage,Integer userId) {
+        this.userId =userId ;
+        this.packageId = servicePackage.getId();
+        this.createTime = new Date();
+        this.expireTime = null;
+        this.currentCount = servicePackage.getUseCount();
+        this.totalCount = servicePackage.getUseCount();
+    }
 
     public Integer getId() {
         return id;

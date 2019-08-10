@@ -1,5 +1,8 @@
 package com.zeropoint.homemaking.domain;
 
+/**
+ * @author Administrator
+ */
 public class ServicePackage {
     private Integer id;
 

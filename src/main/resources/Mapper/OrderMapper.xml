@@ -22,7 +22,7 @@
     <result column="money_final" jdbcType="DOUBLE" property="moneyFinal" />
     <result column="money_total" jdbcType="DOUBLE" property="moneyTotal" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="personnel_name" jdbcType="VARCHAR" property="personnelName" />
+    <result column="my_package_id" jdbcType="INTEGER" property="myPackageId" />
     <result column="require_age" jdbcType="VARCHAR" property="requireAge" />
     <result column="require_expirence" jdbcType="VARCHAR" property="requireExpirence" />
     <result column="work_start_time" jdbcType="TIMESTAMP" property="workStartTime" />
@@ -83,7 +83,7 @@
     <result column="money_advance" jdbcType="DOUBLE" property="moneyAdvance" />
     <result column="money_final" jdbcType="DOUBLE" property="moneyFinal" />
     <result column="money_total" jdbcType="DOUBLE" property="moneyTotal" />
-    <result column="personnel_name1" jdbcType="VARCHAR" property="personnelName" />
+    <result column="personnel_name" jdbcType="VARCHAR" property="personnelName" />
     <result column="gender" jdbcType="INTEGER" property="personnelGender" />
     <result column="phone" jdbcType="VARCHAR" property="personnelPhone" />
     <result column="work_start_time" jdbcType="TIMESTAMP" property="workStartTime" />
@@ -102,7 +102,7 @@
     <result column="appiont_date" jdbcType="TIMESTAMP" property="appiontDate" />
   </resultMap>
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="UserOrder">
-   select d.*,c.gender as gender,c.phone as phone,c.name as personnel_name1 from (select `order`.*,address.province,address.city,address.county,address.detail from `order`,address where `order`.user_id =#{userId} and `order`.address_id =address.id ) as d left outer join service_personnel as c
+   select d.*,c.gender as gender,c.phone as phone,c.name as personnel_name from (select `order`.*,address.province,address.city,address.county,address.detail from `order`,address where `order`.user_id =#{userId} and `order`.address_id =address.id ) as d left outer join service_personnel as c
  on c.id=d.personnel_id
 
  </select>
@@ -128,7 +128,7 @@
     status, address, remark,
     hascomment, create_time, money_hour,
     money_bargin, money_advance, money_final,
-    money_total, user_name, personnel_name,
+    money_total, user_name, my_package_id,
     require_age, require_expirence, work_start_time,
     work_end_time, pay_time, address_id,
     assign_ids, appiont_date, native_place,
@@ -139,7 +139,7 @@
     #{status,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
     #{hascomment,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{moneyHour,jdbcType=INTEGER},
     #{moneyBargin,jdbcType=DOUBLE}, #{moneyAdvance,jdbcType=DOUBLE}, #{moneyFinal,jdbcType=DOUBLE},
-    #{moneyTotal,jdbcType=DOUBLE}, #{userName,jdbcType=VARCHAR}, #{personnelName,jdbcType=VARCHAR},
+    #{moneyTotal,jdbcType=DOUBLE}, #{userName,jdbcType=VARCHAR}, #{myPackageId,jdbcType=INTEGER},
     #{requireAge,jdbcType=VARCHAR}, #{requireExpirence,jdbcType=VARCHAR}, #{workStartTime,jdbcType=TIMESTAMP},
     #{workEndTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{addressId,jdbcType=INTEGER},
     #{assignIds,jdbcType=VARCHAR}, #{appiontDate,jdbcType=TIMESTAMP}, #{nativePlace,jdbcType=VARCHAR},
@@ -166,7 +166,7 @@
       money_final = #{moneyFinal,jdbcType=DOUBLE},
       money_total = #{moneyTotal,jdbcType=DOUBLE},
       user_name = #{userName,jdbcType=VARCHAR},
-      personnel_name = #{personnelName,jdbcType=VARCHAR},
+      my_package_id = #{myPackageId,jdbcType=INTEGER},
       require_age = #{requireAge,jdbcType=VARCHAR},
       require_expirence = #{requireExpirence,jdbcType=VARCHAR},
       work_start_time = #{workStartTime,jdbcType=TIMESTAMP},
@@ -188,7 +188,7 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, title, type, user_phone, user_id, personnel_id, order_number, requirement, 
     hetong_imgsrc, status, address, remark, hascomment, create_time, money_hour, money_bargin, 
-    money_advance, money_final, money_total, user_name, personnel_name, require_age, 
+    money_advance, money_final, money_total, user_name, my_package_id, require_age,
     require_expirence, work_start_time, work_end_time, pay_time, address_id, assign_ids, 
     appiont_date, native_place, money_actual, comment_id
     from `order`

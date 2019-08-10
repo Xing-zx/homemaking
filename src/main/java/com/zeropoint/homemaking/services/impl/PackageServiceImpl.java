@@ -39,4 +39,9 @@ public class PackageServiceImpl implements PackageService {
     public UserPackage myPackageInfo(Integer userId, Integer packageId) {
         return userPackageMapper.selectByPrimaryKey(packageId);
     }
+
+    @Override
+    public int addUserPackage(UserPackage userPackage) {
+        return userPackageMapper.insert(userPackage);
+    }
 }

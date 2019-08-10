@@ -2,6 +2,9 @@ package com.zeropoint.homemaking.domain;
 
 import java.util.Date;
 
+/**
+ * @author Administrator
+ */
 public class LectureOrders {
     private Integer id;
 
@@ -32,6 +35,16 @@ public class LectureOrders {
     private String pictureUrl;
 
     private String title;
+
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     public String getUserName() {
         return userName;

@@ -62,7 +62,7 @@ public class StoresaController {
 
     @RequestMapping("delete")
     @ResponseBody
-    public int delete(@Param("ids")Integer[] ids) {
+    public int delete(@RequestParam("ids")Integer[] ids) {
         return storesService.delete(ids);
     }
 

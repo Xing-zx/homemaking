@@ -19,6 +19,16 @@ public class Certificate {
 
     private Integer status;
 
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public Integer getId() {
         return id;
     }

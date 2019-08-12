@@ -34,6 +34,13 @@
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
     <result column="money_actual" jdbcType="DOUBLE" property="moneyActual" />
     <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="commsion_status" jdbcType="INTEGER" property="commsionStatus" />
+    <result column="userNameOne" jdbcType="VARCHAR" property="userNameOne" />
+    <result column="moneyOne" jdbcType="DOUBLE" property="moneyOne" />
+    <result column="userNameTow" jdbcType="VARCHAR" property="userNameTow" />
+    <result column="moneyTow" jdbcType="DOUBLE" property="moneyTow" />
+    <result column="userIdOne" jdbcType="INTEGER" property="userIdOne" />
+    <result column="userIdTow" jdbcType="INTEGER" property="userIdTow" />
   </resultMap>
   <resultMap id="PersonneOrder" type="com.zeropoint.homemaking.vo.PersonnelOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -280,15 +287,15 @@
     <where>
       r.status in (1,2) and r.type in (1,2)
       <if test="name != null and name != ''">
-        and user_name LIKE  '%${name}%'
+        and r.user_name LIKE  '%${name}%'
       </if>
       <if test="type != null and type != '' ">
         and
-        type = #{type}
+        r.type = #{type}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        appiont_date between #{startTime} and #{endTime}
+        r.appiont_date between #{startTime} and #{endTime}
       </if>
     </where>
     limit #{page},#{rows}
@@ -302,19 +309,19 @@
     <where>
       r.status in (3,4,5,6)
       <if test="name != null and name != ''">
-        and user_name LIKE  '%${name}%'
+        and r.user_name LIKE  '%${name}%'
       </if>
       <if test="type != null and type != '' ">
         and
-        type = #{type}
+        r.type = #{type}
       </if>
       <if test="status != null and status != '' ">
         and
-        status = #{status}
+        r.status = #{status}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        appiont_date between #{startTime} and #{endTime}
+        r.appiont_date between #{startTime} and #{endTime}
       </if>
     </where>
     limit #{page},#{rows}
@@ -322,23 +329,25 @@
 
   <select id="countOrder1" resultType="int">
     SELECT count(1)
-    FROM `order`
+    FROM `order` r
+    INNER JOIN user u ON u.id=r.user_id
+    INNER JOIN address a ON a.id=r.address_id
     <where>
-      status in (3,4,5,6)
+      r.status in (3,4,5,6)
       <if test="name != null and name != ''">
-        and user_name LIKE  '%${name}%'
+        and r.user_name LIKE  '%${name}%'
       </if>
       <if test="type != null and type != '' ">
         and
-        type = #{type}
+        r.type = #{type}
       </if>
       <if test="status != null and status != '' ">
         and
-        status = #{status}
+        r.status = #{status}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        appiont_date between #{startTime} and #{endTime}
+        r.appiont_date between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
@@ -348,6 +357,7 @@
     FROM service_personnel
     where status = '2'
     and work_type =#{workType}
+    and age between #{minage} AND #{maxage}
   </select>
 
 
@@ -357,17 +367,17 @@
     INNER JOIN user u ON u.id=r.user_id
     INNER JOIN address a ON a.id=r.address_id
     <where>
-      r.status in (1,2) and type in (1,2)
+      r.status in (1,2) and r.type in (1,2)
       <if test="name != null and name != ''">
-        user_name LIKE  '%${name}%'
+        and r.user_name LIKE  '%${name}%'
       </if>
       <if test="type != null and type != '' ">
         and
-        type = #{type}
+        r.type = #{type}
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        appiont_date between #{startTime} and #{endTime}
+        r.appiont_date between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
@@ -409,6 +419,39 @@
         money_advance=#{moneyAdvance},
         money_final=#{moneyFinal},
         money_actual=#{moneyActual}
+    where id = #{id}
+  </update>
+
+
+  <select id="commsionSelect" resultMap="BaseResultMap">
+    select o.id,o.order_number,o.user_name,o.money_total,
+    (select `name` from `user` where id=(select upline from `user` where id=u.id)) as userNameOne,
+    (select upline from `user` where id=u.id) as userIdOne,
+    (select proportion from brokerage_setting where `name`="一级分销")*(select money_total from `order` where order_number=o.order_number) as moneyOne,
+    (select `name` from `user` where id=(select upupline from `user` where id=u.id)) as userNameTow,
+    (select upupline from `user` where id=u.id) as userIdTow,
+    (select proportion from brokerage_setting where `name`="二级分销")*(select money_total from `order` where order_number=o.order_number) as moneyTow,
+    o.commsion_status
+    from `order` o
+    INNER JOIN `user` u ON o.user_id=u.id
+    <where>
+      o.`status`=6
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="commsionCount" resultType="int">
+    select COUNT(1)
+    from `order` o
+    INNER JOIN `user` u ON o.user_id=u.id
+    <where>
+      o.`status`=6
+    </where>
+  </select>
+
+  <update id="updatecomm">
+    update `order`
+    set commsion_status = #{commsionStatus}
     where id = #{id}
   </update>
 

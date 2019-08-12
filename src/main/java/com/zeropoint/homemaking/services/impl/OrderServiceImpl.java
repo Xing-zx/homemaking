@@ -230,5 +230,20 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.updatemoneyTotal(id, hetongImgsrc, moneyTotal,status,endTime,startTime,assignIds,moneyBargin,moneyAdvance,moneyFinal,moneyActual);
     }
 
+    @Override
+    public List<Order> commsionSelect(Integer page, Integer rows) {
+        return orderMapper.commsionSelect(page, rows);
+    }
+
+    @Override
+    public int commsionCount() {
+        return orderMapper.commsionCount();
+    }
+
+    @Override
+    public int updatecomm(Integer id, Integer commsionStatus) {
+        return orderMapper.updatecomm(id, commsionStatus);
+    }
+
 
 }

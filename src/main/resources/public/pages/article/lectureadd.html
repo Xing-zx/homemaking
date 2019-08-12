@@ -31,7 +31,7 @@
 				<div class="layui-upload" style="margin-left: 20px;">
 					<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传图片</button>
 					<img class="layui-upload-img" id="demo1" width="100px" height="100px">
-					<input type="text" id="img" name="weight" autocomplete="off" class="layui-input">
+					<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
 					<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
 				</div>
 				</div>
@@ -69,6 +69,13 @@
 					<label class="layui-form-label">课程金额：</label>
 					<div class="layui-input-inline">
 						<input type="text" id="amount" name="categoryName" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">报名规则：</label>
+					<div class="layui-input-inline">
+						<input type="text" id="registerRule" name="categoryName" autocomplete="off" class="layui-input" value="每人限报名一次">
 					</div>
 				</div>
 				
@@ -142,11 +149,11 @@
 						var amount=$("#amount").val();
 						var courseSite=$("#courseSite").val()
 						var pictureUrl=$("#img").val();
-						alert(pictureUrl)
+						var registerRule=$("#registerRule").val()
 
 						var obj = JSON.stringify({"name":name,"startTime":startTime,"endTime":endTime,"startTime1":startTime1,
 							"endTime1":endTime1,"detail":detail,"maxCount":maxCount,"amount":amount,"courseSite":courseSite,
-						"pictureUrl":pictureUrl})
+						"pictureUrl":pictureUrl,"registerRule":registerRule})
 
 								$.ajax({
 									type:"post",

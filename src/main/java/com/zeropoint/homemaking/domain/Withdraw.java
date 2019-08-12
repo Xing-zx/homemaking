@@ -27,7 +27,37 @@ public class Withdraw {
 
     private Integer userId;
 
+    private String userName;
+
     private Integer status;
+
+    private Double proportion;
+
+    private Integer balance;
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public Double getProportion() {
+        return proportion;
+    }
+
+    public void setProportion(Double proportion) {
+        this.proportion = proportion;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getId() {
         return id;

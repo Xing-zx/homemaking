@@ -15,6 +15,15 @@
     <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="proportion" jdbcType="DOUBLE" property="proportion" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
+  </resultMap>
+
+  <resultMap id="BrokerageSettingMap" type="com.zeropoint.homemaking.domain.BrokerageSetting">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="proportion" jdbcType="DOUBLE" property="proportion" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from withdraw
@@ -89,30 +98,30 @@
   </select>
 
   <select id="selectPage1" resultMap="BaseResultMap">
-    select * from withdraw
+    select w.*,u.name as userName,u.balance
+    from withdraw w
+    inner join user u on u.id=w.user_id
     <where>
       <if test="name != null and name != ''">
-        name LIKE  '%${name}%'
-
+        u.name LIKE  '%${name}%'
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        createTime between #{startTime} and #{endTime}
+        w.createTime between #{startTime} and #{endTime}
       </if>
     </where>
     limit #{page},#{rows}
   </select>
 
   <select id="count1" resultType="int">
-    SELECT  COUNT(1) FROM withdraw
+    SELECT  COUNT(1) FROM withdraw w
+    inner join user u on u.id=w.user_id
     <where>
       <if test="name != null and name != ''">
-        name LIKE  '%${name}%'
-
+        u.name LIKE  '%${name}%'
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
-        and
-        createTime between #{startTime} and #{endTime}
+        and w.createTime between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
@@ -123,5 +132,26 @@
     set status = #{status}
     where id = #{id}
   </update>
+
+  <select id="selectfee" parameterType="Map" resultMap="BrokerageSettingMap">
+    select *  from brokerage_setting
+    where name = "手续费"
+  </select>
+
+  <!--修改状态-->
+  <update id="update2" parameterType="java.lang.Integer">
+    update withdraw
+    set final_money = #{finalMoney},
+        fee=#{fee}
+    where id = #{id}
+  </update>
+
+  <delete id="delete1">
+    delete from withdraw
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
 
 </mapper>

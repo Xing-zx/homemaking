@@ -70,7 +70,7 @@
 				</form>
 			</div>
 			<div class="weadmin-block">
-				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
 				
 				<button class="layui-btn" style="background-color: #00008B;">导出</button>
 			</div>
@@ -111,6 +111,47 @@
 				var laydate=layui.laydate;
 				var rate=layui.rate;
 				var table = layui.table //表格
+
+
+				$("#deleteall").click(function () {
+					var checkStatus = table.checkStatus('idTest')
+							,data = checkStatus.data;
+					var id_str="";
+					if (data.length > 0) {
+
+						for (var i = 0; i < data.length; i++) {
+							id_str +=data[i].id + ',';
+						}
+						id_str = id_str.substr(0,id_str.length - 1);
+						console.log(id_str+"------------------------")
+					}
+					if(id_str=="" || id_str==null){
+						layer.msg('请选择行', {
+							icon: 2,
+							time: 1000
+						});
+					}else{
+						$.ajax({
+							type:"post",
+							url:"/order/delete",
+							dataType:"text",
+							data:{"ids":id_str},
+							traditional:true,
+							success:function (data) {
+								//捉到所有被选中的，发异步进行删除
+								layer.msg('删除成功', {
+									icon: 1,
+									time: 1000
+								},function() {
+									window.location.reload();
+								});
+							},
+							error:function () {
+								alert("error");
+							}
+						})
+					}
+				})
 				//日期范围
 				laydate.render({
 					elem: '#test6',
@@ -170,6 +211,7 @@
 						,url:'/order/selectOrder'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 						,where: {name:username, type: type,status:status,startTime:startTime,endTime:endTime}
+						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
 							,{field:'orderNumber', title: '订单编号',width:250}

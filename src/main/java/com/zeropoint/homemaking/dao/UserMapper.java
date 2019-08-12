@@ -63,4 +63,10 @@ public interface UserMapper {
     void delete1(@Param("ids")Integer[] ids);
 
     User SelectKey1(@Param("id")Integer id);
+
+    int updateBalance1(Integer id,Integer balance);
+
+    int updateBrokerage1(Integer id,Double brokerage);
+
+    int updateBrokerage2(Integer id,Double brokerage);
 }

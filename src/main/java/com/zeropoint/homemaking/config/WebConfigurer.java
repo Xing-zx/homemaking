@@ -19,10 +19,6 @@ public class WebConfigurer implements WebMvcConfigurer {
 
     }
 
-    public void addView(ViewControllerRegistry registry){
-        registry.addViewController("/login").setViewName("/templates/login.html");
-    }
-
      //这个方法用来注册拦截器，我们自己写好的拦截器需要通过这里添加注册才能生效
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -31,6 +27,6 @@ public class WebConfigurer implements WebMvcConfigurer {
        /* registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/register");
         WebMvcConfigurer.super.addInterceptors(registry);   */ //较新Spring Boot的版本中这里可以直接去掉，否则会报错
         System.out.println("进入config");
-      registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/admin/**","/index.html").excludePathPatterns("/login.html");
+      registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/emp/**","/index.html").excludePathPatterns("/login.html");
     }
 }

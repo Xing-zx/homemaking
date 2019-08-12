@@ -1,6 +1,8 @@
 package com.zeropoint.homemaking.dao;
 
+import com.zeropoint.homemaking.domain.Certificate;
 import com.zeropoint.homemaking.domain.ServicePersonnel;
+import com.zeropoint.homemaking.domain.Speciality;
 import com.zeropoint.homemaking.domain.Stores;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -53,8 +55,17 @@ public interface ServicePersonnelMapper {
     /*查询单个*/
     ServicePersonnel SelectIds1(@Param("id")Integer id);
 
+    /*查询单个*/
+    ServicePersonnel SelectIds2(@Param("id")Integer id);
+
     /*获取门店下拉框*/
     List<Stores> selectStores1();
 
     int updateStatus(Integer id,Integer status,Integer storesId);
+
+    List<Speciality> selectSpeciality(Integer personnelId);
+
+    List<Certificate> selectCertificate(Integer personnelId);
+
+    int updateCertificate(Integer id,Integer status);
 }

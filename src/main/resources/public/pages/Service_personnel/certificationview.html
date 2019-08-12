@@ -23,12 +23,11 @@
 			<form class="layui-form" onsubmit="return false">
 				<div class="layui-form-item">
 					<label class="layui-form-label">
-						头像：
 					</label>
 					<div class="layui-input-inline">
-						<img id="photoUrl" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="500px" height="500px">
+						<img id="photoUrl" class="layui-circle min"  width="150px" height="150px">
 					</div>
-					<input type="text" id="id">
+					<input type="hidden" id="id">
 				</div>
 
 				<div class="layui-form-item">
@@ -61,29 +60,26 @@
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="gender"></div>
 					</div>
-				</div>
 
-
-				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">
 							职位：
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="workType"></div>
 					</div>
+				</div>
 
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							余额：
-						</label>
-						<div class="layui-form-mid layui-word-aux" id="balance"></div>
-					</div>
 
+				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">
 							工作年限：
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="workExperience"></div>
+					</div>
+
+					<div class="layui-inline" id="hour">
+
 					</div>
 				</div>
 
@@ -93,15 +89,6 @@
 							特长：
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="speciality"></div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							所属门店：
-						</label>
-						<div class="layui-form-mid layui-word-aux" id="stores"></div>
 					</div>
 				</div>
 
@@ -130,59 +117,14 @@
 							视频介绍：
 						</label>
 						<div class="layui-input-inline">
-							<video id="videoUrl" src="/i/movie.ogg" controls="controls" style="width: 500px; height: 350px;"></video>
+							<video id="videoUrl" controls="controls" style="width: 500px; height: 350px;"></video>
 						</div>
 					</div>
 				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							学历证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="xueli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							培训证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="peixun" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							健康证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="jiankang" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							奖励证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="jiangli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
-
 				<div class="layui-form-item">
 
 					<fieldset class="layui-elem-field"  style="margin: 50px auto;padding: 50px 0px;">
-						<legend>门店分配与工资设置</legend>
+						<legend>门店分配</legend>
 						<div class="layui-field-box">
 							<div class="layui-inline">
 								<label class="layui-form-label">
@@ -192,26 +134,6 @@
 									<select name="storesId" id="storesId">
 										<option value="0">请选择所属门店</option>
 									</select>
-								</div>
-								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
-							</div>
-							
-							<div class="layui-inline">
-								<label class="layui-form-label">
-									时薪：
-								</label>
-								<div class="layui-input-inline">
-									<input type="text" id="L_hours" name="hours" lay-verify="hours" autocomplete="off" class="layui-input">
-								</div>
-								<!-- <div class="layui-form-mid layui-word-aux">111111111</div> -->
-							</div>
-							
-							<div class="layui-inline">
-								<label class="layui-form-label">
-									月薪：
-								</label>
-								<div class="layui-input-inline">
-									<input type="text" id="L_years" name="years" lay-verify="years" autocomplete="off" class="layui-input">
 								</div>
 							</div>
 						</div>
@@ -259,23 +181,59 @@
 				result = url.substr(url.indexOf("=") + 1);
 				$.ajax({
 					type:"post",
-					url:"/servicepe/selectid",
+					url:"/servicepe/selectid1",
 					dataType:"json",
 					data:{"id":result},
 					success:function (data) {
+						if(data.gender==1){
+							data.gender="男"
+						}
+						else{
+							data.gender="女"
+						}
+
+						if(data.workType==1){
+							data.workType="月嫂"
+						}
+						else if(data.workType==2){
+							data.workType="保姆"
+						}
+						else if(data.workType==3){
+							data.workType="钟点工"
+						}
 						$("#realName").html(data.realName)
 						$('#photoUrl').attr('src', data.photoUrl).src;
 						$("#idcard").html(data.idcard)
-						$("#age").html(data.age)
+						$("#age").html(data.age+"   岁")
 						$("#gender").html(data.gender)
 						$("#workType").html(data.workType)
-						$("#workExperience").html(data.workExperience)
+						$("#workExperience").html(data.workExperience+"   年")
 						$("#balance").html(data.balance)
 						$("#stores").html(data.storesName)
-						$("#content").html(data.myself)
+						$("#content").html(data.profile)
 						$('#videoUrl').attr('src', data.videoUrl).src;
 						$("#address").html(data.workCity)
 						$("#id").val(data.id);
+
+						if(data.workType=="钟点工"){
+							$("#hour").append("<label class=\"layui-form-label\">收费标准：</label><div class=\"layui-form-mid layui-word-aux\" id=\"chargeStandard\">"+data.chargeStandard+"  /小时</div>")
+						}
+
+
+						$.ajax({
+							type:"post",
+							url:"/servicepe/selectSpeciality",
+							dataType:"json",
+							data:{"personnelId":data.id},
+							success:function (data) {
+								for(var i=0;i<data.length;i++){
+									$("#speciality").append("<span class='layui-btn layui-btn-normal layui-btn-xs'>"+data[i].categoryName +"</span>")
+								}
+							},
+							error:function () {
+								alert("error");
+							}
+						})
 					},
 					error:function () {
 						alert("error");

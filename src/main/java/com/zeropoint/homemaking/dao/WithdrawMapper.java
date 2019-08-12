@@ -1,5 +1,6 @@
 package com.zeropoint.homemaking.dao;
 
+import com.zeropoint.homemaking.domain.BrokerageSetting;
 import com.zeropoint.homemaking.domain.Withdraw;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,10 @@ public interface WithdrawMapper {
     int count1(String name,@Param("endTime")String endTime,@Param("startTime")String startTime);
 
     int update1(Integer id,Integer status);
+
+    BrokerageSetting selectfee();
+
+    int update2(Integer id,Double fee,Double finalMoney);
+
+    int delete1(@Param("ids")Integer[] ids);
 }

@@ -6,6 +6,7 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
     <result column="name1" jdbcType="VARCHAR" property="name"/>
+    <result column="name" jdbcType="VARCHAR" property="categoryName"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from speciality

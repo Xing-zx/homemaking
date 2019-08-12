@@ -9,20 +9,7 @@ import java.util.List;
 @Mapper
 public interface BrokerageSettingMapper {
 
-    int insert(BrokerageSetting record);
+    List<BrokerageSetting> selectBrokerageSetting();
 
-    /**
-     *  条件查询
-     * @param condition  注册时间,姓名,角色
-     * @return the admin list
-     */
-    List<BrokerageSetting> selectByCondition(@Param("page")Integer page, @Param("rows")Integer rows );
-
-    int count();
-
-    int delete(@Param("ids")Integer[] ids);
-
-    BrokerageSetting selectKey(@Param("id")Integer id);
-
-    int update(@Param("id")Integer id,@Param("status")Integer status);
+    int updatePro(Double usera,Double userb,Double fee,Double balance);
 }

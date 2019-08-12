@@ -41,7 +41,7 @@
 	<div class="layui-row">
 	</div>
 	<div class="weadmin-block">
-		<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+		<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
 		<button class="layui-btn" onclick="WeAdminShow('添加服务','./serviceadd.html',800,600)"><i class="layui-icon"></i>添加服务</button>
 	</div>
 
@@ -79,6 +79,47 @@
 				,upload = layui.upload //上传
 				,element = layui.element //元素操作
 				,slider = layui.slider //滑块
+
+
+		$("#deleteall").click(function () {
+			var checkStatus = table.checkStatus('idTest')
+					,data = checkStatus.data;
+			var id_str="";
+			if (data.length > 0) {
+
+				for (var i = 0; i < data.length; i++) {
+					id_str +=data[i].id + ',';
+				}
+				id_str = id_str.substr(0,id_str.length - 1);
+				console.log(id_str+"------------------------")
+			}
+			if(id_str=="" || id_str==null){
+				layer.msg('请选择行', {
+					icon: 2,
+					time: 1000
+				});
+			}else{
+				$.ajax({
+					type:"post",
+					url:"/serviceclass/delete",
+					dataType:"text",
+					data:{"ids":id_str},
+					traditional:true,
+					success:function (data) {
+						//捉到所有被选中的，发异步进行删除
+						layer.msg('删除成功', {
+							icon: 1,
+							time: 1000
+						},function() {
+							window.location.reload();
+						});
+					},
+					error:function () {
+						alert("error");
+					}
+				})
+			}
+		})
 
 
 		//日期范围
@@ -189,13 +230,14 @@
 				elem: '#test'
 				,url:'/serviceclass/selectPage'
 				,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+				,id:'idTest'
 				,cols: [[
 					{type:'checkbox',fixed: 'left'}
 					,{field:'pictureUrl', title: '图标',templet:function (res) {
-							return "<img src='"+res.iconUrl+"'>"
+							return "<img src='"+res.iconUrl+"' class='layui-circle' width='100px' height='100px'>"
 						}}
 					,{field:'name',title: '服务名称'}
-					,{field:'introduced',title: '跳转地址'}
+					,{field:'url',title: '跳转地址'}
 					,{field:'status', title: '状态',templet: '#status',width:80}
 					,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 				]],

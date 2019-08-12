@@ -210,6 +210,12 @@
 					dataType:"json",
 					data:{"id":result},
 					success:function (data) {
+						if(data.gender==1){
+							data.gender="男"
+						}
+						else{
+							data.gender="女"
+						}
 						$("#nikename").html(data.nickName)
 						$("#name").html(data.name)
 						$("#phone").html(data.phone)
@@ -221,8 +227,8 @@
 						$("#motherName").html(data.motherName)
 						$("#balance").html(data.balance)
 						$("#age").html(data.age);
-						$("#portraitUrl").html("<img src='"+data.portraitUrl+"'/>")
-						$("#programCode").html("<img src='"+data.programCode+"'/>")
+						$("#portraitUrl").html("<img src='"+data.portraitUrl+"' class=\"layui-circle min\"  width=\"150px\" height=\"150px\"/>")
+						$("#programCode").html("<img src='"+data.programCode+"' class=\"layui-circle min\"  width=\"150px\" height=\"150px\"/>")
 					},
 					error:function () {
 						alert("error");

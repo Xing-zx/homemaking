@@ -53,6 +53,26 @@
     <result column="broker_id" jdbcType="INTEGER" property="brokerId" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+
+  <resultMap id="specialityMap" type="com.zeropoint.homemaking.domain.Speciality">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="name1" jdbcType="VARCHAR" property="name"/>
+    <result column="categoryName" jdbcType="VARCHAR" property="categoryName"/>
+  </resultMap>
+
+  <resultMap id="CertificateMap" type="com.zeropoint.homemaking.domain.Certificate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="personnel_id" jdbcType="INTEGER" property="personnelId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="categoryName" jdbcType="VARCHAR" property="categoryName" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_personnel
     where id = #{id,jdbcType=INTEGER}
@@ -247,6 +267,7 @@
         s.creat_times between #{startTime} and #{endTime}
       </if>
     </where>
+    order by applause_rate desc
     limit #{page},#{rows}
   </select>
 
@@ -277,7 +298,7 @@
     select *
     from service_personnel
     <where>
-      status in(0,1,3)
+      status in(1,3)
       <if test="name != null and name != ''">
         and name LIKE  '%${name}%'
       </if>
@@ -295,7 +316,7 @@
   <select id="counts2" resultType="int">
     SELECT  COUNT(1) FROM service_personnel
     <where>
-      status in(0,1,3)
+      status in(1,3)
       <if test="name != null and name != ''">
         and name LIKE  '%${name}%'
       </if>
@@ -311,10 +332,16 @@
   </select>
 
   <select id="SelectIds1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select s.*,c.*
-    from service_personnel s
-    INNER JOIN certificate c ON s.id=c.personnel_id
-    where s.id = #{id}
+    select p.*,s.*
+    from service_personnel p
+    INNER JOIN stores s ON p.stores_id=s.stores_id
+    where p.id = #{id}
+  </select>
+
+  <select id="SelectIds2" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from service_personnel
+    where id = #{id}
   </select>
 
   <select id="selectStores1" parameterType="Map" resultMap="StoresResultMap">
@@ -334,10 +361,28 @@
     update service_personnel
     set status = #{status,jdbcType=INTEGER},
      stores_id=#{storesId},
+     applause_rate=5
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="selectSpeciality" parameterType="Map" resultMap="specialityMap">
+    select s.*,c.name as categoryName
+    from speciality s
+    INNER JOIN category c ON s.category_id=c.id
+    where s.personnel_id=#{personnelId}
+  </select>
 
+  <select id="selectCertificate" resultType="int" resultMap="CertificateMap">
+    select c.*,a.name as CategoryName
+    from certificate c
+    INNER JOIN category a ON c.category_id=a.id
+    where personnel_id=#{personnelId}
+  </select>
 
+  <update id="updateCertificate" parameterType="com.zeropoint.homemaking.domain.Certificate">
+    update certificate
+    set status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
 </mapper>

@@ -25,10 +25,9 @@
 			<form class="layui-form" onsubmit="return false">
 				<div class="layui-form-item">
 					<label class="layui-form-label">
-						头像：
 					</label>
 					<div class="layui-input-inline">
-						<img id="photoUrl" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
+						<img id="photoUrl" class="layui-circle min"  width="150px" height="150px">
 					</div>
 				</div>
 
@@ -49,10 +48,12 @@
 
 					<div class="layui-inline">
 						<label class="layui-form-label">
-							年龄：
+							余额：
 						</label>
-						<div class="layui-form-mid layui-word-aux" id="age"></div>
+						<div class="layui-form-mid layui-word-aux" id="balance"></div>
 					</div>
+
+
 				</div>
 
 				<div class="layui-form-item">
@@ -62,29 +63,34 @@
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="gender"></div>
 					</div>
-				</div>
 
+					<div class="layui-inline">
+						<label class="layui-form-label">
+							年龄：
+						</label>
+						<div class="layui-form-mid layui-word-aux" id="age"></div>
+					</div>
 
-				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">
 							职位：
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="workType"></div>
 					</div>
+				</div>
 
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							余额：
-						</label>
-						<div class="layui-form-mid layui-word-aux" id="balance"></div>
-					</div>
+
+				<div class="layui-form-item">
 
 					<div class="layui-inline">
 						<label class="layui-form-label">
 							工作年限：
 						</label>
 						<div class="layui-form-mid layui-word-aux" id="workExperience"></div>
+					</div>
+
+					<div class="layui-inline" id="hour">
+
 					</div>
 				</div>
 
@@ -136,64 +142,72 @@
 					</div>
 				</div>
 
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							学历证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="xueli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
+
+				<fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 70px 0;"></fieldset>
 
 				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							培训证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="peixun" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
+					<table class="layui-table" id="test" lay-filter="test"></table>
 				</div>
 
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							健康证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="jiankang" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">
-							奖励证：
-						</label>
-						<div class="layui-input-inline">
-							<img id="jiangli" class="min" src="../../static/img/QQ图片20190530171602.jpg" width="100%" height="auto">
-						</div>
-					</div>
-				</div>
 			</form>
 		</div>
-		<script>
-
+		<script type="text/html" id="barDemo">
+			{{#  if(d.status === 0){ }}
+			<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail" title='未发布'>待审核</a>
+			{{#  } else if(d.status === 1){ }}
+			<a class='layui-btn layui-btn-disabled layui-btn-xs stops' href='javascript:;' lay-event="detail" title='已发布'>已审核</a>
+			{{#  } }}
 		</script>
 		<script type="text/javascript">
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
-			layui.use(['form', 'jquery', 'admin', 'layer'], function() {
+			layui.use(['form', 'jquery', 'admin', 'layer','table'], function() {
 				var form = layui.form,
 						$ = layui.jquery,
 						admin = layui.admin,
 						layer = layui.layer;
-			});
+				var table = layui.table //表格
+
+				//监听行工具事件
+				table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+					var data = obj.data //获得当前行数据
+							,layEvent = obj.event; //获得 lay-event 对应的值
+					var ids=data.id
+					if(layEvent === 'detail'){
+						var id=data.id;
+						var status=1
+						if(data.status==0){
+							$.ajax({
+								type:"post",
+								url:"/servicepe/updateCertificate",
+								dataType:"json",
+								data:{"id":id,"status":status},
+								success:function (data) {
+									layer.msg('审核成功!', {
+										icon: 6,
+										time: 1000
+
+									},function () {
+										window.location.reload();
+									});
+
+								},
+								error:function () {
+									alert("error");
+								}
+							})
+						}else{
+							layer.msg('该证书已审核!', {
+								icon: 5,
+								time: 1000
+							});
+						}
+
+
+					}
+				});
+
 
 
 			$(function () {
@@ -209,20 +223,84 @@
 						$("#realName").html(data.realName)
 						$('#photoUrl').attr('src', data.photoUrl).src;
 						$("#idcard").html(data.idcard)
-						$("#age").html(data.age)
+						$("#age").html(data.age+"   岁")
+						if(data.gender==1){
+							data.gender="男"
+						}
+						else{
+							data.gender="女"
+						}
+
+						if(data.workType==1){
+							data.workType="月嫂"
+						}
+						else if(data.workType==2){
+							data.workType="保姆"
+						}
+						else if(data.workType==3){
+							data.workType="钟点工"
+						}
 						$("#gender").html(data.gender)
 						$("#workType").html(data.workType)
-						$("#workExperience").html(data.workExperience)
+						$("#workExperience").html(data.workExperience+"   年")
 						$("#balance").html(data.balance)
 						$("#stores").html(data.storesName)
-						$("#content").html(data.myself)
+						$("#content").html(data.profile)
 						$('#videoUrl').attr('src', data.videoUrl).src;
 						$("#address").html(data.workCity)
+						$("#stores").html(data.storesName)
+
+						if(data.workType=="钟点工"){
+							$("#hour").append("<label class=\"layui-form-label\">收费标准：</label><div class=\"layui-form-mid layui-word-aux\" id=\"chargeStandard\">"+data.chargeStandard+"   /小时</div>")
+						}
+
+						$.ajax({
+							type:"post",
+							url:"/servicepe/selectSpeciality",
+							dataType:"json",
+							data:{"personnelId":data.id},
+							success:function (data) {
+								for(var i=0;i<data.length;i++){
+									$("#speciality").append("<span class='layui-btn layui-btn-normal layui-btn-xs'>"+data[i].categoryName +"</span>")
+								}
+							},
+							error:function () {
+								alert("error");
+							}
+						})
+
+						 var tables=table.render({
+							elem: '#test'
+							,url:'/servicepe/selectCertificate'
+							,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+							,where: {personnelId:data.id}
+							,id:'idTest'
+							,cols: [[
+								{field:'pictureUrl', title: '证书照片',templet:function (res) {
+									 	return "<img src='"+res.pictureUrl+"'>"
+									}}
+								,{field:'name', title: '证书名称'}
+								,{field:'categoryName',title: '证书类型'}
+								,{field:'workType',title: '有效期',width:400,templet:function (res) {
+										return "<span>"+res.createTime+" 至 "+res.expirationTime+"</span>"
+									}}
+								,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
+							]],
+							page:false,
+							limit:10,
+							request: {
+								pageName: 'curr', //页码的参数名称，默认：page
+								limitName: 'limit'//每页数据量的参数名，默认：limit
+							},
+						});
+
 					},
 					error:function () {
 						alert("error");
 					}
 				})
+			});
+
 			});
 		</script>
 	</body>

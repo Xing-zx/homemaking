@@ -257,6 +257,11 @@ public class PersonnelServiceImpl  implements PersonnelService {
     }
 
     @Override
+    public ServicePersonnel SelectIds2(Integer id) {
+        return personnelMapper.SelectIds2(id);
+    }
+
+    @Override
     public List<Stores> selectStores1() {
         return personnelMapper.selectStores1();
     }
@@ -274,6 +279,21 @@ public class PersonnelServiceImpl  implements PersonnelService {
     @Override
     public int updateStatus(Integer id, Integer status,Integer storesId) {
         return personnelMapper.updateStatus(id,status,storesId);
+    }
+
+    @Override
+    public List<Speciality> selectSpeciality(Integer personnelId) {
+        return personnelMapper.selectSpeciality(personnelId);
+    }
+
+    @Override
+    public List<Certificate> selectCertificate(Integer personnelId) {
+        return personnelMapper.selectCertificate(personnelId);
+    }
+
+    @Override
+    public int updateCertificate(Integer id, Integer status) {
+        return personnelMapper.updateCertificate(id,status);
     }
 
 

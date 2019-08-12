@@ -135,4 +135,35 @@ public class OrdersController {
                                 @Param("moneyActual")Double moneyActual){
         return orderservice.updatemoneyTotal(id, hetongImgsrc, moneyTotal,status,endTime,startTime,assignIds,moneyBargin,moneyAdvance,moneyFinal,moneyActual);
     }
+
+
+    @RequestMapping("commsionSelect")
+    public Map<String,Object> commsionSelect(@Param("curr")Integer curr, @Param("limit")Integer limit){
+
+        System.out.println(limit);
+        int page=(curr-1)*limit;
+        System.out.println(page);
+        List<Order> list=orderservice.commsionSelect(page,limit);
+
+        int count=orderservice.commsionCount();
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将全部数据的条数作为count传给前台（一共多少条）
+        tableData.put("count", count);
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", list);
+        //返回给前端
+
+        String json= JSONObject.toJSONString(tableData);
+        System.out.println(json);
+        return tableData;
+    }
+
+
+    @RequestMapping("/updatecomm")
+    public int updatecomm(@RequestParam("id")Integer id,@RequestParam("commsionStatus")Integer commsionStatus) {
+        return orderservice.updatecomm(id, commsionStatus);
+    }
 }

@@ -40,7 +40,7 @@ public class User {
 
     private Integer balance;
 
-    private Integer brokerage;
+    private Double brokerage;
 
     private String openId;
 
@@ -57,7 +57,6 @@ public class User {
         this.name = "";
         this.nickName = "";
         this.balance = 0;
-        this.brokerage = 0;
         this.Status = 0;
     }
 
@@ -201,11 +200,11 @@ public class User {
         this.balance = balance;
     }
 
-    public Integer getBrokerage() {
+    public Double getBrokerage() {
         return brokerage;
     }
 
-    public void setBrokerage(Integer brokerage) {
+    public void setBrokerage(Double brokerage) {
         this.brokerage = brokerage;
     }
 

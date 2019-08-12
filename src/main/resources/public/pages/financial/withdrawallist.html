@@ -45,7 +45,7 @@
 				</form>
 			</div>
 			<div class="weadmin-block">
-				<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
 			</div>
 
 			<table class="layui-table" id="test" lay-filter="test"></table>
@@ -58,9 +58,15 @@
 			  <span class="layui-btn layui-btn-xs layui-btn-disabled">已审核</span>
 			{{#  } }}
 		</script>
+
+		<script type="text/html" id="types">
+			{{#  if(d.type === 1){ }}
+			  <span>佣金提现</span>
+			{{#  } else if(d.type === 2){ }}
+			  <span>余额提现</span>
+			{{#  } }}
+		</script>
 		<script>
-
-
 			layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider','form'], function(){
 				var laydate = layui.laydate //日期
 						,laypage = layui.laypage //分页
@@ -71,6 +77,47 @@
 						,upload = layui.upload //上传
 						,element = layui.element //元素操作
 						,slider = layui.slider //滑块
+
+
+				$("#deleteall").click(function () {
+					var checkStatus = table.checkStatus('idTest')
+							,data = checkStatus.data;
+					var id_str="";
+					if (data.length > 0) {
+
+						for (var i = 0; i < data.length; i++) {
+							id_str +=data[i].id + ',';
+						}
+						id_str = id_str.substr(0,id_str.length - 1);
+						console.log(id_str+"------------------------")
+					}
+					if(id_str=="" || id_str==null){
+						layer.msg('请选择行', {
+							icon: 2,
+							time: 1000
+						});
+					}else{
+						$.ajax({
+							type:"post",
+							url:"/withdraw/delete",
+							dataType:"text",
+							data:{"ids":id_str},
+							traditional:true,
+							success:function (data) {
+								//捉到所有被选中的，发异步进行删除
+								layer.msg('删除成功', {
+									icon: 1,
+									time: 1000
+								},function() {
+									window.location.reload();
+								});
+							},
+							error:function () {
+								alert("error");
+							}
+						})
+					}
+				})
 
 
 				//日期范围
@@ -88,6 +135,13 @@
 						var id=data.id;
 						var status=2;
 						var a=data.status
+
+						var b=data.balance
+						var c=String(data.money).substr(1,100);
+						var money=parseInt(c)
+						var balance=b-money
+						console.log(data.userId+"------------------------"+balance)
+						var obj = JSON.stringify({"id":data.userId,"balance":balance})
 						if (a==1) {
 							$.ajax({
 								type:"post",
@@ -100,6 +154,19 @@
 										time: 1000
 									});
 									$(".layui-laypage-btn").click();
+
+									$.ajax({
+										type:"post",
+										url:"/member/updateBalance1",
+										contentType: 'application/json;charset=utf-8',
+										data:obj,
+										success:function () {
+											console.log("扣款成功")
+										},
+										error:function () {
+											alert("error");
+										}
+									})
 								},
 								error:function () {
 									alert("error");
@@ -154,11 +221,22 @@
 						,url:'/withdraw/list'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 						,where: {name:username,startTime:startTime,endTime:endTime}
+						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
-							,{field:'id', title: '编号'}
-							,{field:'name',title: '姓名'}
-							,{field:'money',title: '总金额'}
+							,{field:'userName', title: '姓名'}
+							,{field:'name', title: '昵称',templet:function (res) {
+								      return "<span>"+res.name+"</span><input class='layui-input' value='"+res.balance+"' />"
+								}}
+							,{field:'alipayAccount',title: '支付宝账号'}
+							,{field:'type',title: '类型',toolbar:'#types'}
+							,{field:'money',title: '提现金额',templet:function (res) {
+									var money=String(res.money).substr(1,100);
+									console.log(money)
+									var moneys=parseInt(money)
+									console.log(moneys+"-------------------")
+									return "<span>"+moneys+"</span>"
+								}}
 							,{field:'fee',  title: '手续费'}
 							,{field:'finalMoney',  title: '实际到账金额'}
 							,{field:'createTime',  title: '申请时间'}
@@ -169,7 +247,7 @@
 						request: {
 							pageName: 'curr', //页码的参数名称，默认：page
 							limitName: 'limit'//每页数据量的参数名，默认：limit
-						},
+						}
 					});
 				});
 			}

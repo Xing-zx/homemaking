@@ -20,7 +20,7 @@
     <result column="upline" jdbcType="INTEGER" property="upline" />
     <result column="upupline" jdbcType="INTEGER" property="upupline" />
     <result column="balance" jdbcType="INTEGER" property="balance" />
-    <result column="brokerage" jdbcType="INTEGER" property="brokerage" />
+    <result column="brokerage" jdbcType="DOUBLE" property="brokerage" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -196,5 +196,23 @@
       #{item}
     </foreach>
   </delete>
+
+  <update id="updateBalance1" parameterType="java.lang.Integer">
+    update user
+    set balance = #{balance}
+    where id = #{id}
+  </update>
+
+  <update id="updateBrokerage1">
+    update user
+    set brokerage = brokerage+#{brokerage}
+    where id = #{id}
+  </update>
+
+  <update id="updateBrokerage2">
+    update user
+    set brokerage = brokerage+#{brokerage}
+    where id = #{id}
+  </update>
 
 </mapper>

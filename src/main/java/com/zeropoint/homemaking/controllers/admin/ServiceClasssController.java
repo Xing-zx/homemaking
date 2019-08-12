@@ -74,7 +74,7 @@ public class ServiceClasssController {
         ServiceClassification service =new ServiceClassification();
         service.setIconUrl(json.getString("img"));
         service.setArticleId(json.getInteger("articleId"));
-        service.setIntroduced(json.getString("url"));
+        service.setUrl(json.getString("url"));
         service.setName(json.getString("name"));
         service.setStatus(json.getInteger("status"));
         return serviceclas.insert1(service);
@@ -86,7 +86,7 @@ public class ServiceClasssController {
         service.setId(json.getInteger("id"));
         service.setIconUrl(json.getString("img"));
         service.setArticleId(json.getInteger("articleId"));
-        service.setIntroduced(json.getString("url"));
+        service.setUrl(json.getString("url"));
         service.setName(json.getString("name"));
         service.setStatus(json.getInteger("status"));
         return serviceclas.updateByPrimaryKey1(service);

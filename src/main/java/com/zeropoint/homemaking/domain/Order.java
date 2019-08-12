@@ -82,6 +82,77 @@ public class Order {
     private Integer storesId;
 
     private String storesName;
+
+    private Integer commsionStatus;
+
+    private String userNameOne;
+
+    private String userNameTow;
+
+    private Double moneyOne;
+
+    private Double moneyTow;
+
+    private Integer userIdOne;
+
+    private Integer userIdTow;
+
+    public Integer getUserIdOne() {
+        return userIdOne;
+    }
+
+    public void setUserIdOne(Integer userIdOne) {
+        this.userIdOne = userIdOne;
+    }
+
+    public Integer getUserIdTow() {
+        return userIdTow;
+    }
+
+    public void setUserIdTow(Integer userIdTow) {
+        this.userIdTow = userIdTow;
+    }
+
+    public String getUserNameOne() {
+        return userNameOne;
+    }
+
+    public void setUserNameOne(String userNameOne) {
+        this.userNameOne = userNameOne;
+    }
+
+    public String getUserNameTow() {
+        return userNameTow;
+    }
+
+    public void setUserNameTow(String userNameTow) {
+        this.userNameTow = userNameTow;
+    }
+
+    public Double getMoneyOne() {
+        return moneyOne;
+    }
+
+    public void setMoneyOne(Double moneyOne) {
+        this.moneyOne = moneyOne;
+    }
+
+    public Double getMoneyTow() {
+        return moneyTow;
+    }
+
+    public void setMoneyTow(Double moneyTow) {
+        this.moneyTow = moneyTow;
+    }
+
+    public Integer getCommsionStatus() {
+        return commsionStatus;
+    }
+
+    public void setCommsionStatus(Integer commsionStatus) {
+        this.commsionStatus = commsionStatus;
+    }
+
     public String getProvince() {
         return province;
     }

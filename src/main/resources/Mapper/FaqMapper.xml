@@ -31,4 +31,13 @@
     select id, question, answer
     from faq
   </select>
+
+  <select id="selectPage1" resultMap="BaseResultMap">
+    select * from faq
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count" resultType="int">
+    SELECT  COUNT(1) FROM faq
+  </select>
 </mapper>

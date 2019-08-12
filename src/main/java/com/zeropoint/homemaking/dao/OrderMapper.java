@@ -55,4 +55,10 @@ public interface OrderMapper {
                          @Param("endTime")String endTime,
                          @Param("startTime")String startTime,String assignIds,
                          Double moneyBargin,Double moneyAdvance,Double moneyFinal,Double moneyActual);
+
+    List<Order> commsionSelect(@Param("page")Integer page,@Param("rows")Integer rows);
+
+    int commsionCount();
+
+    int updatecomm(Integer id,Integer commsionStatus);
 }

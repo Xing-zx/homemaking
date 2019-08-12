@@ -50,7 +50,7 @@
 <script type="text/html" id="status">
 	{{#  if(d.status === 1){ }}
 	  <span class="layui-badge layui-bg-green td-status">正常</span>
-	{{#  } else { }}
+	{{#  } else if(d.status === 0){ }}
 	  <span class="layui-badge td-status">禁用</span>
 	{{#  } }}
 </script>
@@ -58,7 +58,7 @@
 	{{#  if(d.status === 1){ }}
 	<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail" title='启用'>停用</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
-	{{#  } else { }}
+	{{#  } else if(d.status === 0){ }}
 	<a class='layui-btn layui-btn-normal layui-btn-xs stops' href='javascript:;' lay-event="detail" title='停用'>启用</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
 	{{#  } }}
@@ -118,55 +118,64 @@
 				var status;
 				var confirmTip;
 				var a=data.status
-				if (a==1) {
-					confirmTip = '确认要停用吗？';
-				} else {
-					confirmTip = '确认要启用吗？';
-				}
-				layer.confirm(confirmTip, function(index) {
-					if(a==1){
-						status=0;
+				var parent=data.parent;
+				if(parent!=-1){
+					if (a==1) {
+						confirmTip = '确认要停用吗？';
+					} else {
+						confirmTip = '确认要启用吗？';
 					}
-					else{
-						status=1;
-					}
-					$.ajax({
-						type:"post",
-						url:"/category/updateStatus",
-						dataType:"json",
-						data:{"id":id,"status":status},
-						success:function (data) {
-							if (a==1) {
-								//发异步把用户状态进行更改
-								$(obj).attr('title', '停用')
-								$(obj).find('i').html('&#xe62f;');
-								$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-								$(obj).parents("tr").find('.stops').removeClass('layui-btn-warm').html('启用');
-								$(obj).parents("tr").find('.stops').addClass('layui-btn-normal').html('启用');
-								layer.msg('已停用!', {
-									icon: 5,
-									time: 1000
-								});
-								renderTable();
-							} else {
-								$(obj).attr('title', '启用')
-								$(obj).find('i').html('&#xe601;');
-
-								$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-								$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-normal').html('已启用');
-								$(obj).parents("tr").find('.stops').addClass('layui-btn-warm').html('停用');
-								layer.msg('已启用!', {
-									icon: 6,
-									time: 1000
-								});
-								renderTable();
-							}
-						},
-						error:function () {
-							alert("error");
+					layer.confirm(confirmTip, function(index) {
+						if(a==1){
+							status=0;
 						}
-					})
-				});
+						else{
+							status=1;
+						}
+						$.ajax({
+							type:"post",
+							url:"/category/updateStatus",
+							dataType:"json",
+							data:{"id":id,"status":status},
+							success:function (data) {
+								if (a==1) {
+									//发异步把用户状态进行更改
+									$(obj).attr('title', '停用')
+									$(obj).find('i').html('&#xe62f;');
+									$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
+									$(obj).parents("tr").find('.stops').removeClass('layui-btn-warm').html('启用');
+									$(obj).parents("tr").find('.stops').addClass('layui-btn-normal').html('启用');
+									layer.msg('已停用!', {
+										icon: 5,
+										time: 1000
+									});
+									renderTable();
+								} else {
+									$(obj).attr('title', '启用')
+									$(obj).find('i').html('&#xe601;');
+
+									$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
+									$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-normal').html('已启用');
+									$(obj).parents("tr").find('.stops').addClass('layui-btn-warm').html('停用');
+									layer.msg('已启用!', {
+										icon: 6,
+										time: 1000
+									});
+									renderTable();
+								}
+							},
+							error:function () {
+								alert("error");
+							}
+						})
+					});
+				}else{
+					layer.msg('父节点不能进行操作!', {
+						icon: 2,
+						time: 1000
+					});
+				}
+
 			} else if(layEvent === 'del'){
 				layer.confirm('真的删除行么', function(index){
 					$.ajax({

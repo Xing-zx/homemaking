@@ -1,14 +1,12 @@
 package com.zeropoint.homemaking.controllers.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zeropoint.homemaking.domain.BrokerageSetting;
 import com.zeropoint.homemaking.domain.Withdraw;
 import com.zeropoint.homemaking.services.WithdrawsService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,5 +56,22 @@ public class WithdrawsController {
     public int delete(Integer[] ids) {
         return withdrawService.delete(ids);
     }*/
+
+
+    @RequestMapping("selectfee")
+    @ResponseBody
+    public BrokerageSetting selectfee() {
+        return withdrawService.selectfee();
+    }
+
+    @RequestMapping("update1")
+    public int update2(@RequestBody JSONObject json) {
+        return withdrawService.update2(json.getInteger("id"), json.getDouble("fee"), json.getDouble("finalMoney"));
+    }
+
+    @RequestMapping("delete")
+    public int delete1(Integer[] ids) {
+        return withdrawService.delete1(ids);
+    }
 
 }

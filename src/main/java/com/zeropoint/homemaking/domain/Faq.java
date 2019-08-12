@@ -1,5 +1,9 @@
 package com.zeropoint.homemaking.domain;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 public class Faq {
     private Integer id;
 

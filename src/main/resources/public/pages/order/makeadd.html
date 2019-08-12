@@ -212,7 +212,7 @@
 
 									<input type="hidden" id="minage"/>
 
-									<input type="hidden" id="types">
+									<input type="text" id="types">
 								</td>
 							</tr>
 
@@ -237,6 +237,13 @@
 				</div>
 			</form>
 		</div>
+		<script type="text/html" id="workType">
+			{{#  if(d.workType === 1){ }}
+			  <span>月嫂</span>
+			{{#  }else if(d.workType === 2){ }}
+			  <span>保姆</span>
+			{{#  } }}
+		</script>
 		<script>
 			
 			layui.extend({
@@ -309,6 +316,7 @@
 							}
 							id_str = id_str.substr(0,id_str.length - 1);
 						}
+						console.log(parseInt(id_str))
 
 						var worktype=$("#types").val()
 						if(worktype=="2"){
@@ -427,10 +435,10 @@
 								}
 							}
 
-							if(data.assignIds!=null || data.assignIds!=""){
 								var maxage=$("#maxage").val()
 								var minage=$("#minage").val()
 								var type=$("#types").val()
+								var status=2;
 									table.render({
 										elem: '#test'
 										,url:'/order/servicelist'
@@ -441,25 +449,59 @@
 											{type:'checkbox',fixed: 'left'}
 											,{field:'name', title: '阿姨姓名',width:220}
 											,{field:'age',title: '年龄'}
-											,{field:'workType',title: '职位'}
+											,{field:'workType',title: '职位',templet:"#workType"}
 											,{field:'workCity',  title: '住址'}
-											,{field:'balance',  title: '价格',templet:"#workType"}
 										]],
 										page:false,
 										limit:10,
 										request: {
 											pageName: 'curr', //页码的参数名称，默认：page
 											limitName: 'limit'//每页数据量的参数名，默认：limit
-										},
+										},done: function(res, curr, count){
+											//如果是异步请求数据方式，res即为你接口返回的信息。
+											//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+											console.log(res);
+											//得到当前页码
+											console.log(curr);
+											//得到数据总量
+											console.log(count);
+
+											console.log("data-----"+JSON.stringify(table.cache.idTest));
+
+											if(JSON.stringify(table.cache.idTest)=="[]" || JSON.stringify(table.cache.idTest)==null){
+												console.log("空")
+												var maxages=100
+												var minages=0
+												table.reload('idTest', {
+													url: '/order/servicelist'
+													,where: {status:status,maxage:parseInt(maxages),minage:parseInt(minages),workType:parseInt(type)} //设定异步数据接口的额外参数
+													//,height: 300
+												});
+											}
+											else{
+												console.log("有数据")
+											}
+										}
 									});
-							}
-						},
-						error:function () {
-							alert("error");
-						}
-					})
-				})
-			});
+
+							/*if(datas.length<0){
+								console.log("重载")
+								var maxage=100
+								var minage=0
+								table.reload('idTest', {
+									url: '/order/servicelist'
+									,where: {status:status,maxage:parseInt(maxage),minage:parseInt(minage),workType:parseInt(type)} //设定异步数据接口的额外参数
+									//,height: 300
+								});
+							}*/
+								},error:function () {
+									alert("error");
+								}
+							})
+						})
+
+
+					});
 
 
 		</script>

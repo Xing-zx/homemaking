@@ -16,7 +16,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
-    insert into service_classification (id, icon_url, name, 
+    insert into service_classification (id, icon_url, name,
       introduced, article_id, status, 
       url, url_id)
     values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -47,17 +47,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert1" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
-    insert into service_classification (id, icon_url, name,
-      introduced, article_id)
-    values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER})
+    insert into service_classification (id, icon_url, name,url,
+      introduced, article_id,status)
+    values (#{id,jdbcType=INTEGER}, #{iconUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{url},
+      #{introduced,jdbcType=VARCHAR}, #{articleId,jdbcType=INTEGER},#{status})
   </insert>
   <update id="updateByPrimaryKey1" parameterType="com.zeropoint.homemaking.domain.ServiceClassification">
     update service_classification
     set icon_url = #{iconUrl,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       introduced = #{introduced,jdbcType=VARCHAR},
-      article_id = #{articleId,jdbcType=INTEGER}
+      article_id = #{articleId,jdbcType=INTEGER},
+      url=#{url}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">

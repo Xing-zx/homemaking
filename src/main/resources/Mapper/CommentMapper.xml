@@ -61,7 +61,6 @@
     <where>
       <if test="name != null and name != ''">
         p.name LIKE  '%${name}%'
-
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and

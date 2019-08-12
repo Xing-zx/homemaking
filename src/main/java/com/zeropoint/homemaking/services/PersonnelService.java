@@ -87,6 +87,9 @@ public interface PersonnelService {
     /*查询单个*/
     ServicePersonnel SelectIds1(Integer id);
 
+    /*查询单个*/
+    ServicePersonnel SelectIds2(Integer id);
+
     /*获取门店下拉框*/
     List<Stores> selectStores1();
 
@@ -95,5 +98,11 @@ public interface PersonnelService {
     int updateByPrimaryKey(ServicePersonnel record);
 
     int updateStatus(Integer id,Integer status,Integer storesId);
+
+    List<Speciality> selectSpeciality(Integer personnelId);
+
+    List<Certificate> selectCertificate(Integer personnelId);
+
+    int updateCertificate(Integer id,Integer status);
 
 }

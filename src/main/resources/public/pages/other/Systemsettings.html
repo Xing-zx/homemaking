@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>订单列表-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../static/css/font.css">
+	<link rel="stylesheet" href="../../static/css/weadmin.css">
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../../static/js/admin.js"></script>
+	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+<div class="weadmin-nav">
+			<span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">其他管理</a>
+        <a><cite>系统设置</cite></a>
+      </span>
+	<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="weadmin-body">
+	<div class="layui-row">
+
+	</div>
+
+	<form onsubmit="return false">
+		<table width="100%">
+			<thead>
+			<th width="30%"></th>
+			<th width="30%"></th>
+			<th width="30%"></th>
+			</thead>
+			<tr>
+				<td colspan="3"><fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"><legend>佣金分配比例</legend></fieldset></td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="layui-form-item">
+						<label class="layui-form-label">一级分销：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="user1" name="title" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="layui-form-item">
+						<label class="layui-form-label">二级分销：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="user2" name="title" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</td>
+				<td></td>
+			</tr>
+
+
+			<tr>
+				<td colspan="3"><fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"><legend>工资比例设置</legend></fieldset></td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="layui-form-item">
+						<label class="layui-form-label">工资比例：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="balance" name="title" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</td>
+				<td>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td colspan="3"><fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"><legend>手续费设置</legend></fieldset></td>
+			</tr>
+
+			<tr>
+				<td>
+					<div class="layui-form-item">
+						<label class="layui-form-label">手续费：</label>
+						<div class="layui-input-inline">
+							<input type="text" id="fee" name="title" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</td>
+				<td>
+				</td>
+				<td></td>
+			</tr>
+
+			<tr>
+				<td colspan="3"><fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"></fieldset></td>
+			</tr>
+
+			<tr>
+				<td>
+					<button class="layui-btn" id="fenpei">保存</button>
+				</td>
+				<td>
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<script>
+	layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider','form'], function(){
+		var laydate = layui.laydate //日期
+				,laypage = layui.laypage //分页
+				,layer = layui.layer //弹层
+				,form=layui.form
+				,table = layui.table //表格
+				,carousel = layui.carousel //轮播
+				,upload = layui.upload //上传
+				,element = layui.element //元素操作
+				,slider = layui.slider //滑块
+			
+		$(function () {
+			$.ajax({
+				type:"post",
+				url:"/brokerage/list",
+				dataType:"json",
+				success:function (data) {
+					for(var i=0;i<data.length;i++){
+						console.log(data[i].name)
+						console.log(data[0].name)
+					}
+					if(data[0].name=="一级分销"){
+						$("#user1").val(data[0].proportion)
+					}
+					if(data[1].name=="二级分销"){
+						$("#user2").val(data[1].proportion)
+					}
+					if(data[2].name=="手续费"){
+						$("#fee").val(data[2].proportion)
+					}
+					if(data[3].name=="员工工资"){
+						$("#balance").val(data[3].proportion)
+					}
+				},
+				error:function () {
+					alert("error");
+				}
+			})
+		})
+
+
+
+		$("#fenpei").click(function () {
+			var usera=$("#user1").val()
+			var userb=$("#user2").val()
+			var fees=$("#fee").val()
+			var balances=$("#balance").val()
+
+			var obj = JSON.stringify({"yi":usera,"er":userb,"fee":fees,"balance":balances})
+
+			console.log(usera+"------------"+userb+"=============="+fees+"-----------------"+balances)
+
+			$.ajax({
+				type:"post",
+				url:"/brokerage/update",
+				data:obj,
+				contentType: 'application/json;charset=utf-8',
+				success:function () {
+					layer.msg("保存成功", {
+						icon: 6,
+						time: 1000
+					})
+				}
+			});
+		})
+
+
+		
+	});
+</script>
+</body>
+
+</html>

@@ -118,9 +118,9 @@
 			"url": "",
 			"children": [{
 				"id": 23,
-				"name": "资金明细",
+				"name": "佣金列表",
 				"icon": "",
-				"url": "./pages/financial/detaillist.html"
+				"url": "./pages/financial/commissionlist.html"
 			},{
 				"id": 24,
 				"name": "提现列表",
@@ -164,12 +164,6 @@
 				}]
 			},
 			{
-				"id": 32,
-				"name": "分销配置",
-				"icon": "",
-				"url": "./pages/other/storelist.html"
-			},
-			{
 				"id": 33,
 				"name": "筛选列表",
 				"icon": "",
@@ -185,6 +179,12 @@
 				"name": "服务分类",
 				"icon": "",
 				"url": "./pages/other/servicelist.html"
+			},
+			{
+					"id": 36,
+					"name": "系统设置",
+					"icon": "",
+					"url": "./pages/other/Systemsettings.html"
 			}]
 		}
 	]

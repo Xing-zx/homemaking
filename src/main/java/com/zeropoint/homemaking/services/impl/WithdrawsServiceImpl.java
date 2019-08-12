@@ -1,6 +1,7 @@
 package com.zeropoint.homemaking.services.impl;
 
 import com.zeropoint.homemaking.dao.WithdrawMapper;
+import com.zeropoint.homemaking.domain.BrokerageSetting;
 import com.zeropoint.homemaking.domain.Withdraw;
 import com.zeropoint.homemaking.services.WithdrawsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,20 @@ public class WithdrawsServiceImpl implements WithdrawsService {
     @Override
     public int update1(Integer id, Integer status) {
         return withdrawMapper.update1(id, status);
+    }
+
+    @Override
+    public BrokerageSetting selectfee() {
+        return withdrawMapper.selectfee();
+    }
+
+    @Override
+    public int update2(Integer id, Double fee, Double finalMoney) {
+        return withdrawMapper.update2(id, fee, finalMoney);
+    }
+
+    @Override
+    public int delete1(Integer[] ids) {
+        return withdrawMapper.delete1(ids);
     }
 }

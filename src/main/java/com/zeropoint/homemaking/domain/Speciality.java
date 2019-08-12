@@ -11,6 +11,16 @@ public class Speciality {
 
     private String  name;
 
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public String getName() {
         return name;
     }

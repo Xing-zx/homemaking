@@ -77,6 +77,13 @@
 					</div>
 				</div>
 
+				<div class="layui-form-item">
+					<label class="layui-form-label">报名规则：</label>
+					<div class="layui-input-inline">
+						<input type="text" id="registerRule" name="categoryName" autocomplete="off" class="layui-input" value="每人限报名一次">
+					</div>
+				</div>
+
 
 				<div class="layui-form-item">
 					<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
@@ -145,10 +152,11 @@
 						var creatTime=$("#time").val();
 						var count=$("#counts").val();
 						var status=$("#status").val()
+						var registerRule=$("#registerRule").val()
 
 						var obj = JSON.stringify({"id":id,"name":name,"startTime":startTime,"endTime":endTime,"startTime1":startTime1,
 							"endTime1":endTime1,"detail":detail,"maxCount":maxCount,"amount":amount,"courseSite":courseSite,
-							"pictureUrl":pictureUrl,"count":count,"creatTime":creatTime,"status":status})
+							"pictureUrl":pictureUrl,"count":count,"creatTime":creatTime,"status":status,"registerRule":registerRule})
 
 						$.ajax({
 							type:"post",

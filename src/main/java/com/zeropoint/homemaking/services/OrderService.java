@@ -83,4 +83,11 @@ public interface OrderService {
                          String endTime,String startTime,String assignIds,
                          Double moneyBargin,Double moneyAdvance,Double moneyFinal,Double moneyActual);
 
+
+    List<Order> commsionSelect(Integer page,Integer rows);
+
+    int commsionCount();
+
+    int updatecomm(Integer id,Integer commsionStatus);
+
 }

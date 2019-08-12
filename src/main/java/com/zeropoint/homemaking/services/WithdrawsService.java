@@ -1,5 +1,6 @@
 package com.zeropoint.homemaking.services;
 
+import com.zeropoint.homemaking.domain.BrokerageSetting;
 import com.zeropoint.homemaking.domain.Withdraw;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,10 @@ public interface WithdrawsService {
     int count1(String name,String endTime,String startTime);
 
     int update1(Integer id,Integer status);
+
+    BrokerageSetting selectfee();
+
+    int update2(Integer id,Double fee,Double finalMoney);
+
+    int delete1(Integer[] ids);
 }

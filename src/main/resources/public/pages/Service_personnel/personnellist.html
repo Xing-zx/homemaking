@@ -130,7 +130,7 @@
 					,{field:'storesName', title: '所属门店'}
 					,{field:'phone', title: '手机号',width:120}
 					,{field:'creatTimes',title: '认证时间',width:160}
-					,{field:'applauseRate', title: '好评率',width:150,templet:function (d) {
+					,{field:'applauseRate', title: '好评率',width:180,templet:function (d) {
 
 						return "<div id='avgScore"+d.id+"' style='position: relative;bottom: 10px'></div>"
 					}}
@@ -151,6 +151,7 @@
 							, value: data[item].applauseRate             //初始化值
 							, theme: '#f30808'     //颜色
 							, readonly: true      //只读
+							,half: true //开启半星
 						});
 
 					}

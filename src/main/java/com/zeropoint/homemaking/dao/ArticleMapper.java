@@ -28,11 +28,7 @@ public interface ArticleMapper {
 
     int update1(Article record);
 
-    /**
-     *  条件查询
-     * @param condition  注册时间,姓名,角色
-     * @return the admin list
-     */
+
     List<Article> selectByCondition1(@Param("page")Integer page, @Param("rows")Integer rows, @Param("title")String title, @Param("author")String author,
                                      @Param("state")Integer state,@Param("startTime") String startTime,@Param("endTime") String endTime);
 
@@ -41,4 +37,6 @@ public interface ArticleMapper {
 
     /*修改状态*/
     int updatestate1(@Param("id")Integer id,@Param("state")Integer state);
+
+    Article findByTitle(String title);
 }

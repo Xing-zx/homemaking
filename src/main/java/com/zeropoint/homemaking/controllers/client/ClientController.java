@@ -79,6 +79,7 @@ public class ClientController {
     @PassToken
     @RequestMapping("/userLogin")
     public JSONObject login(@RequestBody JSONObject request, HttpServletRequest http){
+        System.out.println(request.toJSONString());
         HttpSession session =http.getSession();
         JSONObject res = new JSONObject();
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
@@ -112,30 +113,35 @@ public class ClientController {
                 }
             }
             userService.Add(user);
-            ServicePersonnel personnel =new ServicePersonnel();
-            personnel.setName(request.getString("nickName"));
-            personnel.setGender(request.getInteger("gender"));
-            personnel.setUserId(user.getId());
-            personnel.setStatus(0);
-            personnel.setWithdrawalBrokerage(0.0);
-            personnel.setBalance(0.0);
-            personnel.setCurrentBrokerage(0.0);
-            personnel.setAllBrokerage(0.0);
-            personnel.setPhotoUrl(request.getString("avatarUrl"));
+            ServicePersonnel personnel =new ServicePersonnel(user);
             personnelService.addPersonnel(personnel);
-            request.put("id",user.getId());
-            request.put("code",openId);
-            request.put("phone","");
-            String token=TokenService.getToken(userService.selectByOpenId(openId));
+            String accessToken=TokenService.getAccessToken();
+            System.out.println(accessToken);
+            String filename= QRcodeUtil.getminiqrQr(user.getId().toString(),accessToken,uploadFolder);
+            if(filename !=null && filename !="")
+            {
+                filename = http.getScheme() + "://" + http.getServerName() + ":" + http.getServerPort() + "/" +filename;
+            }
+            user.setProgramCode(filename);
+            userService.update(user);
+            String token=TokenService.getToken(user);
             TokenService.sessionHashMap.put(token,session);
-            request.put("token",token);
-            request.put("stauts",0);
-            res.put("data",request);
+            res.put("data",user);
             return res;
         }
         else if(openId == null || openId == "")
         {
+            res.put("code",0);
+            res.put("msg","微信登录授权失败");
             return res;
+        }
+        else {
+            ServicePersonnel personnel=personnelService.findByUserId(user1.getId());
+            if(personnel==null)
+            {
+                personnel=new ServicePersonnel(user1);
+                personnelService.addPersonnel(personnel);
+            }
         }
         if (user1.getProgramCode() == null || user1.getProgramCode() =="")
         {
@@ -148,11 +154,11 @@ public class ClientController {
                filename = http.getScheme() + "://" + http.getServerName() + ":" + http.getServerPort() + "/" +filename;
             }
             user1.setProgramCode(filename);
+            userService.update(user1);
         }
-        System.out.println(user1.getToken());
         res.put("data",user1);
-        System.out.println(res);
         TokenService.sessionHashMap.put(user1.getToken(),session);
+        System.out.println(res);
         return res;
     }
 
@@ -204,6 +210,7 @@ public class ClientController {
         JSONObject res =new JSONObject();
         System.out.println(request.toJSONString());
         HttpSession session =http.getSession();
+        System.out.println(session.getId());
         User user=userService.findUserByPhone(request.getString("phone"));
         String code;
         if(user==null)
@@ -232,6 +239,13 @@ public class ClientController {
     public JSONObject register(@RequestBody JSONObject request,HttpServletRequest http) {
         System.out.println(request.toJSONString());
         JSONObject res = new JSONObject();
+        if(userService.findUserByPhone(request.getString("phone"))!=null)
+        {
+           res.put("code",1);
+           res.put("msg","已注册");
+           res.put("data","");
+            return res;
+        }
         String url = "https://api.weixin.qq.com/sns/jscode2session" + "?appid=" + appId + "&secret=" + appSecret + "&js_code=" + request.getString("code") + "&grant_type="
                 + grantType;
         String sessionId = request.getString("codeId");
@@ -275,12 +289,20 @@ public class ClientController {
             }
         }
         userService.Add(user);
-        ServicePersonnel personnel =new ServicePersonnel();
-        personnel.setName(request.getString("nickName"));
-        personnel.setGender(request.getInteger("gender"));
-        personnel.setUserId(user.getId());
-        personnel.setPhotoUrl(request.getString("avatarUrl"));
-        personnel.setStatus(0);
+        if (user.getProgramCode() == null || user.getProgramCode() =="")
+        {
+            System.out.println("programCode");
+            String accessToken=TokenService.getAccessToken();
+            System.out.println(accessToken);
+            String filename= QRcodeUtil.getminiqrQr(user.getId().toString(),accessToken,uploadFolder);
+            if(filename !=null && filename !="")
+            {
+                filename = http.getScheme() + "://" + http.getServerName() + ":" + http.getServerPort() + "/" +filename;
+            }
+            user.setProgramCode(filename);
+            userService.update(user);
+        }
+        ServicePersonnel personnel =new ServicePersonnel(user);
         personnelService.addPersonnel(personnel);
         Address address=new Address();
         address.setProvince(request.getString("province"));

@@ -167,9 +167,13 @@ public class PersonnelController {
             personnel.setWorkCity(request.getString("workCity"));
             personnel.setWorkExperience(request.getInteger("workExperience"));
             personnel.setGender(request.getInteger("gender"));
-            personnel.setWorkType(request.getInteger("workType"));
+            if(request.getInteger("workType")!=null)
+            {
+                personnel.setWorkType(request.getInteger("workType"));
+            }
+
             String  chargeStandard=request.getString("chargeStandard");
-            if( personnel.getWorkType()==3)
+            if( personnel.getWorkType()!=null &&personnel.getWorkType()==3)
             {
                 personnel.setSchedule(request.getInteger("schedule"));
                 if(!("".equals(chargeStandard)||chargeStandard==null))

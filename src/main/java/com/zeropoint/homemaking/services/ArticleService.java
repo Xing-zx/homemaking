@@ -35,15 +35,13 @@ public interface ArticleService {
 
     int update1(Article record);
 
-    /**
-     *  条件查询
-     * @param condition  注册时间,姓名,角色
-     * @return the admin list
-     */
+
     List<Article> selectByCondition1(Integer page,Integer rows,String title,String author,Integer state,String startTime,String endTime);
 
     int count1(String title,String author,Integer state,String startTime,String endTime);
 
     /*修改状态*/
     int updatestate1(Integer id,Integer state);
+
+    Article findByTitle(String title);
 }

@@ -37,12 +37,11 @@ public class TokenService {
         return false;
     }
     public  static String getAccessToken(){
-        JSONObject res= new JSONObject();
         String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
         String requsetURL = url.replaceAll("APPID", Constant.APP_ID).replaceAll("APPSECRET",Constant.APP_SECRET);
         System.out.println(requsetURL);
-        String  data=HttpUtil.get(url);
-        res =JSONObject.parseObject(data);
+        String  data=HttpUtil.get(requsetURL);
+        JSONObject res =JSONObject.parseObject(data);
         System.out.println(res);
         return  res.getString("access_token");
     }

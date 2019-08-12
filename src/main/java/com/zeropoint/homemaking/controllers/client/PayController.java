@@ -2,6 +2,7 @@ package com.zeropoint.homemaking.controllers.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.utils.StringUtils;
+import com.zeropoint.homemaking.constant.Constant;
 import com.zeropoint.homemaking.domain.*;
 import com.zeropoint.homemaking.services.*;
 import com.zeropoint.homemaking.utils.ConvertUtil;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.util.Date;
 
 /**
@@ -35,6 +37,8 @@ public class PayController {
     PersonnelService personnelService;
     @Autowired
     BillService billService;
+    @Autowired
+    PackageService packageService;
 
     @RequestMapping(value = "/lecture", method = RequestMethod.POST)
     public JSONObject lecturePay(@RequestBody JSONObject request,HttpServletRequest requestHeader) {
@@ -247,6 +251,58 @@ public class PayController {
         return res;
     }
     /**
+     *  套餐卡购买
+     * @param request
+     * @return status
+     *
+     */
+    @RequestMapping("/package")
+    public JSONObject payPackage(@RequestBody JSONObject request,HttpServletRequest requestHeader){
+        JSONObject res= new JSONObject();
+        System.out.println(request.toJSONString());
+        Integer userId= request.getInteger("userId");
+        String token =request.getString("token");
+        Integer packageId=request.getInteger("packageId");
+        try{
+            ServicePackage servicePackage=packageService.packageInfo(packageId);
+            if(servicePackage==null)
+            {
+                res.put("code",1);
+                res.put("msg","套餐卡不存在");
+                return res;
+            }
+            User user = userService.findUserById(request.getInteger("id"));
+            String openId = user.getOpenId();
+            String spbill_create_ip = getIpAddr(requestHeader);
+            LectureOrders order=new LectureOrders();
+            order.setType(Constant.TYPE_PACKAGE);
+            order.setUserId(userId);
+            order.setStatus(1);
+            order.setAmount(servicePackage.getPrice());
+            order.setLectureId(servicePackage.getId());
+            order.setTitle(servicePackage.getId()+servicePackage.getName());
+            order.setOrderNumber(OrderService.generateOrderNumber(userId.toString(),Constant.TYPE_PACKAGE.toString()));
+            PayOrder payOrder=new PayOrder(order);
+            payOrder.setGoodName(servicePackage.getName());
+            payOrder.setAmount(servicePackage.getPrice());
+            JSONObject payResult=payService.wxPay(spbill_create_ip,openId,payOrder);
+            res.put("code",1);
+            res.put("msg",payResult.getString("result"));
+            res.put("data",payResult);
+        }catch (NullPointerException e)
+        {
+
+        }catch (Exception e)
+        {
+            res.put("code",0);
+            res.put("msg","pay fail");
+
+        }
+        System.out.println(res.toJSONString());
+        return res;
+
+    }
+    /**
      * 获取IP地址
      * @param request
      * @return
@@ -270,6 +326,7 @@ public class PayController {
     }
 
     /**
+     *  支付确认 /1 月嫂 2保姆 3钟点工 4线下课程 5套餐卡
      * //1待签约 2待服务 (3待付定金 4待付预付款 5待付尾款)==服务中 6完成 -1取消
      * @param request
      * @return
@@ -283,9 +340,10 @@ public class PayController {
             String orderNumber = request.getString("orderNumber");
             Integer personnelId =request.getInteger("aunt_id");
             User user =userService.findUserById(id);
+            Integer type=request.getInteger("type");
             if(token.equals(TokenService.getToken(user)))
             {
-                if(request.getInteger("type").intValue()== 4)
+                if(type.equals(Constant.TYPE_LECTURE))
                 {
                     LectureOrders lectureOrders = orderService.findLectureOrderByOrderNumber(orderNumber);
                     lectureOrders.setStatus(2);
@@ -302,7 +360,7 @@ public class PayController {
                     res.put("code",1);
                     res.put("msg","完成支付");
                 }
-                else if(request.getInteger("type").intValue() == 3)
+                else if(type.equals(Constant.TYPE_HOURLY))
                 {
 
                     Order order =orderService.findOrderByOrderNumber(orderNumber);
@@ -321,7 +379,7 @@ public class PayController {
                     res.put("code",1);
 
                 }
-                else
+                else if (type.equals(Constant.TYPE_BABY_SITTER)||type.equals(Constant.TYPE_NURSE))
                 {
                     Order order=orderService.findOrderByOrderNumber(orderNumber);
                     OrderStatus orderStatus =new OrderStatus();
@@ -349,7 +407,7 @@ public class PayController {
                             res.put("msg","尾款支付完成");
                             break;
                         case 2:
-                            if(request.getInteger("type")== 2)
+                            if(type.equals(Constant.TYPE_NURSE))
                             {
                                 order.setStatus(5);
                                 order.setPayTime(new Date());
@@ -377,6 +435,23 @@ public class PayController {
                     }
                     orderService.updateOrder(order);
                     orderService.addOrderStatus(orderStatus);
+                }
+                else if(type.equals(Constant.TYPE_PACKAGE))
+                {
+                    LectureOrders order=orderService.findLectureOrderByOrderNumber(orderNumber);
+                    order.setStatus(2);
+                    Integer packageId=order.getLectureId();
+                    ServicePackage servicePackage=packageService.packageInfo(packageId);
+                    if(servicePackage==null) {
+                       res.put("code",0);
+                       res.put("msg","套餐卡不存在");
+                       return res;
+                    }
+                    UserPackage userPackage = new UserPackage(servicePackage, order.getUserId());
+                    packageService.addUserPackage(userPackage);
+                  orderService.updatLectureOrder(order);
+                  res.put("code",1);
+                  res.put("msg","支付成功");
                 }
            }
 

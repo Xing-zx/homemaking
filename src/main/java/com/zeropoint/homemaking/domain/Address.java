@@ -55,6 +55,15 @@ public class Address {
         return street;
     }
 
+    public Address(){
+
+    }
+    public Address(String province, String city, String county) {
+        this.province = province;
+        this.city = city;
+        this.county = county;
+    }
+
     public void setStreet(String street) {
         this.street = street;
     }

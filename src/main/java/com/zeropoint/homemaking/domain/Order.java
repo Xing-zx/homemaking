@@ -27,6 +27,16 @@ public class Order {
 
     private String remark;
 
+    private Integer myPackageId;
+
+    public Integer getMyPackageId() {
+        return myPackageId;
+    }
+
+    public void setMyPackageId(Integer myPackageId) {
+        this.myPackageId = myPackageId;
+    }
+
     private Boolean hascomment;
 
     private Date createTime;

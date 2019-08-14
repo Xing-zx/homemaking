@@ -385,4 +385,18 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <update id="updateBrokerage1">
+    update service_personnel
+    set withdrawal_brokerage = withdrawal_brokerage + #{withdrawalBrokerage},
+    all_brokerage = all_brokerage + #{allBrokerage}
+    where id = #{id}
+  </update>
+
+  <update id="updateBrokerage2">
+    update service_personnel
+    set withdrawal_brokerage = withdrawal_brokerage + #{withdrawalBrokerage},
+    all_brokerage = all_brokerage + #{allBrokerage}
+    where id = #{id}
+  </update>
+
 </mapper>

@@ -11,16 +11,6 @@
 				"name": "客户信息列表",
 				"icon": "",
 				"url": "./pages/member/memberlist.html"
-			}, {
-				"id": 4,
-				"name": "投诉处理",
-				"icon": "",
-				"url": "./pages/member/complaintslist.html"
-			},{
-				"id": 5,
-				"name": "客户评价处理",
-				"icon": "",
-				"url": "./pages/member/evaluationlist.html"
 			}]
 		},
 		{
@@ -42,7 +32,7 @@
 		},
 		{
 			"id": 9,
-			"name": "文章管理",
+			"name": "内容系统",
 			"icon": "&#xe705;",
 			"url": "",
 			"children": [{
@@ -50,12 +40,21 @@
 				"name": "文章列表",
 				"icon": "",
 				"url": "./pages/article/articlelist.html"
-			}
-			]
+			}, {
+				"id": 4,
+				"name": "投诉反馈",
+				"icon": "",
+				"url": "./pages/member/complaintslist.html"
+			},{
+				"id": 5,
+				"name": "用户评价",
+				"icon": "",
+				"url": "./pages/member/evaluationlist.html"
+			}]
 		},
 		{
 			"id": 11,
-			"name": "讲座管理",
+			"name": "商品管理",
 			"icon": "&#59148;",
 			"url": "./pages/article/lecturelist.html",
 			"children": [{
@@ -63,6 +62,12 @@
 				"name": "讲座信息",
 				"icon": "",
 				"url": "./pages/article/lecturelist.html"
+			},
+			{
+				"id": 37,
+				"name": "套餐卡信息",
+				"icon": "",
+				"url": "./pages/Mealcard/mealcardlist.html"
 			}]
 		},
 		{
@@ -72,19 +77,24 @@
 			"url": "",
 			"children": [{
 				"id": 14,
-				"name": "预约订单管理",
+				"name": "预约阿姨",
 				"icon": "",
 				"url": "./pages/order/makelist.html"
 			},{
 				"id": 15,
-				"name": "服务订单列表",
+				"name": "服务订单",
 				"icon": "",
 				"url": "./pages/order/orderlist.html"
 			},{
 				"id": 16,
-				"name": "讲座订单列表",
+				"name": "讲座订单",
 				"icon": "",
 				"url": "./pages/order/lecturelist.html"
+			},{
+				"id": 38,
+				"name": "套餐卡订单",
+				"icon": "",
+				"url": "./pages/Mealcard/mealcardOrder.html"
 			}]
 		},
 		{

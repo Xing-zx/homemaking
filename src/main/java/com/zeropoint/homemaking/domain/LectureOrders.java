@@ -38,6 +38,66 @@ public class LectureOrders {
 
     private Integer type;
 
+    private Integer packageId;
+
+    private String packageName;
+
+    private String introduce;
+
+    private Double price;
+
+    private Integer useCount;
+
+    private String imgSrc;
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(Integer useCount) {
+        this.useCount = useCount;
+    }
+
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
+    }
+
     public Integer getType() {
         return type;
     }

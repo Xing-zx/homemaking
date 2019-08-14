@@ -57,14 +57,15 @@
                     data:obj,
                     contentType: 'application/json;charset=utf-8',
                     success:function (data) {
-                        if(data.name==name && data.password==password){
-                            layer.msg("登录成功", {
+                        console.log(data.code+"-------------------"+data.msg)
+                        if(data.code==1){
+                            layer.msg(data.msg, {
                                 time: 1000
                             }, function() {
                                 window.location.href="/index.html?ran=" + Math.random();
                             });
-                        }else{
-                            layer.msg("账号或密码不正确", {
+                        }else if(data.code==0){
+                            layer.msg(data.msg, {
                                 time: 1000
                             }, function() {
                                 window.location.href="/login.html";

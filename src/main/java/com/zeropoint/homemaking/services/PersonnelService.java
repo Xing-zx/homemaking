@@ -105,4 +105,8 @@ public interface PersonnelService {
 
     int updateCertificate(Integer id,Integer status);
 
+    int updateBrokerage1(Integer id,Double allBrokerage,Double withdrawalBrokerage);
+
+    int updateBrokerage2(Integer id,Double allBrokerage,Double withdrawalBrokerage);
+
 }

@@ -18,6 +18,14 @@
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../../static/js/admin.js"></script>
 
+		<style>
+			.layui-table-cell{
+				height:100px;
+				line-height: 100px;
+
+			}
+		</style>
+
 	</head>
 
 	<body>
@@ -159,6 +167,18 @@
 			{{#  } }}
 		</script>
 		<script type="text/javascript">
+
+			var img = document.getElementById('img');
+
+			function bigger(){
+				img.style.width = '400px';
+				img.style.height = '400px';
+			}
+
+			function smaller(){
+				img.style.width = '100px';
+				img.style.height = '100px';
+			}
 			layui.extend({
 				admin: '{/}../../static/js/admin'
 			});
@@ -277,7 +297,7 @@
 							,id:'idTest'
 							,cols: [[
 								{field:'pictureUrl', title: '证书照片',templet:function (res) {
-									 	return "<img src='"+res.pictureUrl+"'>"
+									 	return "<img src='"+res.pictureUrl+"' class=\"layui-upload-img\" onclick=\"previewImg(this)\" />"
 									}}
 								,{field:'name', title: '证书名称'}
 								,{field:'categoryName',title: '证书类型'}
@@ -286,6 +306,7 @@
 									}}
 								,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 							]],
+
 							page:false,
 							limit:10,
 							request: {
@@ -302,6 +323,30 @@
 			});
 
 			});
+
+
+			function previewImg(obj) {
+				var img = new Image();
+				img.src = obj.src;
+				//var height = img.height + 50; // 原图片大小
+				//var width = img.width; //原图片大小
+				var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";
+				//弹出层
+				layer.open({
+					type: 1,
+					shade: 0.8,
+					offset: 'auto',
+					area: [500 + 'px',450+'px'],  // area: [width + 'px',height+'px']  //原图显示
+					scrollbar: false,
+					title: false,
+					closeBtn: 1,
+					shadeClose: true,
+					content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+					cancel: function () {
+						//layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+					}
+				});
+			}
 		</script>
 	</body>
 

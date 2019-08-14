@@ -64,14 +64,6 @@ public class MembersController {
         return userservice.updateBalance1(json.getInteger("id"),json.getInteger("balance"));
     }
 
-    @RequestMapping("/updateBrokerage1")
-    public int updateBrokerage1(@RequestBody JSONObject json) {
-        return userservice.updateBrokerage1(json.getInteger("id"), json.getDouble("brokerage"));
-    }
 
-    @RequestMapping("/updateBrokerage2")
-    public int updateBrokerage2(@RequestBody JSONObject json) {
-        return userservice.updateBrokerage2(json.getInteger("id"), json.getDouble("brokerage"));
-    }
 
 }

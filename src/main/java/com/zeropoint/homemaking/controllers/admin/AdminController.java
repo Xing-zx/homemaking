@@ -143,7 +143,7 @@ public class AdminController {
     }
 
    @RequestMapping("/login")
-    public Admin login(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject json){
+    public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody JSONObject json){
         System.out.println("--------------------------------");
         String str = "";
         String name=json.getString("name");
@@ -152,14 +152,32 @@ public class AdminController {
         Admin admin = new Admin();
         admin.setName(name);
         admin.setPassword(password);
-        HttpSession session = request.getSession();
-        //这里的User是登陆时放入session的
-        session.setAttribute("admin",admin);
-        Cookie c1 = new Cookie("loginName", name);
-        c1.setPath("/");
-        response.addCookie(c1);
-        session.setAttribute("admin", WebConfigurer.SESSION_KEY);
-        return adminService.login1(admin);
+
+       HttpSession session = request.getSession();
+       //这里的User是登陆时放入session的
+       session.setAttribute("admin",admin);
+       Cookie c1 = new Cookie("loginName", name);
+       c1.setPath("/");
+       response.addCookie(c1);
+       session.setAttribute("admin", WebConfigurer.SESSION_KEY);
+
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        if(adminService.login1(admin)!=null){
+            //这是layui要求返回的json数据格式
+            tableData.put("code", 1);
+            tableData.put("msg", "登录成功");
+            //将全部数据的条数作为count传给前台（一共多少条）
+            //将分页后的数据返回（每页要显示的数据）
+            /*tableData.put("data", adminService.login1(admin));*/
+            //返回给前端
+        }else if(adminService.login1(admin)==null){
+            tableData.put("code", 0);
+            tableData.put("msg", "账号或密码不正确");
+        }
+
+       String jsons=JSONObject.toJSONString(tableData);
+       System.out.println(jsons);
+       return tableData;
     }
 
     @RequestMapping("/logout")

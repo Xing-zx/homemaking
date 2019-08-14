@@ -138,53 +138,11 @@
 						</tr>
 						<tr>
 							<td colspan="3">
-								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
-							</td>
-							<td>
-							</td>
-							<td>
+								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"><legend>卡包</legend></fieldset>
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										预产期：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="dueDate"></div>
-								</div>
-							</td>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										孩子生日：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="childrenBirthday"></div>
-								</div>
-							</td>
-							<td>
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										宝妈姓名：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="motherName"></div>
-								</div>
-							</td>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										宝妈年龄：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="motherAge"></div>
-								</div>
-							</td>
-							<td>
-							</td>
+							<table class="layui-table" id="test" lay-filter="test"></table>
 						</tr>
 
 					</tbody>
@@ -234,7 +192,56 @@
 						alert("error");
 					}
 				})
+
+
+				layui.use('table', function(){
+					var id=parseInt(result);
+					console.log(typeof id+"------------------------------------------------")
+					var table = layui.table;
+					table.render({
+						elem: '#test'
+						,url:'/userpackage/list'
+						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,where: {userId:id}
+						,id:'idTest'
+						,cols: [[
+							{type:'checkbox',fixed: 'left'}
+							,{field:'imgSrc', title: '缩略图',width:150,templet:function (res) {
+									return "<img src='"+res.imgSrc+"' class=\"layui-upload-img\" onclick=\"previewImg(this)\">"
+								}}
+							,{field:'name',title: '套餐卡名称',width:120}
+							,{field:'expireTime',  title: '有效期'}
+							,{field:'count',  title: '使用次数',width:120,templet:function (res) {
+									return "<span>"+res.currentCount+"  /  "+res.useCount+"</span>";
+							}}
+						]]
+					});
+				});
+
 			})
+
+			function previewImg(obj) {
+				var img = new Image();
+				img.src = obj.src;
+				//var height = img.height + 50; // 原图片大小
+				//var width = img.width; //原图片大小
+				var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";
+				//弹出层
+				layer.open({
+					type: 1,
+					shade: 0.8,
+					offset: 'auto',
+					area: [500 + 'px',450+'px'],  // area: [width + 'px',height+'px']  //原图显示
+					scrollbar: false,
+					title: false,
+					closeBtn: 1,
+					shadeClose: true,
+					content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+					cancel: function () {
+						//layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+					}
+				});
+			}
 		</script>
 	</body>
 

@@ -202,17 +202,4 @@
     set balance = #{balance}
     where id = #{id}
   </update>
-
-  <update id="updateBrokerage1">
-    update user
-    set brokerage = brokerage+#{brokerage}
-    where id = #{id}
-  </update>
-
-  <update id="updateBrokerage2">
-    update user
-    set brokerage = brokerage+#{brokerage}
-    where id = #{id}
-  </update>
-
 </mapper>

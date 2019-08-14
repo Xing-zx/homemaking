@@ -12,56 +12,67 @@
 		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../../static/js/admin.js"></script>
+		<style>
+			.views:link{
+				color: #007DDB;
+			}
+			.views:hover{
+				color: darkblue;
+			}
+		</style>
 		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 		<!--[if lt IE 9]>
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	    <![endif]-->
 	</head>
-	<style>
-	</style>
 
 	<body>
 		<div class="weadmin-nav">
 			<span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">其他管理</a>
-        <a><cite>轮播图列表</cite></a>
+        <a href="">订单管理</a>
+        <a><cite>套餐卡订单</cite></a>
       </span>
 			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
 				<i class="layui-icon" style="line-height:30px">ဂ</i></a>
 		</div>
 		<div class="weadmin-body">
 			<div class="layui-row">
-				
+				<form class="layui-form layui-col-md12 we-search" onsubmit="return false">
+					<div class="layui-inline">
+						<input type="text" name="username" id="name" placeholder="请输入套餐卡名称" autocomplete="off" class="layui-input" />
+					</div>
+					<div class="layui-inline">
+						<div class="layui-input-inline">
+							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择购买时间">
+						</div>
+					</div>
+					<button class="layui-btn" onclick="loadlist()"><i class="layui-icon">&#xe615;</i></button>
+				</form>
 			</div>
-				<div class="weadmin-block">
-					<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
-					<button class="layui-btn" onclick="WeAdminShow('添加轮播图','./banneradd.html',600,400)"><i class="layui-icon"></i>添加轮播图</button>
-				</div>
+			<div class="weadmin-block">
+				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
+				<button class="layui-btn" style="background-color: #00008B;">导出</button>
+			</div>
 			<table class="layui-table" id="test" lay-filter="test"></table>
 
-
 		</div>
-		<script type="text/html" id="status">
+		<script type="text/html" id="status1">
 			{{#  if(d.status === 1){ }}
-			  <span class="layui-badge layui-bg-green td-status">正常</span>
-			{{#  } else { }}
-			  <span class="layui-badge td-status">禁用</span>
+			  <span>未开始</span>
+			{{#  } else if(d.status === 2){ }}
+			  <span>进行中</span>
+			{{#  } else if(d.status === 3){ }}
+			  <span>已结束</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="barDemo">
-			{{#  if(d.status === 1){ }}
-			<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail" title='启用'>停用</a>
-			<a class='layui-btn layui-btn-xs' style='background-color: darkblue;' lay-event="edit">编辑</a>
+			<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail">查看</a>
 			<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
-			{{#  } else { }}
-			<a class='layui-btn layui-btn-normal layui-btn-xs stops' href='javascript:;' lay-event="detail" title='停用'>启用</a>
-			<a class='layui-btn layui-btn-xs' style='background-color: darkblue;' lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
-			{{#  } }}
 		</script>
 		<script>
+
 			layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider','form'], function(){
 				var laydate = layui.laydate //日期
 						,laypage = layui.laypage //分页
@@ -72,6 +83,7 @@
 						,upload = layui.upload //上传
 						,element = layui.element //元素操作
 						,slider = layui.slider //滑块
+
 
 				$("#deleteall").click(function () {
 					var checkStatus = table.checkStatus('idTest')
@@ -93,7 +105,7 @@
 					}else{
 						$.ajax({
 							type:"post",
-							url:"/banner/delete",
+							url:"/lectureOrder/delete",
 							dataType:"text",
 							data:{"ids":id_str},
 							traditional:true,
@@ -114,6 +126,7 @@
 				})
 
 
+
 				//日期范围
 				laydate.render({
 					elem: '#test6',
@@ -126,64 +139,12 @@
 							,layEvent = obj.event; //获得 lay-event 对应的值
 					var ids=data.id
 					if(layEvent === 'detail'){
-						var id=data.id;
-						var status;
-						var confirmTip;
-						var a=data.status
-						if (a==1) {
-							confirmTip = '确认要停用吗？';
-						} else {
-							confirmTip = '确认要启用吗？';
-						}
-						layer.confirm(confirmTip, function(index) {
-							if(a==1){
-								status=0;
-							}
-							else{
-								status=1;
-							}
-							$.ajax({
-								type:"post",
-								url:"/banner/updateStatus",
-								dataType:"json",
-								data:{"id":id,"status":status},
-								success:function (data) {
-									if (a==1) {
-										//发异步把用户状态进行更改
-										$(obj).attr('title', '停用')
-										$(obj).find('i').html('&#xe62f;');
-										$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-										$(obj).parents("tr").find('.stops').removeClass('layui-btn-warm').html('启用');
-										$(obj).parents("tr").find('.stops').addClass('layui-btn-normal').html('启用');
-										layer.msg('已停用!', {
-											icon: 5,
-											time: 1000
-										});
-										$(".layui-laypage-btn").click();
-									} else {
-										$(obj).attr('title', '启用')
-										$(obj).find('i').html('&#xe601;');
-
-										$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-										$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-normal').html('已启用');
-										$(obj).parents("tr").find('.stops').addClass('layui-btn-warm').html('停用');
-										layer.msg('已启用!', {
-											icon: 6,
-											time: 1000
-										});
-										$(".layui-laypage-btn").click();
-									}
-								},
-								error:function () {
-									alert("error");
-								}
-							})
-						});
+						WeAdminEdit('查看详情', './Mealcardview.html?id=' + data.id,data.id,800,300);
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({
 								type:"post",
-								url:"/banner/delete",
+								url:"/lectureOrder/delete",
 								dataType:"text",
 								data:{"ids":ids},
 								traditional:true,
@@ -201,7 +162,7 @@
 							})
 						});
 					} else if(layEvent === 'edit') {
-						WeAdminEdit('编辑', './banneredit.html?id=' + data.id,400,600);
+
 					}
 				});
 
@@ -216,29 +177,28 @@
 			})
 
 			function loadlist(){
+				var username=$("#name").val();
+				var status=$("#status").val();
+				var startTime=$("#test6").val().substr(0,10);
+				var endTime=$("#test6").val().substr(12,19);
+
 				layui.use('table', function(){
 					var table = layui.table;
 					table.render({
 						elem: '#test'
-						,url:'/banner/list'
+						,url:'/lectureOrder/list1'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,where: {name:username, status: status,startTime:startTime,endTime:endTime}
 						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
-							,{field:'pictureUrl', title: '缩略图',width:150,templet:function (res) {
-									return "<img src='"+res.pictureUrl+"'>"
-								}}
-							,{field:'url',title: '跳转地址'}
-							,{field:'status', title: '状态',templet: '#status',width:80}
+							,{field:'orderNumber', title: '订单编号'}
+							,{field:'packageName',title: '套餐卡名称'}
+							,{field:'userName',title: '购买人'}
+							,{field:'createTime',  title: '购买时间'}
+							,{field:'price',  title: '金额'}
 							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 						]],
-						done:function(res,curr,count){
-							hoverOpenImg();//显示大图
-							$('table tr').on('click',function(){
-								$('table tr').css('background','');
-								$(this).css('background','<%=PropKit.use("config.properties").get("table_color")%>');
-							});
-						},
 						page:true,
 						limit:10,
 						request: {
@@ -248,24 +208,6 @@
 					});
 				});
 			}
-
-			function hoverOpenImg(){
-				var img_show = null; // tips提示
-				$('td img').hover(function(){
-					var kd=$(this).width();
-					kd1=kd*3;          //图片放大倍数
-					kd2=kd*3+30;       //图片放大倍数
-					var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:"+kd1+"px;' />";
-					img_show = layer.tips(img, this,{
-						tips:[2, 'rgba(41,41,41,.5)']
-						,area: [kd2+'px']
-					});
-				},function(){
-					layer.close(img_show);
-				});
-				$('td img').attr('style','max-width:70px;display:block!important;position: relative;');
-			}
-
 		</script>
 	</body>
 

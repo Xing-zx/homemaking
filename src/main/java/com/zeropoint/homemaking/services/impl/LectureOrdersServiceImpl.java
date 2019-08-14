@@ -75,5 +75,20 @@ public class LectureOrdersServiceImpl implements LectureOrdersService {
         return lectureOrdersMapper.selectKey1(id);
     }
 
+    @Override
+    public List<LectureOrders> selectByCondition2(Integer page, Integer rows, String name, Integer status, String endTime, String startTime) {
+        return lectureOrdersMapper.selectByCondition2(page, rows, name, status, endTime, startTime);
+    }
+
+    @Override
+    public int count2(String name, Integer status, String endTime, String startTime) {
+        return lectureOrdersMapper.count2(name, status, endTime, startTime);
+    }
+
+    @Override
+    public LectureOrders selectKey2(Integer id) {
+        return lectureOrdersMapper.selectKey2(id);
+    }
+
 
 }

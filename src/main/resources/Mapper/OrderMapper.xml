@@ -425,15 +425,15 @@
 
   <select id="commsionSelect" resultMap="BaseResultMap">
     select o.id,o.order_number,o.user_name,o.money_total,
-    (select `name` from `user` where id=(select upline from `user` where id=u.id)) as userNameOne,
-    (select upline from `user` where id=u.id) as userIdOne,
+    (select `name` from service_personnel where id=(select upline from service_personnel where id=u.id)) as userNameOne,
+    (select upline from service_personnel where id=u.id) as userIdOne,
     (select proportion from brokerage_setting where `name`="一级分销")*(select money_total from `order` where order_number=o.order_number) as moneyOne,
-    (select `name` from `user` where id=(select upupline from `user` where id=u.id)) as userNameTow,
-    (select upupline from `user` where id=u.id) as userIdTow,
+    (select `name` from service_personnel where id=(select upupline from service_personnel where id=u.id)) as userNameTow,
+    (select upupline from service_personnel where id=u.id) as userIdTow,
     (select proportion from brokerage_setting where `name`="二级分销")*(select money_total from `order` where order_number=o.order_number) as moneyTow,
     o.commsion_status
     from `order` o
-    INNER JOIN `user` u ON o.user_id=u.id
+    INNER JOIN service_personnel u ON o.personnel_id=u.id
     <where>
       o.`status`=6
     </where>
@@ -443,7 +443,7 @@
   <select id="commsionCount" resultType="int">
     select COUNT(1)
     from `order` o
-    INNER JOIN `user` u ON o.user_id=u.id
+    INNER JOIN service_personnel u ON o.personnel_id=u.id
     <where>
       o.`status`=6
     </where>

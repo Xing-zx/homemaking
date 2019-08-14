@@ -44,4 +44,39 @@ public class PackageServiceImpl implements PackageService {
     public int addUserPackage(UserPackage userPackage) {
         return userPackageMapper.insert(userPackage);
     }
+
+    @Override
+    public List<ServicePackage> selectPage1(Integer page, Integer rows) {
+        return servicePackageMapper.selectPage1(page, rows);
+    }
+
+    @Override
+    public int count1() {
+        return servicePackageMapper.count1();
+    }
+
+    @Override
+    public int insert(ServicePackage record) {
+        return servicePackageMapper.insert(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(ServicePackage record) {
+        return servicePackageMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int delete(Integer[] ids) {
+        return servicePackageMapper.delete(ids);
+    }
+
+    @Override
+    public ServicePackage selectByPrimaryKey(Integer id) {
+        return servicePackageMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateStatus(Integer id, Integer status) {
+        return servicePackageMapper.updateStatus(id, status);
+    }
 }

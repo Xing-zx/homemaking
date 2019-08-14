@@ -130,7 +130,7 @@
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        register_time between #{startTime} and #{endTime}
+        create_time between #{startTime} and #{endTime}
       </if>
     </where>
     limit #{page},#{rows}
@@ -148,7 +148,7 @@
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        register_time between #{startTime} and #{endTime}
+        create_time between #{startTime} and #{endTime}
       </if>
     </where>
   </select>

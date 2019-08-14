@@ -16,6 +16,15 @@
     <result column="course_site" jdbcType="VARCHAR" property="courseSite" />
     <result column="active_end" jdbcType="TIMESTAMP" property="activeEnd" />
     <result column="active_start" jdbcType="TIMESTAMP" property="activeStart" />
+    <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="package_id" jdbcType="INTEGER" property="packageId" />
+    <result column="packageName" jdbcType="VARCHAR" property="packageName" />
+
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="use_count" jdbcType="INTEGER" property="useCount" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from lecture_orders
@@ -86,13 +95,14 @@
   </select>
 
   <select id="selectByCondition1" resultMap="BaseResultMap">
-    select l.*,u.name as username,e.name as lecturename
+    select l.*,u.name as username,e.name as lecturename,e.*
     from lecture_orders l
     inner join  lecture e on l.lecture_id=e.id
     inner join user u on u.id=l.user_id
     <where>
+        l.type=4
       <if test="name != null and name != ''">
-        u.name LIKE  '%${name}%'
+        and u.name LIKE  '%${name}%'
       </if>
       <if test="status != null and status != '' ">
         and
@@ -101,7 +111,7 @@
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        l.createTime between #{startTime} and #{endTime}
+        l.create_time between #{startTime} and #{endTime}
       </if>
     </where>
     limit #{page},#{rows}
@@ -112,8 +122,9 @@
     inner join  lecture e on l.lecture_id=e.id
     inner join user u on u.id=l.user_id
     <where>
+      l.type=4
       <if test="name != null and name != ''">
-        u.name LIKE  '%${name}%'
+        and u.name LIKE  '%${name}%'
       </if>
       <if test="status != null and status != '' ">
         and
@@ -122,7 +133,7 @@
       </if>
       <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
         and
-        l.createTime between #{startTime} and #{endTime}
+        l.create_time between #{startTime} and #{endTime}
       </if>
     </where>
   </select>
@@ -136,9 +147,51 @@
   </delete>
 
   <select id="selectKey1" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select l.*,u.name as username,e.name as lecturename,e.active_start,e.active_end,e.course_site,e.amount
+    select l.*,u.name as username,e.name as lecturename,e.*
     from lecture_orders l
     inner join  lecture e on l.lecture_id=e.id
+    inner join user u on u.id=l.user_id
+    where l.id = #{id}
+  </select>
+
+  <select id="selectByCondition2" resultMap="BaseResultMap">
+    select l.*,u.name as username,s.name as packageName,s.*
+    from lecture_orders l
+    inner join  service_package s on l.package_id=s.id
+    inner join user u on u.id=l.user_id
+    <where>
+      l.type=5
+      <if test="name != null and name != ''">
+        and s.name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        l.create_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count2" resultType="int">
+    SELECT  COUNT(1) FROM lecture_orders l
+    inner join  service_package s on l.package_id=s.id
+    inner join user u on u.id=l.user_id
+    <where>
+      l.type=4
+      <if test="name != null and name != ''">
+        and u.name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        l.create_time between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectKey2" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select l.*,u.name as username,s.name as packageName,s.*
+    from lecture_orders l
+    inner join  service_package s on l.package_id=s.id
     inner join user u on u.id=l.user_id
     where l.id = #{id}
   </select>

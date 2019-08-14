@@ -297,4 +297,14 @@ public class PersonnelServiceImpl  implements PersonnelService {
     }
 
 
+    @Override
+    public int updateBrokerage1(Integer id,Double allBrokerage,Double withdrawalBrokerage) {
+        return personnelMapper.updateBrokerage1(id,allBrokerage,withdrawalBrokerage);
+    }
+
+    @Override
+    public int updateBrokerage2(Integer id,Double allBrokerage,Double withdrawalBrokerage) {
+        return personnelMapper.updateBrokerage2(id,allBrokerage,withdrawalBrokerage);
+    }
+
 }

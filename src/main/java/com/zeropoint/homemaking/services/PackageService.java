@@ -3,6 +3,7 @@ package com.zeropoint.homemaking.services;
 import com.zeropoint.homemaking.domain.ServicePackage;
 import com.zeropoint.homemaking.domain.ServicePersonnel;
 import com.zeropoint.homemaking.domain.UserPackage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,5 +45,19 @@ public interface PackageService {
      * @return
      */
     int addUserPackage(UserPackage userPackage);
+
+    List<ServicePackage> selectPage1(Integer page,Integer rows);
+
+    int count1();
+
+    int insert(ServicePackage record);
+
+    int updateByPrimaryKey(ServicePackage record);
+
+    int delete(Integer[] ids);
+
+    ServicePackage selectByPrimaryKey(Integer id);
+
+    int updateStatus(Integer id,Integer status);
 
 }

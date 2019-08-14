@@ -74,8 +74,4 @@ public interface UserService {
     User SelectKey1(Integer id);
 
     int updateBalance1(Integer id,Integer balance);
-
-    int updateBrokerage1(Integer id,Double brokerage);
-
-    int updateBrokerage2(Integer id,Double brokerage);
 }

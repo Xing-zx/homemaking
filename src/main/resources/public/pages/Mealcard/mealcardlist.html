@@ -18,6 +18,8 @@
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	    <![endif]-->
+		<style>
+		</style>
 	</head>
 
 	<body>
@@ -25,7 +27,7 @@
 			<span class="layui-breadcrumb">
 				<a href="">首页</a>
 				<a href="">商品管理</a>
-				<a><cite>讲座信息</cite></a>
+				<a><cite>套餐卡信息</cite></a>
 			</span>
 			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
 			 title="刷新">
@@ -58,22 +60,11 @@
 			</div>
 			<div class="weadmin-block">
 				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
-				<button class="layui-btn" onclick="WeAdminShow('创建讲座','./lectureadd.html')"><i class="layui-icon"></i>创建讲座</button>
+				<button class="layui-btn" onclick="WeAdminShow('添加套餐卡','./mealcardadd.html')"><i class="layui-icon"></i>添加套餐卡</button>
 			</div>
 			<table class="layui-table" id="test" lay-filter="test"></table>
 
 		</div>
-		<script type="text/html" id="status1">
-			{{#  if(d.status === 1){ }}
-			  <span id="type1">未发布</span>
-			{{#  } else if(d.status === 2){ }}
-			  <span id="type2">已发布</span>
-			{{#  } else if(d.status === 3){ }}
-			  <span id="type3">进行中</span>
-			{{#  } else if(d.status === 4){ }}
-			  <span id="type4">已结束</span>
-			{{#  } }}
-		</script>
 		<script type="text/html" id="barDemo">
 			{{#  if(d.status === 1){ }}
 			<a class='layui-btn layui-btn-warm layui-btn-xs stops' href='javascript:;' lay-event="detail" title='未发布'>发布</a>
@@ -115,7 +106,7 @@
 					}else{
 						$.ajax({
 							type:"post",
-							url:"/lecture/delete",
+							url:"/package/delete",
 							dataType:"text",
 							data:{"ids":id_str},
 							traditional:true,
@@ -155,46 +146,51 @@
 						var a=data.status
 						if (a==1) {
 							confirmTip = '确认要发布吗？';
-						} else {
-							confirmTip = '确认要发布吗？';
-						}
-						layer.confirm(confirmTip, function(index) {
-							if(a==1){
-								status=2;
-							}
-							else{
-								status=1;
-							}
-							$.ajax({
-								type:"post",
-								url:"/lecture/updatestatus",
-								dataType:"json",
-								data:{"id":id,"status":status},
-								success:function () {
-									$(obj).find(".stops").hide()
-										layer.msg('已发布!', {
-											icon: 5,
-											time: 1000
-										});
-										$(".layui-laypage-btn").click();
-								},
-								error:function () {
-									alert("error");
+							layer.confirm(confirmTip, function(index) {
+								if(a==1){
+									status=2;
+									$.ajax({
+										type:"post",
+										url:"/package/updateStatus",
+										dataType:"json",
+										data:{"id":id,"status":status},
+										success:function () {
+											$(obj).find(".stops").hide()
+											layer.msg('已发布!', {
+												icon: 6,
+												time: 1000
+											});
+											$(".layui-laypage-btn").click();
+										},
+										error:function () {
+											alert("error");
+										}
+									})
 								}
-							})
-						});
+								else{
+									status=1;
+								}
+							});
+						}else{
+							layer.msg('该内容已发布，不可重复操作!', {
+								icon: 2,
+								time: 1000
+							});
+						}
+
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({
 								type:"post",
-								url:"/lecture/delete",
+								url:"/package/delete",
 								dataType:"text",
 								data:{"ids":ids},
 								traditional:true,
 								success:function (data) {
 									//捉到所有被选中的，发异步进行删除
 									layer.msg('删除成功', {
-										icon: 1
+										icon: 1,
+										time: 1000
 									});
 									obj.del(); //删除对应行（tr）的DOM结构
 									layer.close(index);
@@ -205,7 +201,15 @@
 							})
 						});
 					} else if(layEvent === 'edit') {
-						WeAdminEdit('查看详情', './lectureedit.html?id=' + data.id);
+
+						if(data.status==2){
+							layer.msg('内容已发布，不可编辑！', {
+								icon: 2,
+								time: 1000
+							});
+						}else{
+							WeAdminEdit('查看详情', './mealcardedit.html?id=' + data.id);
+						}
 					}
 				});
 
@@ -225,23 +229,19 @@
 					var table = layui.table;
 					table.render({
 						elem: '#test'
-						,url:'/lecture/list'
+						,url:'/package/list'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 						,where: { name:username, status: status,startTime:startTime,endTime:endTime}
 						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
-							,{field:'orderNumber', title: '缩略图',width:150,templet:function (res) {
-									return "<img src='"+res.pictureUrl+"'>"
+							,{field:'imgSrc', title: '缩略图',width:150,templet:function (res) {
+									return "<img src='"+res.imgSrc+"'  width='285px' height='50px'>"
 								}}
-							,{field:'name',title: '讲座标题'}
-							,{field:'createTime',title: '创建时间'}
-							,{field:'courseSite',  title: '课程地点'}
-							,{field:'amount',  title: '价格',templet:"#workType",width:100}
-							,{field:'count',  title: '报名人数',templet:function (res) {
-									return "<span>"+res.currentCount+" / "+res.maxCount+"</span>"
-								}}
-							,{field:'status', title: '状态',templet: '#status1',width:80}
+							,{field:'name',title: '套餐卡名称'}
+							,{field:'useCount',title: '使用次数'}
+							,{field:'introduce',  title: '介绍',templet:"#workType"}
+							,{field:'price',  title: '价格'}
 							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:180}
 						]],done:function(res,curr,count){
 							hoverOpenImg();//显示大图

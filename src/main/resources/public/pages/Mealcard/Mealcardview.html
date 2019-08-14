@@ -26,28 +26,12 @@
 
 
 			<div class="layui-container">
-				<table width="100%">
-					<thead>
-						<tr>
-							<th width="30%"></th>
-							<th width="30%"></th>
-							<th width="40%"></th>
-						</tr>
-					</thead>
+				<table width="100%" style="text-align: left">
 					<tbody>
 						<tr>
-							<td colspan="3">
-								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
-							</td>
-							<td>
-							</td>
-							<td>
-							</td>
-						</tr>
-						<tr>
-							<td rowspan="6" style="border-right: solid #E2E2E2 0.5px;">
+							<td rowspan="6">
 								<div class="layui-inline">
-									<img id="img" width="70%" >
+									<img id="img" width="380px" height="200px">
 								</div>
 							</td>
 						</tr>
@@ -56,29 +40,32 @@
 							<td colspan="3">
 								<div class="layui-inline">
 									<label class="layui-form-label">
-										讲座名称：
+										讲座名称
 									</label>
 									<div class="layui-form-mid layui-word-aux" id="title"></div>
 								</div>
 							</td>
-							<td>
-							</td>
-							<td>
-							</td>
 						</tr>
 
 						<tr>
 							<td colspan="2">
 								<div class="layui-inline">
 									<label class="layui-form-label">
-										活动时间：
+										活动时间
 									</label>
 									<div class="layui-form-mid layui-word-aux" id="active"></div>
 								</div>
 							</td>
-							<td>
-							</td>
-							<td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										使用次数
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="address"></div>
+								</div>
 							</td>
 						</tr>
 
@@ -86,72 +73,29 @@
 							<td colspan="2">
 								<div class="layui-inline">
 									<label class="layui-form-label">
-										活动地点：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="address"></div>
-								</div>
-							</td>
-							<td>
-							</td>
-							<td>
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										报名时间：
+										报名时间
 									</label>
 									<div class="layui-form-mid layui-word-aux" id="createTime"></div>
 								</div>
 							</td>
-							<td>
-							</td>
-							<td></td>
 						</tr>
 
 						<tr>
 							<td>
 								<div class="layui-inline">
 									<label class="layui-form-label">
-										消费金额：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="amount"></div>
-								</div>
-							</td>
-							<td>
-
-							</td>
-							<td></td>
-						</tr>
-
-						<tr>
-							<td>
-
-							</td>
-							<td></td>
-							<td></td>
-						</tr>
-
-						<tr>
-							<td>
-							</td>
-							<td>
-								<div class="layui-inline">
-									<label class="layui-form-label">
-										购买人：
+										购买人
 									</label>
 									<div class="layui-form-mid layui-word-aux" id="username"></div>
 								</div>
 							</td>
 							<td>
-							</td>
-						</tr>
-						
-						<tr>
-							<td colspan="3">
-								<fieldset class="layui-elem-field layui-field-title" style="margin: 30px 0;"></fieldset>
+								<div class="layui-inline">
+									<label class="layui-form-label">
+										金额
+									</label>
+									<div class="layui-form-mid layui-word-aux" id="amount"></div>
+								</div>
 							</td>
 						</tr>
 						
@@ -173,30 +117,25 @@
 				result = url.substr(url.indexOf("=") + 1);
 				$.ajax({
 					type:"post",
-					url:"/lectureOrder/selectKey",
+					url:"/lectureOrder/selectKey1",
 					dataType:"json",
 					data:{"id":result},
 					success:function (data) {
 
-						var _time=new Date(data.activeStart);
+						var _time=new Date(data.createTime);
 						var year=_time.getFullYear();//2017
 						var month=_time.getMonth()+1;//7
 						var date=_time.getDate();//10
+						var active=year+"-"+month+"-"+date
 
-						var _time1=new Date(data.activeEnd);
-						var year1=_time1.getFullYear();//2017
-						var month1=_time1.getMonth()+1;//7
-						var date1=_time1.getDate();//10
-						var active=year+"-"+month+"-"+date+" - "+year1+"-"+month1+"-"+date1
-
-						console.log(data.pictureUrl)
-						$("#title").html(data.lectureName)
+						console.log(data.imgSrc)
+						$("#title").html(data.packageName)
 						$("#username").html(data.userName)
 						$("#active").html(active)
 						$("#createTime").html(data.createTime)
-						$("#address").html(data.courseSite)
-						$("#amount").html(data.amount)
-						$('#img').attr('src', data.pictureUrl).src;
+						$("#address").html(data.useCount+"   次")
+						$("#amount").html(data.price)
+						$('#img').attr('src', data.imgSrc).src;
 					},
 					error:function () {
 						alert("error");

@@ -17,11 +17,9 @@
 	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-
 	<style>
 		.layui-table-cell{
-			height:100px;
-			line-height: 100px;
+			height:50px;
 		}
 	</style>
 </head>
@@ -233,14 +231,21 @@
 				,id:'idTest'
 				,cols: [[
 					{type:'checkbox',fixed: 'left'}
-					,{field:'pictureUrl', title: '图标',templet:function (res) {
-							return "<img src='"+res.iconUrl+"' class='layui-circle' width='100px' height='100px'>"
+					,{field:'pictureUrl', title: '图标',width:100,templet:function (res) {
+							return "<img src='"+res.iconUrl+"' class='layui-circle' width='50px' height='auto'>"
 						}}
 					,{field:'name',title: '服务名称'}
 					,{field:'url',title: '跳转地址'}
 					,{field:'status', title: '状态',templet: '#status',width:80}
 					,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 				]],
+				done:function(res,curr,count){
+					hoverOpenImg();//显示大图
+					$('table tr').on('click',function(){
+						$('table tr').css('background','');
+						$(this).css('background','<%=PropKit.use("config.properties").get("table_color")%>');
+					});
+				},
 				page:true,
 				limit:10,
 				request: {
@@ -249,6 +254,23 @@
 				},
 			});
 		});
+	}
+
+	function hoverOpenImg(){
+		var img_show = null; // tips提示
+		$('td img').hover(function(){
+			var kd=$(this).width();
+			kd1=kd*3;          //图片放大倍数
+			kd2=kd*3+30;       //图片放大倍数
+			var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:"+kd1+"px;' />";
+			img_show = layer.tips(img, this,{
+				tips:[2, 'rgba(41,41,41,.5)']
+				,area: [kd2+'px']
+			});
+		},function(){
+			layer.close(img_show);
+		});
+		$('td img').attr('style','max-width:70px;display:block!important;position: relative;');
 	}
 </script>
 </body>

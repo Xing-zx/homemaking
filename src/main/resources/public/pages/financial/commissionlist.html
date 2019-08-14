@@ -155,12 +155,12 @@
 									console.log(userIdOne+"-*************"+moneyOne)
 									console.log(userIdTow+"-*************"+moneyTow)
 
-									var obj = JSON.stringify({"id":userIdOne,"brokerage":moneyOne})
-									var objs = JSON.stringify({"id":userIdTow,"brokerage":moneyTow})
+									var obj = JSON.stringify({"id":userIdOne,"allBrokerage":moneyOne,"withdrawalBrokerage":moneyOne})
+									var objs = JSON.stringify({"id":userIdOne,"allBrokerage":moneyOne,"withdrawalBrokerage":moneyOne})
 
 									$.ajax({
 										type:"post",
-										url:"/member/updateBrokerage1",
+										url:"/servicepe/updateBrokerage1",
 										contentType: 'application/json;charset=utf-8',
 										data:obj,
 										success:function () {
@@ -173,7 +173,7 @@
 
 									$.ajax({
 										type:"post",
-										url:"/member/updateBrokerage2",
+										url:"/servicepe/updateBrokerage2",
 										contentType: 'application/json;charset=utf-8',
 										data:objs,
 										success:function () {

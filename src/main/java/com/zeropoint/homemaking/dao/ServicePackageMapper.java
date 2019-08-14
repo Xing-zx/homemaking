@@ -2,6 +2,8 @@ package com.zeropoint.homemaking.dao;
 
 import com.zeropoint.homemaking.domain.ServicePackage;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -38,4 +40,12 @@ public interface ServicePackageMapper {
      * @return
      */
     int updateByPrimaryKey(ServicePackage record);
+
+    List<ServicePackage> selectPage1(@Param("page")Integer page, @Param("rows")Integer rows);
+
+    int count1();
+
+    int delete(@Param("ids")Integer[] ids);
+
+    int updateStatus(Integer id,Integer status);
 }

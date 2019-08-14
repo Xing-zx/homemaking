@@ -9,6 +9,14 @@
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
     <result column="current_count" jdbcType="INTEGER" property="currentCount" />
     <result column="total_count" jdbcType="INTEGER" property="totalCount" />
+
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="use_count" jdbcType="INTEGER" property="useCount" />
+    <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_package
@@ -45,4 +53,20 @@
     select * from user_package
     where user_id=#{userId}
   </select>
+
+  <select id="selectByCondition1" resultType="int" resultMap="BaseResultMap">
+    SELECT s.*,p.*
+    FROM user_package p
+    INNER JOIN service_package s ON s.id=p.package_id
+    <where>
+      p.user_id=#{userId}
+    </where>
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1)
+    FROM user_package p
+    INNER JOIN service_package s ON s.id=p.package_id
+  </select>
+
 </mapper>

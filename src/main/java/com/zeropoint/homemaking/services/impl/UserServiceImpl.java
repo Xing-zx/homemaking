@@ -99,16 +99,4 @@ public class UserServiceImpl implements UserService {
     public int updateBalance1(Integer id, Integer balance) {
         return userMapper.updateBalance1(id,balance);
     }
-
-    @Override
-    public int updateBrokerage1(Integer id, Double brokerage) {
-        return userMapper.updateBrokerage1(id, brokerage);
-    }
-
-    @Override
-    public int updateBrokerage2(Integer id, Double brokerage) {
-        System.out.println(id+"--------------------"+brokerage);
-        return userMapper.updateBrokerage2(id, brokerage);
-    }
-
 }

@@ -68,4 +68,8 @@ public interface ServicePersonnelMapper {
     List<Certificate> selectCertificate(Integer personnelId);
 
     int updateCertificate(Integer id,Integer status);
+
+    int updateBrokerage1(Integer id,@Param("allBrokerage")Double allBrokerage,@Param("withdrawalBrokerage")Double withdrawalBrokerage);
+
+    int updateBrokerage2(Integer id,@Param("allBrokerage")Double allBrokerage,@Param("withdrawalBrokerage")Double withdrawalBrokerage);
 }

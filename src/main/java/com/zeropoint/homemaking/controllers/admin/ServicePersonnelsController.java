@@ -145,5 +145,15 @@ public class ServicePersonnelsController {
     public int updateCertificate(@RequestParam("id") Integer id,@RequestParam("status") Integer status) {
         return personnel.updateCertificate(id,status);
     }
+
+    @RequestMapping("/updateBrokerage1")
+    public int updateBrokerage1(@RequestBody JSONObject json) {
+        return personnel.updateBrokerage1(json.getInteger("id"),json.getDouble("allBrokerage"),json.getDouble("withdrawalBrokerage"));
+    }
+
+    @RequestMapping("/updateBrokerage2")
+    public int updateBrokerage2(@RequestBody JSONObject json) {
+        return personnel.updateBrokerage2(json.getInteger("id"),json.getDouble("allBrokerage"),json.getDouble("withdrawalBrokerage"));
+    }
 }
 

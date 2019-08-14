@@ -41,4 +41,11 @@ public interface LectureOrdersMapper {
     int delete1(@Param("ids")Integer[] ids);
 
     LectureOrders selectKey1(@Param("id")Integer id);
+
+    List<LectureOrders> selectByCondition2(@Param("page")Integer page, @Param("rows")Integer rows, @Param("name")String name, @Param("status")Integer status,
+                                           @Param("endTime")String endTime, @Param("startTime")String startTime);
+
+    int count2(@Param("name")String name,@Param("status")Integer status,@Param("endTime")String endTime,@Param("startTime")String startTime);
+
+    LectureOrders selectKey2(@Param("id")Integer id);
 }

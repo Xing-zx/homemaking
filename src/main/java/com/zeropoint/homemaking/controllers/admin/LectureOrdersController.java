@@ -73,4 +73,36 @@ public class LectureOrdersController {
     public LectureOrders selectKey(@Param("id")Integer id) {
         return lectureOrderService.selectKey(id);
     }
+
+    @RequestMapping("list1")
+    @ResponseBody
+    public Map<String, Object> selectByCondition2(@RequestParam("curr")Integer curr, @RequestParam("limit") Integer limit,
+                                                 @Param("name")String name, @Param("status")Integer status,
+                                                 @Param("endTime")String endTime, @Param("startTime")String startTime) {
+        System.out.println(limit);
+        int page=(curr-1)*limit;
+        System.out.println(page);
+        List<LectureOrders> adminlist=lectureOrderService.selectByCondition2(page,limit,name,status,endTime,startTime);
+
+        int count=lectureOrderService.count2(name,status,endTime,startTime);
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将全部数据的条数作为count传给前台（一共多少条）
+        tableData.put("count", count);
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", adminlist);
+        //返回给前端
+
+        String json=JSONObject.toJSONString(tableData);
+        System.out.println(json);
+        return tableData;
+    }
+
+    @RequestMapping("selectKey1")
+    @ResponseBody
+    public LectureOrders selectKey1(@Param("id")Integer id) {
+        return lectureOrderService.selectKey2(id);
+    }
 }

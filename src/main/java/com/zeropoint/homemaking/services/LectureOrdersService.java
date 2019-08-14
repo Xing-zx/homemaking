@@ -40,4 +40,10 @@ public interface LectureOrdersService {
     int delete1(Integer[] ids);
 
     LectureOrders selectKey1(Integer id);
+
+    List<LectureOrders> selectByCondition2(Integer page,Integer rows,String name,Integer status,String endTime,String startTime);
+
+    int count2(String name,Integer status,String endTime,String startTime);
+
+    LectureOrders selectKey2(Integer id);
 }

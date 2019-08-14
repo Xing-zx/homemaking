@@ -43,4 +43,28 @@
     select id, type, status, name, introduce, price, use_count, img_src
     from service_package
   </select>
+
+  <select id="selectPage1" resultMap="BaseResultMap">
+    select * from service_package
+    limit #{page},#{rows}
+  </select>
+
+  <select id="count1" resultType="int">
+    SELECT  COUNT(1) FROM service_package
+  </select>
+
+  <delete id="delete">
+    delete from service_package
+    where id in
+    <foreach collection="ids" close=")" open="(" separator="," item="item" index="index">
+      #{item}
+    </foreach>
+  </delete>
+
+  <!--修改状态-->
+  <update id="updateStatus" parameterType="java.lang.Integer">
+    update service_package
+    set status = #{status}
+    where id = #{id}
+  </update>
 </mapper>

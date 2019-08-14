@@ -153,36 +153,39 @@
 						var status;
 						var confirmTip;
 						var a=data.status
-						if (a==1) {
-							confirmTip = '确认要发布吗？';
-						} else {
-							confirmTip = '确认要发布吗？';
-						}
-						layer.confirm(confirmTip, function(index) {
-							if(a==1){
-								status=2;
+							if (a==1) {
+								confirmTip = '确认要发布吗？';
+								layer.confirm(confirmTip, function(index) {
+									if(a==1){
+										status=2;
+										$.ajax({
+											type:"post",
+											url:"/lecture/updatestatus",
+											dataType:"json",
+											data:{"id":id,"status":status},
+											success:function () {
+												$(obj).find(".stops").hide()
+												layer.msg('已发布!', {
+													icon: 5,
+													time: 1000
+												});
+												$(".layui-laypage-btn").click();
+											},
+											error:function () {
+												alert("error");
+											}
+										})
+									}
+									else{
+										status=1;
+									}
+								});
+							}else{
+								layer.msg('该内容已发布，不可重复操作!', {
+									icon: 2,
+									time: 1000
+								});
 							}
-							else{
-								status=1;
-							}
-							$.ajax({
-								type:"post",
-								url:"/lecture/updatestatus",
-								dataType:"json",
-								data:{"id":id,"status":status},
-								success:function () {
-									$(obj).find(".stops").hide()
-										layer.msg('已发布!', {
-											icon: 5,
-											time: 1000
-										});
-										$(".layui-laypage-btn").click();
-								},
-								error:function () {
-									alert("error");
-								}
-							})
-						});
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({

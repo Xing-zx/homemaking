@@ -55,7 +55,7 @@
 		{
 			"id": 11,
 			"name": "商品管理",
-			"icon": "&#59148;",
+			"icon": "&#xe698;",
 			"url": "./pages/article/lecturelist.html",
 			"children": [{
 				"id": 12,
@@ -90,6 +90,11 @@
 				"name": "讲座订单",
 				"icon": "",
 				"url": "./pages/order/lecturelist.html"
+			},{
+				"id": 39,
+				"name": "套餐卡预约",
+				"icon": "",
+				"url": "./pages/order/makelist.html"
 			},{
 				"id": 38,
 				"name": "套餐卡订单",
@@ -143,7 +148,7 @@
 		{
 			"id": 26,
 			"name": "其他管理",
-			"icon": "&#59051;",
+			"icon": "&#xe6ae;",
 			"url": "",
 			"children": [{
 				"id": 27,

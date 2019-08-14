@@ -158,36 +158,41 @@
 						var state;
 						var confirmTip;
 						var a=data.state
+
 						if (a==1) {
 							confirmTip = '确认要发布吗？';
-						} else {
-							confirmTip = '确认要发布吗？';
-						}
-						layer.confirm(confirmTip, function(index) {
-							if(a==1){
-								state=2;
-							}
-							else{
-								state=1;
-							}
-							$.ajax({
-								type:"post",
-								url:"/article/updatestate",
-								dataType:"json",
-								data:{"id":id,"state":state},
-								success:function (data) {
-									$(obj).find(".stops").hide()
-									layer.msg('已发布!', {
-										icon: 6,
-										time: 1000
-									});
-									$(".layui-laypage-btn").click();
-								},
-								error:function () {
-									alert("error");
+							layer.confirm(confirmTip, function(index) {
+								if(a==1){
+									status=2;
+									$.ajax({
+										type:"post",
+										url:"/article/updatestate",
+										dataType:"json",
+										data:{"id":id,"state":state},
+										success:function (data) {
+											$(obj).find(".stops").hide()
+											layer.msg('已发布!', {
+												icon: 6,
+												time: 1000
+											});
+											$(".layui-laypage-btn").click();
+										},
+										error:function () {
+											alert("error");
+										}
+									})
 								}
-							})
-						});
+								else{
+									status=1;
+								}
+							});
+						}else{
+							layer.msg('该内容已发布，不可重复操作!', {
+								icon: 2,
+								time: 1000
+							});
+						}
+
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({

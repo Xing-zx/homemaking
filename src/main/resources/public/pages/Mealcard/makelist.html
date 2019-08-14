@@ -12,14 +12,7 @@
 		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../../static/js/admin.js"></script>
-		<style>
-			.views:link{
-				color: #007DDB;
-			}
-			.views:hover{
-				color: darkblue;
-			}
-		</style>
+
 		<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 		<!--[if lt IE 9]>
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -30,49 +23,53 @@
 	<body>
 		<div class="weadmin-nav">
 			<span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a href="">订单管理</a>
-        <a><cite>讲座订单列表</cite></a>
-      </span>
-			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+				<a href="">首页</a>
+				<a href="">订单管理</a>
+				<a><cite>套餐卡预约</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-sm" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);"
+			 title="刷新">
 				<i class="layui-icon" style="line-height:30px">ဂ</i></a>
 		</div>
 		<div class="weadmin-body">
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search" onsubmit="return false">
 					<div class="layui-inline">
-						<input type="text" name="username" id="name" placeholder="请输入讲座标题" autocomplete="off" class="layui-input" />
+						<input type="text" name="username" id="username" placeholder="请输入预约人姓名" autocomplete="off" class="layui-input" />
 					</div>
 					<div class="layui-input-inline">
-						<select name="cateid" id="status">
-							<option value="0">请选择状态</option>
-							<option value="1">未开始</option>
-							<option value="2">进行中</option>
-							<option value="3">已结束</option>
+						<select name="type" id="type">
+							<option value="0">请选择服务</option>
+							<option value="1">月嫂</option>
+							<option value="2">保姆</option>
 						</select>
 					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
-							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择报名时间">
+							<input name="time" type="text"  autocomplete="off" class="layui-input" id="test6" placeholder="请选择预约时间">
 						</div>
 					</div>
 					<button class="layui-btn" onclick="loadlist()"><i class="layui-icon">&#xe615;</i></button>
 				</form>
 			</div>
 			<div class="weadmin-block">
-				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
-				<button class="layui-btn" style="background-color: #00008B;">导出</button>
+				<button class="layui-btn layui-btn-danger" id="deleteall"><i class="layui-icon"></i>批量删除</button>
 			</div>
 			<table class="layui-table" id="test" lay-filter="test"></table>
-
 		</div>
-		<script type="text/html" id="status1">
+
+		<script type="text/html" id="status">
 			{{#  if(d.status === 1){ }}
-			  <span>未开始</span>
-			{{#  } else if(d.status === 2){ }}
-			  <span>进行中</span>
-			{{#  } else if(d.status === 3){ }}
-			  <span>已结束</span>
+			  <span class="layui-badge layui-bg-gray td-status">待签约</span>
+            {{#  } else if(d.status === 2 ){ }}
+			  <span class="layui-badge td-status">待服务</span>
+			{{#  } }}
+		</script>
+		<script type="text/html" id="workType">
+			{{#  if(d.type === 1){ }}
+			  <span>月嫂</span>
+			{{#  } else{ }}
+			  <span>保姆</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="barDemo">
@@ -80,17 +77,14 @@
 			<a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
 		</script>
 		<script>
-
-			layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider','form'], function(){
-				var laydate = layui.laydate //日期
-						,laypage = layui.laypage //分页
-						,layer = layui.layer //弹层
-						,form=layui.form
-						,table = layui.table //表格
-						,carousel = layui.carousel //轮播
-						,upload = layui.upload //上传
-						,element = layui.element //元素操作
-						,slider = layui.slider //滑块
+			layui.use(['form','layer','table','layedit','laydate','rate'], function () {
+				$ = layui.jquery;
+				var form = layui.form;
+				var layer = layui.layer;
+				var layedit = layui.layedit;
+				var laydate=layui.laydate;
+				var rate=layui.rate;
+				var table = layui.table //表格
 
 
 				$("#deleteall").click(function () {
@@ -113,7 +107,7 @@
 					}else{
 						$.ajax({
 							type:"post",
-							url:"/lectureOrder/delete",
+							url:"/order/delete",
 							dataType:"text",
 							data:{"ids":id_str},
 							traditional:true,
@@ -132,9 +126,6 @@
 						})
 					}
 				})
-
-
-
 				//日期范围
 				laydate.render({
 					elem: '#test6',
@@ -147,12 +138,12 @@
 							,layEvent = obj.event; //获得 lay-event 对应的值
 					var ids=data.id
 					if(layEvent === 'detail'){
-						WeAdminEdit('查看详情', './lectureview.html?id=' + data.id,data.id,900,420);
+							WeAdminEdit('查看详情', './makeadd.html?id=' + data.id);
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({
 								type:"post",
-								url:"/lectureOrder/delete",
+								url:"/order/delete",
 								dataType:"text",
 								data:{"ids":ids},
 								traditional:true,
@@ -174,19 +165,15 @@
 					}
 				});
 
-				table.on('checkbox(test)', function(obj){
-					console.log(obj)
-				});
 			});
-
 
 			$(function () {
 				loadlist()
 			})
 
 			function loadlist(){
-				var username=$("#name").val();
-				var status=$("#status").val();
+				var username=$("#username").val();
+				var type=$("#type").val();
 				var startTime=$("#test6").val().substr(0,10);
 				var endTime=$("#test6").val().substr(12,19);
 
@@ -194,18 +181,22 @@
 					var table = layui.table;
 					table.render({
 						elem: '#test'
-						,url:'/lectureOrder/list'
+						,url:'/order/list'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,where: {name:username, status: status,startTime:startTime,endTime:endTime}
+						,where: {name:username, type: type,startTime:startTime,endTime:endTime}
 						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
-							,{field:'orderNumber', title: '订单编号'}
-							,{field:'userName',title: '姓名'}
-							,{field:'lectureName',title: '讲座名称'}
-							,{field:'createTime',  title: '报名时间'}
-							,{field:'amount',  title: '金额'}
-							,{field:'status', title: '状态',templet: '#status1',width:80}
+							,{field:'orderNumber', title: '订单编号',width:220}
+							,{field:'userName',title: '预约人'}
+							,{field:'userPhone',title: '手机号'}
+							,{field:'requireAge',  title: '要求年龄'}
+							,{field:'type',  title: '服务类型',templet:"#workType",width:100}
+							,{field:'city',  title: '服务地址',templet:function (res) {
+									return '<span>'+res.province+res.city+res.county+res.street+res.detail+'</span>'
+								}}
+							,{field:'appiontDate',  title: '预约时间',width:120}
+							,{field:'status', title: '状态',templet: '#status',width:80}
 							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:160}
 						]],
 						page:true,

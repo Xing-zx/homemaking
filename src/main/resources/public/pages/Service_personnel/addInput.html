@@ -131,7 +131,8 @@
 					$(".numText").html(key1);
 
 				}
-				$("body").on("click", ".deleteEduBg", function(e) { //user click on remove text  
+				$("body").on("click", ".deleteEduBg", function(e) { //user click on remove text
+					alert($(".deleteEduBg").val())
 					if (key1 > 1) {
 						$(this).parent('div').remove(); //remove text box  
 						key1--; //decrement textbox  

@@ -61,4 +61,13 @@ public interface OrderMapper {
     int commsionCount();
 
     int updatecomm(Integer id,Integer commsionStatus);
+
+    List<Order> selectOrder3(@Param("page")Integer page, @Param("rows")Integer rows,
+                             @Param("name")String name,@Param("endTime")String endTime, @Param("startTime")String startTime);
+
+    int countOrder3(@Param("name")String name,@Param("endTime")String endTime,@Param("startTime")String startTime);
+
+    List<ServicePersonnel> serviceSelect2();
+
+    int update4(Integer id,String assignIds);
 }

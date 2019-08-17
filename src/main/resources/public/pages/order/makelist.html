@@ -42,6 +42,7 @@
 							<option value="0">请选择服务</option>
 							<option value="1">月嫂</option>
 							<option value="2">保姆</option>
+							<option value="6">育儿嫂</option>
 						</select>
 					</div>
 					<div class="layui-inline">
@@ -68,8 +69,12 @@
 		<script type="text/html" id="workType">
 			{{#  if(d.type === 1){ }}
 			  <span>月嫂</span>
-			{{#  } else{ }}
+			{{#  } else if(d.type === 2){ }}
 			  <span>保姆</span>
+			{{#  } else if(d.type === 3){ }}
+			  <span>钟点工</span>
+			{{#  } else if(d.type === 6){ }}
+			  <span>育儿嫂</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="barDemo">
@@ -138,7 +143,12 @@
 							,layEvent = obj.event; //获得 lay-event 对应的值
 					var ids=data.id
 					if(layEvent === 'detail'){
+						if(data.type!=5){
+							console.log("不是套餐卡")
 							WeAdminEdit('查看详情', './makeadd.html?id=' + data.id);
+						}else if(data.type==5){
+							WeAdminEdit('查看详情', './makeadd1.html?id=' + data.id);
+						}
 					} else if(layEvent === 'del'){
 						layer.confirm('真的删除行么', function(index){
 							$.ajax({

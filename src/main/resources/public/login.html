@@ -62,6 +62,8 @@
                             layer.msg(data.msg, {
                                 time: 1000
                             }, function() {
+                                var name=$("#name").val()
+                                sessionStorage.setItem("name",name);
                                 window.location.href="/index.html?ran=" + Math.random();
                             });
                         }else if(data.code==0){

@@ -29,37 +29,45 @@
 				</fieldset>
 
 				<div class="layui-form-item">
-					<label class="layui-form-label">套餐卡名称</label>
-					<div class="layui-input-inline">
-						<input type="text" id="name" name="name" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">使用次数</label>
-					<div class="layui-input-inline">
-						<input type="text" id="useCount" name="useCount" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">金额</label>
-					<div class="layui-input-inline">
-						<input type="text" id="price" name="price" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">介绍</label>
-					<div class="layui-input-inline">
-						<textarea class="layui-textarea" id="introduce" style="width: 500px"></textarea>
+					<div class="layui-upload" style="margin-left: 20px;">
+						<button type="button" class="layui-btn" id="test1" style="margin-bottom: 170px;">上传图片</button>
+						<img class="layui-upload-img" id="demo1" width="400px" height="225px">
+						<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
+						<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
-					<div class="layui-upload" style="margin-left: 20px;">
-						<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传图片</button>
-						<img class="layui-upload-img" id="demo1" width="400px" height="225px">
-						<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
+					<label class="layui-form-label">套餐卡名称</label>
+					<div class="layui-input-inline">
+						<input type="text" id="name" name="name" autocomplete="off" class="layui-input">
 						<input type="hidden" id="id">
-						<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
+					</div>
+				</div>
+
+
+				<div class="layui-form-item layui-form-text">
+					<div class="layui-input-block">
+						<button class="layui-btn" id="add"><i class="layui-icon"></i>添加规格</button>
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<div class="layui-input-block">
+                        <table class="layui-table" id="test" lay-filter="test"></table>
+					</div>
+				</div>
+
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">描述</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入内容" id="introduce" name="introduce" class="layui-textarea"></textarea>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">详情</label>
+					<div class="layui-input-block">
+						<textarea class="layui-textarea" id="LAY_demo1"></textarea>
 					</div>
 				</div>
 
@@ -68,10 +76,14 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">
 					</label>
-					<button class="layui-btn" onclick="add()">提交</button>
+					<button class="layui-btn site-demo-layedit" data-type="content" id="save">保存</button>
 				</div>
 			</form>
 		</div>
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" title="删除" lay-event="del" href="javascript:;">删除 </a>
+        </script>
 		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 		<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../../static/js/admin.js"></script>
@@ -85,63 +97,165 @@
 				var rate=layui.rate;
 				var table = layui.table //表格
 
+                //监听行工具事件
+                table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
+                        ,layEvent = obj.event; //获得 lay-event 对应的值
+                    var ids=data.id
 
 
-				$(function () {
-					var result;
-					var url=window.location.search; //获取url中"?"符后的字串
-					result = url.substr(url.indexOf("=") + 1);
-					$.ajax({
-						type:"post",
-						url:"/package/selectKey",
-						dataType:"json",
-						data:{"id":result},
-						success:function (data) {
-							$("#id").val(data.id);
-							$("#name").val(data.name)
-							$("#useCount").val(data.useCount)
-							$("#introduce").val(data.introduce)
-							$("#demo1").attr('src', data.imgSrc).src;
-							$("#img").val(data.imgSrc)
-							$("#price").val(data.price)
-						},
-						error:function () {
-							alert("error");
-						}
-					})
-				})
+                    if(layEvent === 'detail'){
+
+                    } else if(layEvent === 'del'){
+                        layer.confirm('真的删除此规格么', function(index){
+                            $.ajax({
+                                type:"post",
+                                url:"/package/delete",
+                                dataType:"text",
+                                data:{"ids":ids},
+                                traditional:true,
+                                success:function (data) {
+                                    //捉到所有被选中的，发异步进行删除
+                                    layer.msg('删除成功', {
+                                        icon: 1,
+                                        time: 1000
+                                    });
+                                    obj.del(); //删除对应行（tr）的DOM结构
+                                    layer.close(index);
+                                },
+                                error:function () {
+                                    alert("error");
+                                }
+                            })
+                        });
+                    } else if(layEvent === 'edit') {
+                    }
+                });
+
+
+                layedit.set({
+                    uploadImage: {
+                        url: '/ar/uploadFile1' //接口url
+                        ,type: 'post' //默认post
+                        ,headers: 'http:\\localhost:',
+                        elem:'/upload/image/'
+                    }
+                });
+
+                $(function () {
+                    $("#add").click(function () {
+                        var result;
+                        var url=window.location.search; //获取url中"?"符后的字串
+                        result = url.substr(url.indexOf("=") + 1);
+                        WeAdminEdit('添加规格', './specificationsadd.html?id=' + result,result,440,300)
+                    })
+                })
+
+                $(function () {
+
+
+                    var result;
+                    var url=window.location.search; //获取url中"?"符后的字串
+                    result = url.substr(url.indexOf("=") + 1);
+                    console.log(result)
+                    table.render({
+                        elem: '#test'
+                        ,url:'/package/list1'
+                        ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                        ,where: {type:parseInt(result)}
+                        ,cols: [[
+                            {field:'specifications', title: '规格'}
+                            ,{field:'useCount',title: '使用次数'}
+                            ,{field:'price',  title: '价格'}
+                            ,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:180}
+                        ]],
+                        page:false
+                    });
+                    $.ajax({
+                        type:"post",
+                        url:"/package/selectKey",
+                        dataType:"json",
+                        data:{"id":result},
+                        success:function (data) {
+                            $("#id").val(data.id);
+                            $("#name").val(data.name)
+                            $("#introduce").val(data.introduce)
+                            $("#demo1").attr('src', data.imgSrc).src;
+                            $("#img").val(data.imgSrc)
+                            layedit.setContent(index,data.details);
+
+                        },
+                        error:function () {
+                            alert("error");
+                        }
+                    })
+                })
+
+                //构建一个默认的编辑器
+                var index = layedit.build('LAY_demo1');
+
+                //编辑器外部操作
+                var active = {
+                    content: function() {
+						var id=$("#id").val();
+						var name=$("#name").val();
+						var img=$("#img").val();
+						var introduce=$("#introduce").val();
+						var details=layedit.getContent(index)
+						var type=-1;
+
+						var obj = JSON.stringify({"id":id,"name":name,"details":details,"types":type,"introduce":introduce,"imgsrc":img})
+
+						$.ajax({
+							type:"post",
+							url:"/package/update",
+							data:obj,
+							contentType: 'application/json;charset=utf-8',
+							success:function () {
+								$("#tijiao").addClass("layui-btn-disabled");
+								layer.msg("修改成功", {
+									icon: 6,
+									time: 1000
+								}, function() {
+									// 获得frame索引
+									var index = parent.layer.getFrameIndex(window.name);
+									//关闭当前frame
+									parent.layer.close(index);
+									window.parent.location.reload();
+								});
+							}
+						});
+                    }
+                }
+
+                $('.site-demo-layedit').on('click', function() {
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+
+                //自定义工具栏
+                layedit.build('LAY_demo2', {
+                    tool: ['strong' //加粗
+                        ,'italic' //斜体
+                        ,'underline' //下划线
+                        ,'del' //删除线
+
+                        ,'|' //分割线
+
+                        ,'left' //左对齐
+                        ,'center' //居中对齐
+                        ,'right' //右对齐
+                        ,'link' //超链接
+                        ,'unlink' //清除链接
+                        ,'face' //表情
+                        ,'image' //插入图片
+                        ,'help' //帮助
+                    ],
+                    height: 100
+                })
+
 			});
 
-			function add(){
-				var id=$("#id").val();
-				var name=$("#name").val();
-				var price=$("#price").val();
-				var img=$("#img").val();
-				var introduce=$("#introduce").val();
-				var useCount=$("#useCount").val();
-
-				var obj = JSON.stringify({"id":id,"name":name,"price":price,"imgsrc":img,"introduce":introduce,"usecount":useCount})
-
-				$.ajax({
-					type:"post",
-					url:"/package/update",
-					data:obj,
-					contentType: 'application/json;charset=utf-8',
-					success:function () {
-						$("#tijiao").addClass("layui-btn-disabled");
-						layer.msg("修改成功", {
-							icon: 6,
-							time: 1000
-						}, function() {
-							// 获得frame索引
-							var index = parent.layer.getFrameIndex(window.name);
-							//关闭当前frame
-							parent.layer.close(index);
-							window.parent.location.reload();
-						});
-					}
-				});
-			}
 			layui.use('upload', function() {
 				var $ = layui.jquery,
 						upload = layui.upload;
@@ -175,6 +289,7 @@
 					}
 				});
 			});
+
 		</script>
 	</body>
 

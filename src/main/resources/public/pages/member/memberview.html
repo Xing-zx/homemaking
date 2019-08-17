@@ -209,10 +209,10 @@
 							,{field:'imgSrc', title: '缩略图',width:150,templet:function (res) {
 									return "<img src='"+res.imgSrc+"' class=\"layui-upload-img\" onclick=\"previewImg(this)\">"
 								}}
-							,{field:'name',title: '套餐卡名称',width:120}
+							,{field:'specifications',title: '套餐卡名称',width:120}
 							,{field:'expireTime',  title: '有效期'}
 							,{field:'count',  title: '使用次数',width:120,templet:function (res) {
-									return "<span>"+res.currentCount+"  /  "+res.useCount+"</span>";
+									return "<span>"+res.currentCount+"  /  "+res.totalCount+"</span>";
 							}}
 						]]
 					});

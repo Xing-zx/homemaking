@@ -17,6 +17,7 @@
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="use_count" jdbcType="INTEGER" property="useCount" />
     <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_package

@@ -125,96 +125,15 @@
 							</tr>
 
 							<tr>
-								<td colspan="3">
-									<table class="layui-table" id="test"></table>
+								<td colspan="3" id="ayi">
+
 								</td>
 							</tr>
 
 
 							<tr>
-								<td colspan="3">
-									<fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"></fieldset>
-								</td>
-							</tr>
+								<td colspan="3" id="yi">
 
-
-							<tr>
-								<td colspan="2">
-									<div class="layui-form-item">
-										<div class="layui-upload" style="margin-left: 20px;">
-											<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传合同</button>
-											<img class="layui-upload-img" id="demo1" width="100px" height="100px">
-											<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
-											<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
-										</div>
-									</div>
-								</td>
-
-								<td>
-								</td>
-							</tr>
-
-							<tr>
-								<td id="dinjin">
-
-								</td>
-							</tr>
-
-							<tr>
-								<td>
-									<div class="layui-form-item">
-										<label class="layui-form-label">预付款：</label>
-										<div class="layui-input-inline">
-											<input type="text" id="moneyAdvance" name="title" autocomplete="off" class="layui-input">
-										</div>
-									</div>
-								</td>
-
-								<td>
-									<div class="layui-form-item">
-										<label class="layui-form-label">尾款：</label>
-										<div class="layui-input-inline">
-											<input type="text" id="moneyFinal" name="title" autocomplete="off" class="layui-input">
-										</div>
-									</div>
-								</td>
-							</tr>
-
-							<tr>
-								<td>
-									<div class="layui-form-item">
-										<label class="layui-form-label">员工工资：</label>
-										<div class="layui-input-inline">
-											<input type="text" id="moneyActual" name="title" autocomplete="off" class="layui-input">
-										</div>
-									</div>
-								</td>
-
-								<td>
-
-									<input type="hidden" id="maxage"/>
-
-									<input type="hidden" id="minage"/>
-
-									<input type="hidden" id="types">
-								</td>
-							</tr>
-
-							<tr>
-								<td>
-									<div class="layui-form-item">
-										<label class="layui-form-label">服务时间：</label>
-										<div class="layui-input-inline">
-											<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择服务时间">
-										</div>
-									</div>
-								</td>
-							</tr>
-
-
-							<tr>
-								<td colspan="3">
-									<fieldset class="layui-elem-field layui-field-title" style="margin: 70px 0 40px 0;"></fieldset>
 								</td>
 							</tr>
 
@@ -302,12 +221,8 @@
 
 				$(function () {
 					$("#fenpei").click(function () {
-						var total=$("#total").val();
-						var img=$("#img").val();
-						var status=2;
+
 						var id=$("#id").val();
-						var startTime=$("#test6").val().substr(0,10);
-						var endTime=$("#test6").val().substr(12,19);
 						var checkStatus = table.checkStatus('idTest')
 								,data = checkStatus.data;
 						var id_str="";
@@ -320,32 +235,13 @@
 						}
 						console.log(parseInt(id_str))
 
-						var worktype=$("#types").val()
-						if(worktype=="2"){
-							var  moneyAdvance=$("#moneyAdvance").val()
-							var moneyFinal=$("#moneyFinal").val()
-							var	moneyActual=$("#moneyActual").val()
-							var total=0+parseInt(moneyAdvance)+parseInt(moneyFinal);
-
-						}else if(worktype=="1"){
-							var moneyBargin=$("#moneyBargin").val()
-							var  moneyAdvance=$("#moneyAdvance").val()
-							var moneyFinal=$("#moneyFinal").val()
-							var	moneyActual=$("#moneyActual").val()
-							var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
-						}
-
-						console.log(total)
 						$.ajax({
 							type:"post",
-							url:"/order/update3",
+							url:"/order/update4",
 							dataType:"json",
-							data:{"id":parseInt(id),"hetongImgsrc":img,"moneyTotal":total,
-								"status":status,"startTime":startTime,"endTime":endTime,
-								"assignIds":id_str.toString(),"moneyBargin":moneyBargin,
-							"moneyAdvance":moneyAdvance,"moneyFinal":moneyFinal,"moneyActual":moneyActual},
+							data:{"id":parseInt(id),"assignIds":id_str.toString()},
 							success:function () {
-								layer.msg("签约成功", {
+								layer.msg("分配阿姨成功", {
 									icon: 6,
 									time: 1000
 								}, function() {
@@ -391,16 +287,6 @@
 
 
 
-							var age=data.requireAge;
-							var splitArray = new Array();
-							splitArray=age.split("~");
-							for(var i=0; i < splitArray.length; i++){
-								splitArray[i]
-							}
-							$("#maxage").val(splitArray[1])
-							$("#minage").val(splitArray[0])
-
-
 
 							if(data.type=="月嫂"){
 								$("#types").val(1)
@@ -436,55 +322,57 @@
 									$("#requirement").append("<span class='layui-btn layui-btn-normal layui-btn-xs'>"+splitArray[i] +"</span>")
 								}
 							}
-
-								var maxage=$("#maxage").val()
-								var minage=$("#minage").val()
-								var type=$("#types").val()
-								var status=2;
+								if(data.status==1) {
+									$("#ayi").html("<table class=\"layui-table\" id=\"test\"></table>")
+									$("#yi").html("<fieldset class=\"layui-elem-field layui-field-title\" style=\"margin: 70px 0 40px 0;\"></fieldset>")
+									var status = 2;
 									table.render({
 										elem: '#test'
-										,url:'/order/servicelist'
-										,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-										,where: {status:status,maxage:parseInt(maxage),minage:parseInt(minage),workType:parseInt(type)}
-										,id:'idTest'
-										,cols: [[
-											{type:'checkbox',fixed: 'left'}
-											,{field:'name', title: '阿姨姓名',width:220}
-											,{field:'age',title: '年龄'}
-											,{field:'workType',title: '职位',templet:"#workType"}
-											,{field:'workCity',  title: '住址'}
+										,
+										url: '/order/servicelist1'
+										,
+										cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+										,
+										where: {
+											status: status
+										}
+										,
+										id: 'idTest'
+										,
+										cols: [[
+											{type: 'checkbox', fixed: 'left'}
+											, {field: 'name', title: '阿姨姓名', width: 220}
+											, {field: 'age', title: '年龄'}
+											, {field: 'workType', title: '职位', templet: "#workType"}
+											, {field: 'workCity', title: '住址'}
 										]],
-										page:false,
-										limit:10,
+										page: false,
+										limit: 10,
 										request: {
 											pageName: 'curr', //页码的参数名称，默认：page
 											limitName: 'limit'//每页数据量的参数名，默认：limit
-										},done: function(res, curr, count){
-											//如果是异步请求数据方式，res即为你接口返回的信息。
-											//如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-											console.log(res);
-											//得到当前页码
-											console.log(curr);
-											//得到数据总量
-											console.log(count);
-
-											console.log("data-----"+JSON.stringify(table.cache.idTest));
-
-											if(JSON.stringify(table.cache.idTest)=="[]" || JSON.stringify(table.cache.idTest)==null){
-												console.log("空")
-												var maxages=100
-												var minages=0
-												table.reload('idTest', {
-													url: '/order/servicelist'
-													,where: {status:status,maxage:parseInt(maxages),minage:parseInt(minages),workType:parseInt(type)} //设定异步数据接口的额外参数
-													//,height: 300
-												});
-											}
-											else{
-												console.log("有数据")
-											}
 										}
 									});
+								}else if(data.status==3 || data.status==4 || data.status==5 || data.status==6){
+									$("#ayi").html()
+									$("#yi").html("<fieldset class=\"layui-elem-field layui-field-title\" style=\"margin: 70px 0 40px 0;\"></fieldset>")
+									var id=parseInt(data.personnelId);
+									$.ajax({
+										type:"post",
+										url:"/order/personnelView",
+										dataType:"json",
+										data:{"id":id},
+										success:function (res) {
+											$("#personnelName").html(res.realName)
+											$("#level").html(res.level)
+											$("#storesId").html(res.storesName)
+										},
+										error:function () {
+											alert("error");
+										}
+									})
+								}
+
 
 								},error:function () {
 									alert("error");

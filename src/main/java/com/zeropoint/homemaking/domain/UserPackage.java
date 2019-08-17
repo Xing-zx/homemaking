@@ -36,6 +36,16 @@ public class UserPackage {
 
     private String imgSrc;
 
+    private String specifications;
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
+    }
+
     public Integer getType() {
         return type;
     }

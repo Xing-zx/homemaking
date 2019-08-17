@@ -92,9 +92,9 @@
 				"url": "./pages/order/lecturelist.html"
 			},{
 				"id": 39,
-				"name": "套餐卡预约",
+				"name": "套餐服务订单",
 				"icon": "",
-				"url": "./pages/order/makelist.html"
+				"url": "./pages/Mealcard/makelist.html"
 			},{
 				"id": 38,
 				"name": "套餐卡订单",

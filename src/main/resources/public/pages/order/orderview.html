@@ -205,12 +205,6 @@
 								</div>
 							</td>
 							<td>
-								<div class="layui-inline">
-									<label for="username" class="layui-form-label">
-										级别：
-									</label>
-									<div class="layui-form-mid layui-word-aux" id="level"></div>
-								</div>
 							</td>
 							<td>
 							</td>
@@ -293,6 +287,12 @@
 							if(data.type==2){
 								data.type="保姆"
 							}
+							if(data.type==3){
+								data.type="钟点工"
+							}
+							if(data.type==6){
+								data.type="育儿嫂"
+							}
 							$("#type").html(data.type)
 							$("#userPhone").html(data.userPhone)
 							$("#createTime").html(data.createTime)
@@ -346,7 +346,7 @@
 									dataType:"json",
 									data:{"id":id},
 									success:function (res) {
-										$("#personnelName").html(res.name)
+										$("#personnelName").html(res.realName)
 										$("#level").html(res.level)
 										$("#storesId").html(res.storesName)
 									},

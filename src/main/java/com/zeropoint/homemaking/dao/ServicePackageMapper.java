@@ -41,11 +41,13 @@ public interface ServicePackageMapper {
      */
     int updateByPrimaryKey(ServicePackage record);
 
-    List<ServicePackage> selectPage1(@Param("page")Integer page, @Param("rows")Integer rows);
+    List<ServicePackage> selectPage1(@Param("page")Integer page, @Param("rows")Integer rows,String name,Integer status);
 
-    int count1();
+    int count1(String name,Integer status);
 
     int delete(@Param("ids")Integer[] ids);
 
     int updateStatus(Integer id,Integer status);
+
+    List<ServicePackage> selectPage2(@Param("type") Integer type);
 }

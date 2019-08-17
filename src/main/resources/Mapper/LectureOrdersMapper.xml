@@ -21,6 +21,7 @@
     <result column="package_id" jdbcType="INTEGER" property="packageId" />
     <result column="packageName" jdbcType="VARCHAR" property="packageName" />
 
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
     <result column="introduce" jdbcType="VARCHAR" property="introduce" />
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
@@ -155,7 +156,7 @@
   </select>
 
   <select id="selectByCondition2" resultMap="BaseResultMap">
-    select l.*,u.name as username,s.name as packageName,s.*
+    select l.*,u.name as username,s.*
     from lecture_orders l
     inner join  service_package s on l.package_id=s.id
     inner join user u on u.id=l.user_id
@@ -177,7 +178,7 @@
     inner join  service_package s on l.package_id=s.id
     inner join user u on u.id=l.user_id
     <where>
-      l.type=4
+      l.type=5
       <if test="name != null and name != ''">
         and u.name LIKE  '%${name}%'
       </if>

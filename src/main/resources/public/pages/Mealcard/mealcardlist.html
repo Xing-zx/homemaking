@@ -37,21 +37,14 @@
 			<div class="layui-row">
 				<form class="layui-form layui-col-md12 we-search" onsubmit="return false">
 					<div class="layui-inline">
-						<input type="text" name="username" id="name" placeholder="请输入讲座标题" autocomplete="off" class="layui-input" />
+						<input type="text" name="username" id="name" placeholder="请输入套餐卡名称" autocomplete="off" class="layui-input" />
 					</div>
 					<div class="layui-input-inline">
 						<select name="cateid" id="status">
 							<option value="0">请选择状态</option>
 							<option value="1">未发布</option>
 							<option value="2">已发布</option>
-							<option value="3">进行中</option>
-							<option value="4">已结束</option>
 						</select>
-					</div>
-					<div class="layui-inline">
-						<div class="layui-input-inline">
-							<input name="time" type="text" autocomplete="off" class="layui-input" id="test6" placeholder="请选择活动时间">
-						</div>
 					</div>
 					<button class="layui-btn" onclick="loadlist()">
 						<i class="layui-icon layui-icon-search"></i>
@@ -222,8 +215,6 @@
 			function loadlist(){
 				var username=$("#name").val();
 				var status=$("#status").val();
-				var startTime=$("#test6").val().substr(0,10);
-				var endTime=$("#test6").val().substr(12,19);
 
 				layui.use('table', function(){
 					var table = layui.table;
@@ -231,7 +222,7 @@
 						elem: '#test'
 						,url:'/package/list'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,where: { name:username, status: status,startTime:startTime,endTime:endTime}
+						,where: { name:username, status: status}
 						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
@@ -239,9 +230,7 @@
 									return "<img src='"+res.imgSrc+"'  width='285px' height='50px'>"
 								}}
 							,{field:'name',title: '套餐卡名称'}
-							,{field:'useCount',title: '使用次数'}
-							,{field:'introduce',  title: '介绍',templet:"#workType"}
-							,{field:'price',  title: '价格'}
+							,{field:'introduce',  title: '介绍',templet:"#workType",width:700}
 							,{fixed: 'right', title:'操作', toolbar: '#barDemo',width:180}
 						]],done:function(res,curr,count){
 							hoverOpenImg();//显示大图

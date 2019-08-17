@@ -46,9 +46,9 @@ public interface PackageService {
      */
     int addUserPackage(UserPackage userPackage);
 
-    List<ServicePackage> selectPage1(Integer page,Integer rows);
+    List<ServicePackage> selectPage1(Integer page,Integer rows,String name,Integer status);
 
-    int count1();
+    int count1(String name,Integer status);
 
     int insert(ServicePackage record);
 
@@ -59,5 +59,7 @@ public interface PackageService {
     ServicePackage selectByPrimaryKey(Integer id);
 
     int updateStatus(Integer id,Integer status);
+
+    List<ServicePackage> selectPage2(Integer type);
 
 }

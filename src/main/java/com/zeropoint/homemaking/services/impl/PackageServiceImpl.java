@@ -46,17 +46,18 @@ public class PackageServiceImpl implements PackageService {
     }
 
     @Override
-    public List<ServicePackage> selectPage1(Integer page, Integer rows) {
-        return servicePackageMapper.selectPage1(page, rows);
+    public List<ServicePackage> selectPage1(Integer page, Integer rows,String name,Integer status) {
+        return servicePackageMapper.selectPage1(page, rows,name,status);
     }
 
     @Override
-    public int count1() {
-        return servicePackageMapper.count1();
+    public int count1(String name,Integer status) {
+        return servicePackageMapper.count1(name,status);
     }
 
     @Override
     public int insert(ServicePackage record) {
+        System.out.println(record.getType()+"++++++++++++++++++++++++++++");
         return servicePackageMapper.insert(record);
     }
 
@@ -78,5 +79,10 @@ public class PackageServiceImpl implements PackageService {
     @Override
     public int updateStatus(Integer id, Integer status) {
         return servicePackageMapper.updateStatus(id, status);
+    }
+
+    @Override
+    public List<ServicePackage> selectPage2(Integer type) {
+        return servicePackageMapper.selectPage2(type);
     }
 }

@@ -10,18 +10,20 @@
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="use_count" jdbcType="INTEGER" property="useCount" />
     <result column="img_src" jdbcType="VARCHAR" property="imgSrc" />
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
+    <result column="details" jdbcType="VARCHAR" property="details" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_package
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServicePackage">
+  <insert id="insert" parameterType="com.zeropoint.homemaking.domain.ServicePackage" useGeneratedKeys="true" keyProperty="id">
     insert into service_package (id, type, status, 
       name, introduce, price, 
-      use_count, img_src)
+      use_count, img_src,details,specifications)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
-      #{useCount,jdbcType=INTEGER}, #{imgSrc,jdbcType=VARCHAR})
+      #{useCount,jdbcType=INTEGER}, #{imgSrc,jdbcType=VARCHAR}, #{details},#{specifications});
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zeropoint.homemaking.domain.ServicePackage">
     update service_package
@@ -31,11 +33,13 @@
       introduce = #{introduce,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
       use_count = #{useCount,jdbcType=INTEGER},
-      img_src = #{imgSrc,jdbcType=VARCHAR}
+      img_src = #{imgSrc,jdbcType=VARCHAR},
+      specifications=#{specifications},
+      details =#{details}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, type, status, name, introduce, price, use_count, img_src
+    select *
     from service_package
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -46,11 +50,31 @@
 
   <select id="selectPage1" resultMap="BaseResultMap">
     select * from service_package
+    <where>
+       type= -1
+      <if test="name != null and name != ''">
+        and name LIKE  '%${name}%'
+
+      </if>
+      <if test="status != null and status != '' ">
+        and
+        status = #{status}
+
+      </if>
+    </where>
     limit #{page},#{rows}
   </select>
 
   <select id="count1" resultType="int">
     SELECT  COUNT(1) FROM service_package
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE  '%${name}%'
+      </if>
+      <if test="status != null and status != '' ">
+        and status = #{status}
+      </if>
+    </where>
   </select>
 
   <delete id="delete">
@@ -67,4 +91,13 @@
     set status = #{status}
     where id = #{id}
   </update>
+
+  <select id="selectPage2" resultMap="BaseResultMap">
+    select * from service_package
+    <where>
+      <if test="type != null and type != ''">
+        type =#{type}
+      </if>
+    </where>
+  </select>
 </mapper>

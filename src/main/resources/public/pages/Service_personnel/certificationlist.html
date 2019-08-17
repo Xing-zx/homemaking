@@ -45,6 +45,7 @@
 							<option value="1">月嫂</option>
 							<option value="2">保姆</option>
 							<option value="3">钟点工</option>
+							<option value="6">育儿嫂</option>
 						</select>
 					</div>
 					<div class="layui-inline">
@@ -69,7 +70,7 @@
 			{{#  if(d.status === 0 || d.status === 1){ }}
 			  <span class="layui-badge layui-bg-gray td-status">待审核</span>
 			{{#  } else if(d.status === 3){ }}
-			  <span class="layui-badge layui-bg-black td-status">审核不通过</span>
+			  <span class="layui-badge layui-bg-black td-status">审核失败</span>
 			{{#  } else{ }}
 			  <span class="layui-badge td-status">禁用</span>
 			{{#  } }}
@@ -77,11 +78,13 @@
 
 		<script type="text/html" id="workType">
 			{{#  if(d.workType === 1){ }}
-			  <span class="layui-badge layui-bg-cyan td-status" style="width: 50px">月嫂</span>
-			{{#  } else if(d.workType === 2){ }}
-			  <span class="layui-badge layui-bg-orange td-status" style="width: 50px">保姆</span>
-			{{#  } else if(d.workType === 3){ }}
-			  <span class="layui-badge layui-bg-blue td-status" style="width: 50px">钟点工</span>
+			  <span>月嫂</span>
+			{{#  }else if(d.workType === 2){ }}
+			  <span>保姆</span>
+			{{#  }else if(d.workType === 3){ }}
+			  <span>钟点工</span>
+			{{#  }else if(d.workType === 6){ }}
+			  <span>育儿嫂</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="barDemo">

@@ -46,6 +46,10 @@
     <result column="moneyTow" jdbcType="DOUBLE" property="moneyTow" />
     <result column="userIdOne" jdbcType="INTEGER" property="userIdOne" />
     <result column="userIdTow" jdbcType="INTEGER" property="userIdTow" />
+    <result column="package_id" jdbcType="INTEGER" property="packageId" />
+    <result column="current_count" jdbcType="INTEGER" property="currentCount" />
+    <result column="total_count" jdbcType="INTEGER" property="totalCount" />
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
   </resultMap>
   <resultMap id="PersonneOrder" type="com.zeropoint.homemaking.vo.PersonnelOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
@@ -286,7 +290,7 @@
     INNER JOIN user u ON u.id=r.user_id
     INNER JOIN address a ON a.id=r.address_id
     <where>
-      r.status in (1,2) and r.type in (1,2)
+      r.status in (1,2) and r.type in (1,2,6)
       <if test="name != null and name != ''">
         and r.user_name LIKE  '%${name}%'
       </if>
@@ -367,7 +371,7 @@
     INNER JOIN user u ON u.id=r.user_id
     INNER JOIN address a ON a.id=r.address_id
     <where>
-      r.status in (1,2) and r.type in (1,2)
+      r.status in (1,2) and r.type in (1,2,6)
       <if test="name != null and name != ''">
         and r.user_name LIKE  '%${name}%'
       </if>
@@ -422,6 +426,14 @@
     where id = #{id}
   </update>
 
+  <!--修改状态-->
+  <update id="update4">
+    update `order`
+    set assign_ids = #{assignIds},
+    status=2
+    where id = #{id}
+  </update>
+
 
   <select id="commsionSelect" resultMap="BaseResultMap">
     select o.id,o.order_number,o.user_name,o.money_total,
@@ -454,5 +466,49 @@
     set commsion_status = #{commsionStatus}
     where id = #{id}
   </update>
+
+
+  <select id="selectOrder3" resultMap="BaseResultMap">
+    select *
+    from `order` o
+    INNER JOIN user_package u on o.userpackage_id=u.id
+    INNER JOIN service_package p on p.id=u.package_id
+    INNER JOIN `user` e ON e.id=o.user_id and e.id=u.user_id
+    INNER JOIN address a ON a.id=o.address_id and a.user_id=o.user_id
+    <where>
+      <if test="name != null and name != ''">
+        and o.user_name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        o.appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+    limit #{page},#{rows}
+  </select>
+
+  <select id="countOrder3" resultType="int">
+    select count(1)
+    from `order` o
+    INNER JOIN user_package u on o.userpackage_id=u.id
+    INNER JOIN `user` e ON e.id=o.user_id and e.id=u.user_id
+    INNER JOIN service_package p on p.id=u.package_id
+    INNER JOIN address a ON a.id=o.address_id and a.user_id=o.user_id
+    <where>
+      <if test="name != null and name != ''">
+        and o.user_name LIKE  '%${name}%'
+      </if>
+      <if test="startTime != null and startTime != '' and endTime != '' and endTime != null">
+        and
+        o.appiont_date between #{startTime} and #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <select id="serviceSelect2" resultType="int" resultMap="ServiceMap">
+    SELECT *
+    FROM service_personnel
+    where status = '2'
+  </select>
 
 </mapper>

@@ -33,7 +33,7 @@
 			
 			<ul class="layui-nav right" lay-filter="">
 				<li class="layui-nav-item">
-					<a href="javascript:;">Admin</a>
+					<a href="javascript:;" id="name"></a>
 					<dl class="layui-nav-child">
 						<!-- 二级菜单 -->
 						<dd>
@@ -134,6 +134,12 @@ function login()
 		}
 	});
 }
+
+$(function () {
+	var name=String(sessionStorage.getItem('name'));
+	$("#name").html(name)
+	console.log(name);
+})
 		</script>
 	</body>
 	<!--Tab菜单右键弹出菜单-->

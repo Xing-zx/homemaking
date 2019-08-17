@@ -136,6 +136,11 @@ public class OrdersController {
         return orderservice.updatemoneyTotal(id, hetongImgsrc, moneyTotal,status,endTime,startTime,assignIds,moneyBargin,moneyAdvance,moneyFinal,moneyActual);
     }
 
+    @RequestMapping("/update4")
+    public int updatemoneyTotal(@RequestParam("id") Integer id,@RequestParam("assignIds")String assignIds){
+        return orderservice.update4(id,assignIds);
+    }
+
 
     @RequestMapping("commsionSelect")
     public Map<String,Object> commsionSelect(@Param("curr")Integer curr, @Param("limit")Integer limit){
@@ -165,5 +170,67 @@ public class OrdersController {
     @RequestMapping("/updatecomm")
     public int updatecomm(@RequestParam("id")Integer id,@RequestParam("commsionStatus")Integer commsionStatus) {
         return orderservice.updatecomm(id, commsionStatus);
+    }
+
+
+    @RequestMapping("selectOrder3")
+    @ResponseBody
+    public Map<String,Object> SelectOrider3(@Param("curr")Integer curr, @Param("limit")Integer limit,
+                                           @Param("name")String name,@Param("endTime")String endTime, @Param("startTime")String startTime){
+        System.out.println(limit);
+        int page=(curr-1)*limit;
+        System.out.println(page);
+        List<Order> list=orderservice.selectOrder3(page,limit,name,endTime,startTime);
+        int count=orderservice.countOrder3(name,endTime,startTime);
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将全部数据的条数作为count传给前台（一共多少条）
+        tableData.put("count", count);
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", list);
+        //返回给前端
+
+        String json= JSONObject.toJSONString(tableData);
+        System.out.println(json);
+        return tableData;
+    }
+
+    @RequestMapping("servicelist1")
+    @ResponseBody
+    public Map<String,Object> SelectService1(){
+      /*  System.out.println(ids.toString()+"----------------------------");
+
+        Integer[] id=new Integer[ids.length];*/
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", orderservice.serviceSelect2());
+        return tableData;
+
+/*
+        System.out.println(limit);
+        int page=(curr-1)*limit;
+        System.out.println(page);
+        List<ServicePersonnel> list=orderservice.serviceSelect1(page,limit,id);
+
+        System.out.println(ids+"--------999999999 99999999999999");
+
+        Map<String,Object> tableData =new HashMap<String,Object>();
+        //这是layui要求返回的json数据格式
+        tableData.put("code", 0);
+        tableData.put("msg", "数据返回成功");
+        //将全部数据的条数作为count传给前台（一共多少条）
+        tableData.put("count", list.size());
+        //将分页后的数据返回（每页要显示的数据）
+        tableData.put("data", list);
+        //返回给前端
+
+        String json= JSONObject.toJSONString(tableData);
+        System.out.println(json);
+        return tableData;*/
     }
 }

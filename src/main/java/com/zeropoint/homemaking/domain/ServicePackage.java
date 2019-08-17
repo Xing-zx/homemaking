@@ -20,6 +20,26 @@ public class ServicePackage {
 
     private String imgSrc;
 
+    private String specifications;
+
+    private String details;
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     public Integer getId() {
         return id;
     }

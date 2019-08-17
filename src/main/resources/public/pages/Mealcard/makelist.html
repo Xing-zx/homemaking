@@ -37,13 +37,6 @@
 					<div class="layui-inline">
 						<input type="text" name="username" id="username" placeholder="请输入预约人姓名" autocomplete="off" class="layui-input" />
 					</div>
-					<div class="layui-input-inline">
-						<select name="type" id="type">
-							<option value="0">请选择服务</option>
-							<option value="1">月嫂</option>
-							<option value="2">保姆</option>
-						</select>
-					</div>
 					<div class="layui-inline">
 						<div class="layui-input-inline">
 							<input name="time" type="text"  autocomplete="off" class="layui-input" id="test6" placeholder="请选择预约时间">
@@ -63,6 +56,12 @@
 			  <span class="layui-badge layui-bg-gray td-status">待签约</span>
             {{#  } else if(d.status === 2 ){ }}
 			  <span class="layui-badge td-status">待服务</span>
+			{{#  } else if(d.status === 3 || d.status === 4 || d.status === 5){ }}
+			  <span class="layui-badge td-status" style="background-color: blue">服务中</span>
+			{{#  } else if(d.status === 6 ){ }}
+			  <span class="layui-badge td-status" style="background-color: green">已完成</span>
+			{{#  } else if(d.status === -1 ){ }}
+			  <span class="layui-badge td-status" style="background-color: black">已取消</span>
 			{{#  } }}
 		</script>
 		<script type="text/html" id="workType">
@@ -173,7 +172,6 @@
 
 			function loadlist(){
 				var username=$("#username").val();
-				var type=$("#type").val();
 				var startTime=$("#test6").val().substr(0,10);
 				var endTime=$("#test6").val().substr(12,19);
 
@@ -181,17 +179,16 @@
 					var table = layui.table;
 					table.render({
 						elem: '#test'
-						,url:'/order/list'
+						,url:'/order/selectOrder3'
 						,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,where: {name:username, type: type,startTime:startTime,endTime:endTime}
+						,where: {name:username,startTime:startTime,endTime:endTime}
 						,id:'idTest'
 						,cols: [[
 							{type:'checkbox',fixed: 'left'}
 							,{field:'orderNumber', title: '订单编号',width:220}
 							,{field:'userName',title: '预约人'}
+							,{field:'specifications',  title: '套餐卡名称'}
 							,{field:'userPhone',title: '手机号'}
-							,{field:'requireAge',  title: '要求年龄'}
-							,{field:'type',  title: '服务类型',templet:"#workType",width:100}
 							,{field:'city',  title: '服务地址',templet:function (res) {
 									return '<span>'+res.province+res.city+res.county+res.street+res.detail+'</span>'
 								}}

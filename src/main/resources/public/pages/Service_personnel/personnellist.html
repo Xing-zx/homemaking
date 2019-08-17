@@ -53,6 +53,7 @@
 					<option value="1">月嫂</option>
 					<option value="2">保姆</option>
 					<option value="3">钟点工</option>
+					<option value="6">育儿嫂</option>
 				</select>
 			</div>
 			<div class="layui-inline">
@@ -86,10 +87,12 @@
 <script type="text/html" id="workType">
 	{{#  if(d.workType === 1){ }}
 	  <span>月嫂</span>
-	{{#  } else if(d.workType === 2){ }}
+	{{#  }else if(d.workType === 2){ }}
 	  <span>保姆</span>
-	{{#  } else if(d.workType === 3){ }}
+	{{#  }else if(d.workType === 3){ }}
 	  <span>钟点工</span>
+	{{#  }else if(d.workType === 6){ }}
+	  <span>育儿嫂</span>
 	{{#  } }}
 </script>
 

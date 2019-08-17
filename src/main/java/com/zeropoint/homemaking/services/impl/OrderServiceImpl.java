@@ -245,5 +245,25 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.updatecomm(id, commsionStatus);
     }
 
+    @Override
+    public List<Order> selectOrder3(Integer page, Integer rows, String name, String endTime, String startTime) {
+        return orderMapper.selectOrder3(page, rows, name, endTime, startTime);
+    }
+
+    @Override
+    public int countOrder3(String name, String endTime, String startTime) {
+        return orderMapper.countOrder3(name, endTime, startTime);
+    }
+
+    @Override
+    public List<ServicePersonnel> serviceSelect2() {
+        return orderMapper.serviceSelect2();
+    }
+
+    @Override
+    public int update4(Integer id, String assignIds) {
+        return orderMapper.update4(id, assignIds);
+    }
+
 
 }

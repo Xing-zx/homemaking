@@ -107,6 +107,46 @@ public class Order {
 
     private Integer userIdTow;
 
+    private Integer packageId;
+
+    private Integer currentCount;
+
+    private Integer totalCount;
+
+    private String specifications;
+
+    public Integer getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(Integer packageId) {
+        this.packageId = packageId;
+    }
+
+    public Integer getCurrentCount() {
+        return currentCount;
+    }
+
+    public void setCurrentCount(Integer currentCount) {
+        this.currentCount = currentCount;
+    }
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public String getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(String specifications) {
+        this.specifications = specifications;
+    }
+
     public Integer getUserIdOne() {
         return userIdOne;
     }

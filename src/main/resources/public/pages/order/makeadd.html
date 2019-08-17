@@ -143,7 +143,7 @@
 									<div class="layui-form-item">
 										<div class="layui-upload" style="margin-left: 20px;">
 											<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传合同</button>
-											<img class="layui-upload-img" id="demo1" width="100px" height="100px">
+											<img class="layui-upload-img" id="demo1" width="400px" height="225px">
 											<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
 											<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
 										</div>
@@ -197,6 +197,8 @@
 									<input type="hidden" id="minage"/>
 
 									<input type="hidden" id="types">
+
+									<div id="times"></div>
 								</td>
 							</tr>
 
@@ -237,6 +239,10 @@
 			  <span>月嫂</span>
 			{{#  }else if(d.workType === 2){ }}
 			  <span>保姆</span>
+			{{#  }else if(d.workType === 3){ }}
+			  <span>钟点工</span>
+			{{#  }else if(d.workType === 6){ }}
+			  <span>育儿嫂</span>
 			{{#  } }}
 		</script>
 		<script>
@@ -283,11 +289,10 @@
 			layui.use(['laydate'], function() {
 				var laydate = layui.laydate
 
+				//日期范围
 				laydate.render({
-					elem: '#test6'
-					,type: 'datetime'
-					,range: '-'
-					,format: 'yyyy-MM-dd HH:mm'
+					elem: '#test6',
+					range: true
 				});
 			});
 
@@ -320,46 +325,54 @@
 						}
 						console.log(parseInt(id_str))
 
-						var worktype=$("#types").val()
-						if(worktype=="2"){
-							var  moneyAdvance=$("#moneyAdvance").val()
-							var moneyFinal=$("#moneyFinal").val()
-							var	moneyActual=$("#moneyActual").val()
-							var total=0+parseInt(moneyAdvance)+parseInt(moneyFinal);
+						if(id_str!=null || id_str!=""){
+							var worktype=$("#types").val()
+							if(worktype=="2"){
+								var  moneyAdvance=$("#moneyAdvance").val()
+								var moneyFinal=$("#moneyFinal").val()
+								var	moneyActual=$("#moneyActual").val()
+								var total=0+parseInt(moneyAdvance)+parseInt(moneyFinal);
 
-						}else if(worktype=="1"){
-							var moneyBargin=$("#moneyBargin").val()
-							var  moneyAdvance=$("#moneyAdvance").val()
-							var moneyFinal=$("#moneyFinal").val()
-							var	moneyActual=$("#moneyActual").val()
-							var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
+							}else if(worktype=="1"){
+								var moneyBargin=$("#moneyBargin").val()
+								var  moneyAdvance=$("#moneyAdvance").val()
+								var moneyFinal=$("#moneyFinal").val()
+								var	moneyActual=$("#moneyActual").val()
+								var total=parseInt(moneyBargin)+parseInt(moneyAdvance)+parseInt(moneyFinal);
+							}
+
+							console.log(total)
+							$.ajax({
+								type:"post",
+								url:"/order/update3",
+								dataType:"json",
+								data:{"id":parseInt(id),"hetongImgsrc":img,"moneyTotal":total,
+									"status":status,"startTime":startTime,"endTime":endTime,
+									"assignIds":id_str.toString(),"moneyBargin":moneyBargin,
+									"moneyAdvance":moneyAdvance,"moneyFinal":moneyFinal,"moneyActual":moneyActual},
+								success:function () {
+									layer.msg("签约成功", {
+										icon: 6,
+										time: 1000
+									}, function() {
+										// 获得frame索引
+										var index = parent.layer.getFrameIndex(window.name);
+										//关闭当前frame
+										parent.layer.close(index);
+										window.parent.location.reload();
+									});
+								},
+								error:function () {
+									alert("error");
+								}
+							})
+						}else{
+							layer.msg("请选择阿姨", {
+								icon: 6,
+								time: 1000
+							})
 						}
 
-						console.log(total)
-						$.ajax({
-							type:"post",
-							url:"/order/update3",
-							dataType:"json",
-							data:{"id":parseInt(id),"hetongImgsrc":img,"moneyTotal":total,
-								"status":status,"startTime":startTime,"endTime":endTime,
-								"assignIds":id_str.toString(),"moneyBargin":moneyBargin,
-							"moneyAdvance":moneyAdvance,"moneyFinal":moneyFinal,"moneyActual":moneyActual},
-							success:function () {
-								layer.msg("签约成功", {
-									icon: 6,
-									time: 1000
-								}, function() {
-									// 获得frame索引
-									var index = parent.layer.getFrameIndex(window.name);
-									//关闭当前frame
-									parent.layer.close(index);
-									window.parent.location.reload();
-								});
-							},
-							error:function () {
-								alert("error");
-							}
-						})
 					})
 				})
 
@@ -380,6 +393,12 @@
 							}
 							if(data.type==2){
 								data.type="保姆"
+							}
+							if(data.type==3){
+								data.type="钟点工"
+							}
+							if(data.type==6){
+								data.type="育儿嫂"
 							}
 							$("#id").val(data.id)
 							$("#type").html(data.type)
@@ -407,6 +426,10 @@
 							}
 							else if(data.type=="保姆"){
 								$("#types").val(2)
+							}else if(data.type=="钟点工"){
+								$("#types").val(3)
+							}else if(data.type=="育儿嫂"){
+								$("#types").val(6)
 							}
 
 							if(data.province==null){
@@ -449,7 +472,7 @@
 										,id:'idTest'
 										,cols: [[
 											{type:'checkbox',fixed: 'left'}
-											,{field:'name', title: '阿姨姓名',width:220}
+											,{field:'realName', title: '阿姨姓名',width:220}
 											,{field:'age',title: '年龄'}
 											,{field:'workType',title: '职位',templet:"#workType"}
 											,{field:'workCity',  title: '住址'}
@@ -494,8 +517,6 @@
 
 
 					});
-
-
 		</script>
 	</body>
 

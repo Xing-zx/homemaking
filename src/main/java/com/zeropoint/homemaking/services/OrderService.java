@@ -90,4 +90,12 @@ public interface OrderService {
 
     int updatecomm(Integer id,Integer commsionStatus);
 
+    List<Order> selectOrder3(Integer page,Integer rows,String name,String endTime,String startTime);
+
+    int countOrder3(String name,String endTime,String startTime);
+
+    List<ServicePersonnel> serviceSelect2();
+
+    int update4(Integer id,String assignIds);
+
 }

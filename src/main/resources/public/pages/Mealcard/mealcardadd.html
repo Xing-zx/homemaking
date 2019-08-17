@@ -29,36 +29,33 @@
 				</fieldset>
 
 				<div class="layui-form-item">
+					<div class="layui-upload" style="margin-left: 20px;">
+						<button type="button" class="layui-btn" id="test1" style="margin-bottom: 170px;">上传图片</button>
+						<img class="layui-upload-img" id="demo1" width="400px" height="225px">
+						<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
+						<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
 					<label class="layui-form-label">套餐卡名称</label>
 					<div class="layui-input-inline">
 						<input type="text" id="name" name="name" autocomplete="off" class="layui-input">
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">使用次数</label>
-					<div class="layui-input-inline">
-						<input type="text" id="useCount" name="useCount" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">金额</label>
-					<div class="layui-input-inline">
-						<input type="text" id="price" name="price" autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">介绍</label>
-					<div class="layui-input-inline">
-						<textarea class="layui-textarea" id="introduce" style="width: 500px"></textarea>
+
+
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">描述</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入内容" id="introduce" name="introduce" class="layui-textarea"></textarea>
 					</div>
 				</div>
 
 				<div class="layui-form-item">
-					<div class="layui-upload" style="margin-left: 20px;">
-						<button type="button" class="layui-btn" id="test1" style="margin-bottom: 55px;margin-right: 20px;">上传图片</button>
-						<img class="layui-upload-img" id="demo1" width="400px" height="225px">
-						<input type="hidden" id="img" name="weight" autocomplete="off" class="layui-input">
-						<p id="demoText" style="margin-left: 120px; margin-top: 10px;"></p>
+					<label class="layui-form-label">详情</label>
+					<div class="layui-input-block">
+					<textarea class="layui-textarea" id="LAY_demo1"></textarea>
 					</div>
 				</div>
 
@@ -67,7 +64,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">
 					</label>
-					<button class="layui-btn" onclick="add()">提交</button>
+					<button class="layui-btn site-demo-layedit" data-type="content" id="save">保存</button>
 				</div>
 			</form>
 		</div>
@@ -82,9 +79,14 @@
 				var rate=layui.rate;
 				var table = layui.table //表格
 
+
+
 			});
 
-			function add(){
+
+
+
+			/*function add(){
 				var name=$("#name").val();
 				var price=$("#price").val();
 				var img=$("#img").val();
@@ -112,7 +114,7 @@
 						});
 					}
 				});
-			}
+			}*/
 
 			layui.use('upload', function() {
 				var $ = layui.jquery,
@@ -147,6 +149,100 @@
 					}
 				});
 			});
+
+			layui.use('layedit', function() {
+				var layedit = layui.layedit,
+						$ = layui.jquery;
+
+				layedit.set({
+					uploadImage: {
+						url: '/ar/uploadFile1' //接口url
+						,type: 'post' //默认post
+						,headers: 'http:\\localhost:',
+						elem:'/upload/image/'
+					}
+				});
+
+				//构建一个默认的编辑器
+				var index = layedit.build('LAY_demo1');
+
+				//编辑器外部操作
+				var active = {
+					content: function() {
+						var name=$("#name").val();
+						var img=$("#img").val();
+						var introduce=$("#introduce").val();
+						var details=layedit.getContent(index)
+						var type=-1;
+
+						var obj = JSON.stringify({"name":name,"details":details,"types":type,"introduce":introduce,"imgsrc":img})
+
+						$.ajax({
+							type:"post",
+							url:"/package/insert",
+							data:obj,
+							contentType: 'application/json;charset=utf-8',
+							success:function (data) {
+								$("#tijiao").addClass("layui-btn-disabled");
+								layer.msg("增加成功", {
+									icon: 6,
+									time: 1000
+								}, function() {
+									// 获得frame索引
+									var index = parent.layer.getFrameIndex(window.name);
+									//关闭当前frame
+									parent.layer.close(index);
+									window.parent.location.reload();
+								});
+							}
+						});
+
+						$("#myTable").find("tr").each(function(){
+							var tdArr = $(this).children();
+							console.log(tdArr.index());
+							var type = tdArr.eq(0).find("input").val();//收入类别
+							var money = tdArr.eq(1).find("input").val();//收入金额
+							var remark = tdArr.eq(2).find("input").val();//    备注
+
+							if(type==null || type=="" && money==null || money=="" && remark==null || remark==""){
+								console.log("空值")
+							}else{
+								var json=JSON.stringify({"name":type,"count":money,"price":remark}).toString()
+								console.log(json)
+								console.log(type+"================="+money+"================="+remark)
+							}
+						})
+					}
+
+				}
+
+				$('.site-demo-layedit').on('click', function() {
+					var type = $(this).data('type');
+					active[type] ? active[type].call(this) : '';
+				});
+
+				//自定义工具栏
+				layedit.build('LAY_demo2', {
+					tool: ['strong' //加粗
+						,'italic' //斜体
+						,'underline' //下划线
+						,'del' //删除线
+
+						,'|' //分割线
+
+						,'left' //左对齐
+						,'center' //居中对齐
+						,'right' //右对齐
+						,'link' //超链接
+						,'unlink' //清除链接
+						,'face' //表情
+						,'image' //插入图片
+						,'help' //帮助
+					],
+					height: 100
+				})
+			});
+
 		</script>
 	</body>
 
